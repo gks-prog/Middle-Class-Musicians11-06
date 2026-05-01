@@ -1,154 +1,216 @@
 <!DOCTYPE html>
-<html lang="en" class="lenis lenis-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Middle Class Musicians | Premium Studio</title>
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Premium Typography: Syne (Headings) & Inter (Body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- GSAP & Lenis -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Middle Class Musicians - A premium recording studio specializing in boom bap, underground hip-hop, and dynamic global instrumentation.">
+    <title>Middle Class Musicians | Premium Recording Studio</title>
 </head>
 <body>
 
-    <!-- Optimized Hardware-Accelerated Noise -->
-    <div class="noise-overlay"></div>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link sr-only">Skip to main content</a>
 
-    <!-- Custom Cursor (Disabled on Mobile via CSS) -->
-    <div class="custom-cursor"></div>
-    <div class="custom-cursor-follower"></div>
-
-    <!-- Cinematic Loader -->
-    <div class="loader">
-        <div class="loader-content">
-            <span class="loader-text">MCM.</span>
-            <div class="loader-progress"></div>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="header__container">
+            <a href="/" class="header__logo" aria-label="Middle Class Musicians Home">
+                <span class="header__logo-text">Middle Class Musicians</span>
+            </a>
+            
+            <nav class="nav" aria-label="Main Navigation">
+                <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open mobile menu">
+                    <span class="nav__toggle-icon" aria-hidden="true"></span>
+                </button>
+                
+                <ul class="nav__list" id="nav-menu">
+                    <li class="nav__item"><a href="#studio" class="nav__link">Studio</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="#portfolio" class="nav__link">Portfolio</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo nav-item" data-cursor="hover">MCM.</div>
-        <div class="nav-links desktop-only">
-            <a href="#about" class="nav-item" data-cursor="hover">About</a>
-            <a href="#work" class="nav-item" data-cursor="hover">Work</a>
-            <a href="#services" class="nav-item" data-cursor="hover">Services</a>
-            <a href="#contact" class="btn-outline nav-item" data-cursor="hover">Contact</a>
-        </div>
-        <div class="hamburger nav-item mobile-only">
-            <div class="line line-1"></div>
-            <div class="line line-2"></div>
-        </div>
-    </nav>
-
-    <div class="mobile-menu">
-        <div class="mobile-menu-inner">
-            <a href="#about" class="mobile-link">About</a>
-            <a href="#work" class="mobile-link">Work</a>
-            <a href="#services" class="mobile-link">Services</a>
-            <a href="#contact" class="mobile-link">Contact</a>
-        </div>
-    </div>
-
-    <main>
-        <!-- HERO SECTION -->
-        <section id="hero" class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <div class="text-mask"><span class="hero-word">RECORD.</span></div>
-                    <div class="text-mask"><span class="hero-word">CREATE.</span></div>
-                    <div class="text-mask"><span class="hero-word hero-accent">ELEVATE.</span></div>
-                </h1>
-                <p class="hero-subtext">The Premium Recording Sanctuary<br>New Delhi</p>
+    <main id="main-content">
+        
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero__content">
+                <h1 class="hero__title" id="hero-title">Premium Production for the Underground.</h1>
+                <p class="hero__subtitle">Elevating boom bap and contemporary sounds with uncompromising, luxurious sonic textures.</p>
+                <div class="hero__actions">
+                    <a href="#contact" class="btn btn--primary">Book a Session</a>
+                    <a href="#portfolio" class="btn btn--secondary">Hear Our Work</a>
+                </div>
             </div>
+        </section>
 
-            <div class="hero-visual">
-                <div class="hero-image-container" data-cursor="drag">
-                    <img class="hero-image" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop" alt="Studio Main Room">
+        <!-- Studio Showcase Section -->
+        <section class="showcase" id="studio" aria-labelledby="showcase-title">
+            <div class="showcase__container">
+                <header class="showcase__header">
+                    <h2 class="showcase__title" id="showcase-title">The Space</h2>
+                    <p class="showcase__description">A vibrant, creatively optimized environment designed for unparalleled acoustic response.</p>
+                </header>
+                
+                <div class="showcase__gallery">
+                    <figure class="showcase__item">
+                        <!-- Placeholder for premium, non-neon, vibrant imagery -->
+                        <img src="/images/live-room.jpg" alt="The acoustically treated live tracking room featuring a custom drum kit" class="showcase__image" loading="lazy">
+                        <figcaption class="showcase__caption">Live Tracking Room</figcaption>
+                    </figure>
+                    <figure class="showcase__item">
+                        <img src="/images/control-room.jpg" alt="The main control room with analog outboard gear and mixing console" class="showcase__image" loading="lazy">
+                        <figcaption class="showcase__caption">Control Room A</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services" aria-labelledby="services-title">
+            <div class="services__container">
+                <header class="services__header">
+                    <h2 class="services__title" id="services-title">Sonic Architecture</h2>
+                </header>
+                
+                <div class="services__grid">
+                    <article class="service-card">
+                        <h3 class="service-card__title">Hip-Hop & Beat Production</h3>
+                        <p class="service-card__description">Specialized beatmaking focusing on authentic boom bap textures, heavy drum programming, and deep sample integration.</p>
+                    </article>
+                    
+                    <article class="service-card">
+                        <h3 class="service-card__title">Global Instrument Tracking</h3>
+                        <p class="service-card__description">Seamlessly blend traditional elements like Sitar, Bansuri, and Tabla into contemporary track structures.</p>
+                    </article>
+
+                    <article class="service-card">
+                        <h3 class="service-card__title">Mixing & Mastering</h3>
+                        <p class="service-card__description">High-end finishing for your tracks, ensuring translating warmth, dynamic punch, and competitive loudness.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reactive Audio Equalizer Section -->
+        <section class="equalizer" id="equalizer" aria-label="Interactive Audio Equalizer Interface">
+            <div class="equalizer__container">
+                <header class="equalizer__header">
+                    <h2 class="equalizer__title">Live Frequency Analysis</h2>
+                </header>
+                
+                <!-- Canvas element ready for Web Audio API / JS Hook-up -->
+                <div class="equalizer__display" aria-hidden="true">
+                    <canvas id="audio-visualizer" class="equalizer__canvas" width="800" height="300"></canvas>
                 </div>
                 
-                <div class="now-playing-card floating">
-                    <div class="album-art" style="background-image: url('https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=1000&auto=format&fit=crop');"></div>
-                    <div class="track-info">
-                        <p class="track-title">Midnight Session</p>
-                        <p class="track-artist">Live Room A</p>
-                    </div>
-                    <div class="audio-waves">
-                        <span></span><span></span><span></span><span></span>
-                    </div>
+                <div class="equalizer__controls">
+                    <button class="btn btn--play" aria-label="Play sample audio" aria-pressed="false">Play Sample</button>
                 </div>
             </div>
         </section>
 
-        <!-- MAGIC BTN SECTION (Anti-Overlap Physics Node Burst) -->
-        <section id="interactive-hub" class="magic-section">
-            <div class="magic-container" id="burst-container">
-                <button class="magic-btn" data-cursor="hover">
-                    <span class="magic-text">don't touch it</span>
-                </button>
+        <!-- Portfolio Section -->
+        <section class="portfolio" id="portfolio" aria-labelledby="portfolio-title">
+            <div class="portfolio__container">
+                <header class="portfolio__header">
+                    <h2 class="portfolio__title" id="portfolio-title">Recent Releases</h2>
+                </header>
+                
+                <div class="portfolio__grid">
+                    <article class="track-card">
+                        <div class="track-card__artwork">
+                            <img src="/images/opiyaa-cover.jpg" alt="Cover art for O Piyaa" class="track-card__image" loading="lazy">
+                        </div>
+                        <div class="track-card__info">
+                            <h3 class="track-card__title">O Piyaa</h3>
+                            <p class="track-card__artist">Masky Feat. Wenon Bont</p>
+                            <time class="track-card__date" datetime="2026-01">January 2026</time>
+                        </div>
+                    </article>
+                    
+                    <!-- Additional portfolio items would be populated here -->
+                </div>
             </div>
         </section>
 
-        <!-- ABOUT SECTION -->
-        <section id="about" class="about section-padding">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2 class="section-title gs-reveal">The<br>Sanctuary.</h2>
-                    <div class="text-divider gs-reveal"></div>
-                    <p class="gs-reveal">World-class sound shouldn't be an exclusive privilege. Middle Class Musicians is an architecturally tuned environment built for visionaries who refuse to compromise on fidelity.</p>
-                </div>
-                <div class="about-image-wrapper gs-reveal">
-                    <img src="https://images.unsplash.com/photo-1516280440502-a28ee787e914?q=80&w=1000&auto=format&fit=crop" alt="Analog Console" class="about-img">
-                </div>
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="testimonials" aria-labelledby="testimonials-title">
+            <div class="testimonials__container">
+                <h2 class="testimonials__title sr-only" id="testimonials-title">Client Feedback</h2>
+                
+                <blockquote class="testimonial">
+                    <p class="testimonial__quote">"The attention to texture and detail at Middle Class Musicians completely elevated our project's soundscape."</p>
+                    <footer class="testimonial__author">
+                        <cite class="testimonial__name">Independent Artist</cite>
+                    </footer>
+                </blockquote>
             </div>
         </section>
 
-        <!-- CAPABILITIES (SERVICES) -->
-        <section id="services" class="services section-padding">
-            <div class="services-header gs-reveal">
-                <h2 class="section-title">Capabilities.</h2>
-            </div>
-            <div class="services-grid">
-                <div class="service-card gs-reveal" data-cursor="hover">
-                    <div class="card-inner">
-                        <h3 class="service-number">01</h3>
-                        <h4>Analog Tracking</h4>
-                        <p>Pristine capture chains utilizing vintage microphones and Neve preamps.</p>
+        <!-- Contact Section -->
+        <section class="contact" id="contact" aria-labelledby="contact-title">
+            <div class="contact__container">
+                <header class="contact__header">
+                    <h2 class="contact__title" id="contact-title">Initiate a Project</h2>
+                    <p class="contact__description">Reach out to discuss rates, availability, and your sonic vision.</p>
+                </header>
+                
+                <form class="contact__form" action="/submit" method="POST">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required aria-required="true">
                     </div>
-                </div>
-                <div class="service-card gs-reveal" data-cursor="hover">
-                    <div class="card-inner">
-                        <h3 class="service-number">02</h3>
-                        <h4>Mix & Master</h4>
-                        <p>Immersive spatial audio and dynamic mastering ready for global distribution.</p>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" required aria-required="true">
                     </div>
-                </div>
-                <div class="service-card gs-reveal" data-cursor="hover">
-                    <div class="card-inner">
-                        <h3 class="service-number">03</h3>
-                        <h4>Production</h4>
-                        <p>Bespoke composition and synthesis tailored to your sonic identity.</p>
+                    
+                    <div class="form-group">
+                        <label for="project-type" class="form-label">Project Focus</label>
+                        <select id="project-type" name="project-type" class="form-select">
+                            <option value="production">Beat Production</option>
+                            <option value="recording">Tracking & Recording</option>
+                            <option value="mixing">Mixing & Mastering</option>
+                        </select>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label for="message" class="form-label">Project Details</label>
+                        <textarea id="message" name="message" class="form-textarea" rows="5" required aria-required="true"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn--submit">Send Inquiry</button>
+                </form>
             </div>
         </section>
+
     </main>
 
-    <footer>
-        <h2 class="footer-cta gs-reveal">Initiate a Session.</h2>
-        <a href="#contact" class="btn-primary gs-reveal" data-cursor="hover">Contact Studio</a>
-        <div class="footer-bottom">
-            <p>© 2026 MCM. Delhi, India.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <span class="footer__logo-text">Middle Class Musicians</span>
+                <p class="footer__tagline">Premium sounds, grounded roots.</p>
+            </div>
+            
+            <nav class="footer__nav" aria-label="Footer Navigation">
+                <ul class="footer__list">
+                    <li class="footer__item"><a href="/privacy" class="footer__link">Privacy Policy</a></li>
+                    <li class="footer__item"><a href="/terms" class="footer__link">Terms of Service</a></li>
+                </ul>
+            </nav>
+            
+            <div class="footer__copyright">
+                <p>&copy; 2026 Middle Class Musicians. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
