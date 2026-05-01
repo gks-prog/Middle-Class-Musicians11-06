@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- ALL CSS IS NOW INSIDE THIS STYLE TAG -->
     <style>
         :root {
           --bg-base: #030303;
@@ -49,8 +48,8 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
         .text-center { text-align: center; }
 
-        /* HARDWARE ACCELERATION (ANTI-LAG) */
-        .hero__content, .editorial-card__img, .portfolio-item__image, .audio-visualizer-container {
+        /* ANTI-LAG HARDWARE ACCELERATION */
+        .hero__content, .editorial-card__img, .portfolio-item__image, .audio-visualizer-container, .portfolio-track {
           will-change: transform, opacity, filter;
           transform: translateZ(0); 
           backface-visibility: hidden;
@@ -73,17 +72,13 @@
           font-size: clamp(2.5rem, 6vw, 6rem); color: var(--text-primary);
           animation: pulse 2s infinite alternate;
         }
-        @keyframes pulse {
-          0% { text-shadow: 0 0 10px rgba(255,255,255,0.05); }
-          100% { text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(217,28,53,0.2); }
-        }
+        @keyframes pulse { 0% { text-shadow: 0 0 10px rgba(255,255,255,0.05); } 100% { text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(217,28,53,0.2); } }
 
         /* Header */
         .header {
           position: fixed; top: 0; width: 100%; z-index: 100;
           background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(16px);
-          border-bottom: 1px solid var(--glass-border);
-          transition: transform 0.4s ease;
+          border-bottom: 1px solid var(--glass-border); transition: transform 0.4s ease;
         }
         .header.hide { transform: translateY(-100%); }
         .header__container {
@@ -101,27 +96,16 @@
           display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
           padding: 1rem 2.5rem; font-family: var(--font-body); font-size: 0.875rem;
           font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em;
-          border-radius: 2px; cursor: pointer; border: 1px solid transparent;
-          transition: all var(--transition-fast);
+          border-radius: 2px; cursor: pointer; border: 1px solid transparent; transition: all var(--transition-fast);
         }
         .btn--primary { background-color: var(--text-primary); color: var(--bg-base); }
         .btn--primary:hover { background-color: transparent; color: var(--text-primary); border-color: var(--text-primary); }
         .btn--header { padding: 0.6rem 1.5rem; font-size: 0.75rem; }
-        .btn--whatsapp {
-          background-color: var(--whatsapp-green); color: #000; font-weight: 600;
-          box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
-        }
-        .btn--whatsapp:hover {
-          background-color: #1ebe5a; transform: translateY(-2px);
-          box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
-        }
+        .btn--whatsapp { background-color: var(--whatsapp-green); color: #000; font-weight: 600; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2); }
+        .btn--whatsapp:hover { background-color: #1ebe5a; transform: translateY(-2px); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4); }
         .btn--large { font-size: 1.1rem; padding: 1.2rem 2.5rem; border-radius: 4px; }
         .btn--full { width: 100%; margin-top: 1rem; padding: 1.25rem; font-size: 1rem; border-radius: 4px; }
-
-        .btn--minimal {
-          background: rgba(255,255,255,0.05); color: var(--text-primary);
-          border: 1px solid var(--glass-border); padding: 1rem 2rem; border-radius: 40px;
-        }
+        .btn--minimal { background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid var(--glass-border); padding: 1rem 2rem; border-radius: 40px; }
         .btn--minimal:hover { background: rgba(255,255,255,0.1); }
         .btn__icon-wrapper { width: 16px; height: 16px; position: relative; }
         .btn__icon-wrapper svg { position: absolute; width: 100%; height: 100%; transition: opacity 0.3s; }
@@ -130,30 +114,20 @@
         /* Hero */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
         .hero__bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, #111 0%, var(--bg-base) 70%); z-index: -2; }
-        .hero__bg::after {
-          content: ''; position: absolute; inset: 0; z-index: -1;
-          background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E');
-        }
+        .hero__bg::after { content: ''; position: absolute; inset: 0; z-index: -1; background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E'); }
         .hero__content { z-index: 1; animation: fadeUp 1.5s var(--transition-slow) 0.5s both; }
         .hero__title { font-size: clamp(4rem, 10vw, 10rem); line-height: 0.9; margin-bottom: 1.5rem; background: linear-gradient(180deg, #fff, #777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero__subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); margin-bottom: 3rem; letter-spacing: 0.1em; text-transform: uppercase; }
         .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 26px; height: 44px; border: 1px solid rgba(255,255,255,0.2); border-radius: 13px; display: flex; justify-content: center; padding-top: 6px; z-index: 2; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; }
-        .scroll-indicator__dot { width: 4px; height: 6px; background: #fff; border-radius: 2px; animation: scrollDrop 1.5s infinite; }
-
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes scrollDrop { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
-
         /* Global Visualizer */
         .audio-visualizer-container {
-          position: fixed; bottom: 0; left: 0; width: 100%; height: 35vh; z-index: -1;
-          pointer-events: none; opacity: 0; transition: opacity 1.5s ease;
+          position: fixed; bottom: 0; left: 0; width: 100%; height: 40vh; z-index: 90; /* High Z-index so it pops over content */
+          pointer-events: none; opacity: 0; transition: opacity 0.8s ease;
           mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
           -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
         }
-        .audio-visualizer-container.is-active { opacity: 0.4; }
+        .audio-visualizer-container.is-active { opacity: 0.8; }
         canvas#global-visualizer { width: 100%; height: 100%; }
 
         /* Services */
@@ -161,8 +135,6 @@
         .services__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 3rem 2rem; transition: transform var(--transition-fast); border-radius: 4px;}
         .service-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.15); }
-        .service-card__title { font-size: 2rem; margin-bottom: 1rem; }
-        .service-card__description { color: var(--text-secondary); font-size: 0.95rem; }
 
         /* Showcase */
         .editorial-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; auto-rows: minmax(280px, auto); }
@@ -171,7 +143,6 @@
         .editorial-card.wide { grid-column: span 7; }
         .editorial-card.square { grid-column: span 6; }
         @media (max-width: 900px) { .editorial-card { grid-column: span 12 !important; grid-row: span 1 !important; aspect-ratio: 16/9; } }
-
         .editorial-card__img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.6); transition: all 0.8s ease; }
         .editorial-card:hover .editorial-card__img { transform: scale(1.05); filter: grayscale(0%) brightness(0.4); }
         .editorial-card__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 2rem; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; transition: opacity 0.4s; }
@@ -180,44 +151,74 @@
         .editorial-card__desc { color: var(--text-secondary); transform: translateY(20px); transition: transform 0.4s 0.2s; }
         .editorial-card:hover .editorial-card__title, .editorial-card:hover .editorial-card__desc { transform: translateY(0); }
 
-        /* Portfolio */
-        .portfolio { background: var(--bg-surface); }
-        .portfolio__filters { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
-        .filter-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); padding: 0.5rem 1.5rem; border-radius: 40px; cursor: pointer; font-family: var(--font-body); text-transform: uppercase; font-size: 0.75rem; transition: all 0.3s; }
-        .filter-btn:hover, .filter-btn.is-active { color: #fff; border-color: #fff; }
+        /* =========================================
+           PORTFOLIO - LOOPING CAROUSEL
+           ========================================= */
+        .portfolio { background: var(--bg-base); overflow: hidden; position: relative; }
+        .portfolio-carousel-wrapper { width: 100%; overflow: hidden; position: relative; padding: 2rem 0; }
+        
+        .portfolio-track { 
+            display: flex; gap: 2rem; width: max-content; 
+            transition: filter 0.8s ease; /* Smooth transition for B&W effect */
+        }
+        
+        /* B&W filter when a tile is clicked */
+        .portfolio-track.is-dimmed {
+            filter: grayscale(100%) brightness(0.3) blur(2px);
+            pointer-events: none; /* Prevent clicking other tiles while one is playing */
+        }
 
-        .portfolio__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem 2rem; }
-        .portfolio-item { transition: opacity 0.4s; }
-        .portfolio-item.is-hidden { display: none; }
-        .portfolio-item__image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1/1; margin-bottom: 1rem; border-radius: 4px; }
-        .portfolio-item__image { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) brightness(0.7); transition: all 0.6s; }
-        .portfolio-item:hover .portfolio-item__image { transform: scale(1.05); filter: grayscale(0%) brightness(0.9); }
-        .portfolio-item__overlay { position: absolute; inset: 0; padding: 1.5rem; display: flex; opacity: 0; transition: opacity 0.3s; }
+        .portfolio-item { 
+            width: 350px; flex-shrink: 0; cursor: pointer; transition: transform 0.3s ease; 
+        }
+        .portfolio-item:hover { transform: translateY(-10px); }
+        .portfolio-item__image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1/1; margin-bottom: 1rem; border-radius: 4px; background: #111; }
+        .portfolio-item__image { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%) brightness(0.8); transition: all 0.6s; }
+        .portfolio-item:hover .portfolio-item__image { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        
+        .portfolio-item__overlay { 
+            position: absolute; inset: 0; padding: 1.5rem; display: flex; flex-direction: column; 
+            justify-content: space-between; opacity: 0; transition: opacity 0.3s; 
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
         .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
-        .portfolio-item__category { align-self: flex-start; background: #000; font-size: 0.75rem; padding: 0.3rem 0.8rem; text-transform: uppercase; border: 1px solid var(--glass-border); border-radius: 2px;}
+        
         .portfolio-item__title { font-size: 1.5rem; }
         .portfolio-item__artist { color: var(--text-secondary); font-size: 0.875rem; }
-        .portfolio-item__date { color: var(--text-tertiary); font-size: 0.75rem; text-transform: uppercase; }
+        
+        .play-indicator { align-self: flex-end; background: var(--accent-vibrant); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .play-indicator svg { width: 20px; height: 20px; fill: white; margin-left: 3px;}
 
-        /* Contact Form & Routing */
-        .contact { padding: 10rem 0; }
+        /* POPPED OUT OVERLAY TILE */
+        .zoomed-tile-overlay {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            width: 400px; max-width: 90vw; z-index: 105; opacity: 0; visibility: hidden;
+            background: var(--bg-surface); padding: 1rem; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .zoomed-tile-overlay.is-active {
+            opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1);
+        }
+        .zoomed-tile-overlay img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
+        .zoomed-close-btn {
+            position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
+            background: var(--accent-vibrant); border: none; border-radius: 50%; color: white;
+            font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); z-index: 106;
+        }
+
+        /* Contact Form */
+        .contact { padding: 10rem 0; background: var(--bg-surface); }
         .contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
         @media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; gap: 3rem; } }
-
         .contact__desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 2rem; }
-        .contact__socials { display: flex; gap: 1rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.1em; }
-        .social-link { color: var(--text-secondary); }
-        .social-link:hover { color: var(--text-primary); }
-        .divider { color: var(--glass-border); }
-
         .contact__form-wrapper { background: var(--glass-bg); padding: 3rem; border-radius: 4px; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .form-row { margin-bottom: 1.5rem; }
         .minimal-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--glass-border); color: var(--text-primary); padding: 1rem 0; font-family: var(--font-body); font-size: 1rem; transition: border-color var(--transition-fast); }
-        .minimal-input::placeholder { color: var(--text-tertiary); }
         .minimal-input:focus { outline: none; border-bottom-color: var(--text-primary); }
         .minimal-textarea { resize: vertical; min-height: 100px; }
 
-        /* Footer */
         .footer { border-top: 1px solid var(--glass-border); padding: 3rem 0; }
         .footer__logo { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-secondary); display: block; margin-bottom: 0.5rem; }
         .footer__copy { color: var(--text-tertiary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -230,32 +231,39 @@
         <h1 class="loader__text">Middle Class Musicians</h1>
     </div>
 
+    <!-- Hidden Audio Player -->
+    <audio id="global-audio" crossorigin="anonymous"></audio>
+
     <!-- Global Audio Visualizer Background -->
-    <div class="audio-visualizer-container" aria-hidden="true">
+    <div class="audio-visualizer-container" id="visualizer-container" aria-hidden="true">
         <canvas id="global-visualizer"></canvas>
+    </div>
+
+    <!-- Popped-out Tile Overlay (Injected via JS) -->
+    <div class="zoomed-tile-overlay" id="zoomed-overlay">
+        <button class="zoomed-close-btn" id="close-zoomed">×</button>
+        <img id="zoomed-img" src="" alt="">
+        <h3 id="zoomed-title" style="font-size: 2rem; margin-bottom: 0.2rem;"></h3>
+        <p id="zoomed-artist" style="color: var(--text-secondary);"></p>
     </div>
 
     <!-- Header -->
     <header class="header" id="header">
         <div class="header__container">
-            <a href="/" class="header__logo" aria-label="Home">
+            <a href="/" class="header__logo">
                 <span class="header__logo-text">Middle Class Musicians</span>
             </a>
-            
             <nav class="nav">
                 <ul class="nav__list">
+                    <li class="nav__item"><a href="#portfolio" class="nav__link">The Work</a></li>
                     <li class="nav__item"><a href="#studio" class="nav__link">The Space</a></li>
-                    <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
-                    <li class="nav__item"><a href="#portfolio" class="nav__link">Work</a></li>
                 </ul>
             </nav>
-
             <a href="#contact" class="btn btn--primary btn--header">Book Now</a>
         </div>
     </header>
 
     <main id="main-content">
-        
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero__bg"></div>
@@ -263,158 +271,124 @@
                 <h1 class="hero__title">RECORD. CREATE. PERFORM.</h1>
                 <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
                 <div class="hero__actions">
-                    <a href="#contact" class="btn btn--whatsapp btn--large">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
-                        Book Session
-                    </a>
-                    <button id="demo-play-btn" class="btn btn--minimal">
+                    <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
+                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3">
                         <span class="btn__icon-wrapper">
                             <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                         </span>
-                        Demo Audio
+                        Demo Beat
                     </button>
-                    <audio id="demo-audio" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" crossorigin="anonymous" loop></audio>
-                </div>
-            </div>
-            <a href="#services" class="scroll-indicator" aria-label="Scroll down"><span class="scroll-indicator__dot"></span></a>
-        </section>
-
-        <!-- Services -->
-        <section class="services" id="services">
-            <div class="container">
-                <header class="section-header">
-                    <h2 class="section-title">Sonic Architecture</h2>
-                </header>
-                <div class="services__grid">
-                    <article class="service-card">
-                        <h3 class="service-card__title">Boom Bap & Production</h3>
-                        <p class="service-card__description">Heavy drum programming, deep sampling, and authentic underground textures crafted for the modern era.</p>
-                    </article>
-                    <article class="service-card">
-                        <h3 class="service-card__title">Global Instrumentation</h3>
-                        <p class="service-card__description">Seamlessly integrate live Sitar, Bansuri, and Tabla into contemporary track structures for a rich, hybrid sound.</p>
-                    </article>
-                    <article class="service-card">
-                        <h3 class="service-card__title">Mixing & Mastering</h3>
-                        <p class="service-card__description">High-end analog-modeled finishing ensuring warmth, dynamic punch, and competitive loudness.</p>
-                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Studio Showcase -->
-        <section class="showcase" id="studio">
-            <div class="container">
-                <header class="section-header">
-                    <h2 class="section-title">The Space</h2>
-                    <p class="section-subtitle">Where premium textures meet underground roots.</p>
-                </header>
-                <div class="editorial-grid">
-                    <figure class="editorial-card tall">
-                        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&auto=format&fit=crop" alt="Live Room" class="editorial-card__img" loading="lazy">
-                        <figcaption class="editorial-card__overlay">
-                            <h3 class="editorial-card__title">Live Room</h3>
-                            <p class="editorial-card__desc">Acoustically perfected for expansive drum tracking.</p>
-                        </figcaption>
-                    </figure>
-                    <figure class="editorial-card wide">
-                        <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80&w=1200&auto=format&fit=crop" alt="Control Room" class="editorial-card__img" loading="lazy">
-                        <figcaption class="editorial-card__overlay">
-                            <h3 class="editorial-card__title">Control Room</h3>
-                            <p class="editorial-card__desc">Hybrid analog/digital mixing environment.</p>
-                        </figcaption>
-                    </figure>
-                    <figure class="editorial-card square">
-                        <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=800&auto=format&fit=crop" alt="Vocal Booth" class="editorial-card__img" loading="lazy">
-                        <figcaption class="editorial-card__overlay">
-                            <h3 class="editorial-card__title">Vocal Booth</h3>
-                            <p class="editorial-card__desc">Deadened isolation for pristine takes.</p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio -->
+        <!-- PORTFOLIO - LOOPING CAROUSEL -->
         <section class="portfolio" id="portfolio">
-            <div class="container">
-                <header class="section-header">
-                    <h2 class="section-title">Selected Works</h2>
-                </header>
-                <div class="portfolio__filters">
-                    <button class="filter-btn is-active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="production">Production</button>
-                    <button class="filter-btn" data-filter="mixing">Mixing</button>
-                </div>
-                <div class="portfolio__grid">
-                    <article class="portfolio-item" data-category="production mixing">
+            <header class="section-header">
+                <h2 class="section-title">Sonic Archive</h2>
+                <p class="section-subtitle">Click to experience the sound.</p>
+            </header>
+            
+            <div class="portfolio-carousel-wrapper">
+                <div class="portfolio-track" id="portfolio-track">
+                    
+                    <!-- Tile 1 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2448408f9c.mp3">
                         <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=800&auto=format&fit=crop" alt="O Piyaa Cover Art" class="portfolio-item__image" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image">
                             <div class="portfolio-item__overlay">
-                                <span class="portfolio-item__category">Production / Mixing</span>
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
                             </div>
                         </div>
-                        <div class="portfolio-item__info">
-                            <h3 class="portfolio-item__title">O Piyaa</h3>
-                            <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
-                            <time class="portfolio-item__date" datetime="2026-01">Jan 2026</time>
-                        </div>
+                        <h3 class="portfolio-item__title">O Piyaa</h3>
+                        <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
                     </article>
-                    <article class="portfolio-item" data-category="production">
+
+                    <!-- Tile 2 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/04/27/audio_67b4578bce.mp3">
                         <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop" alt="Concrete Textures" class="portfolio-item__image" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image">
                             <div class="portfolio-item__overlay">
-                                <span class="portfolio-item__category">Beat Production</span>
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
                             </div>
                         </div>
-                        <div class="portfolio-item__info">
-                            <h3 class="portfolio-item__title">Concrete Textures</h3>
-                            <p class="portfolio-item__artist">Underground Instrumentals</p>
-                            <time class="portfolio-item__date" datetime="2025-11">Nov 2025</time>
-                        </div>
+                        <h3 class="portfolio-item__title">Concrete Textures</h3>
+                        <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
                     </article>
+
+                    <!-- Tile 3 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Silk & Sitar</h3>
+                        <p class="portfolio-item__artist">Global Fusion EP</p>
+                    </article>
+
+                    <!-- Tile 4 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_dbed170154.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=600&auto=format&fit=crop" alt="Midnight" class="portfolio-item__image">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Midnight Run</h3>
+                        <p class="portfolio-item__artist">Underground Collective</p>
+                    </article>
+
+                    <!-- Tile 5 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Analog" class="portfolio-item__image">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Analog Dreams</h3>
+                        <p class="portfolio-item__artist">Synthwave Cuts</p>
+                    </article>
+
+                    <!-- Tile 6 -->
+                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_d600b1068c.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=600&auto=format&fit=crop" alt="Vocal" class="portfolio-item__image">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Raw Takes</h3>
+                        <p class="portfolio-item__artist">Studio Sessions</p>
+                    </article>
+                    
                 </div>
             </div>
         </section>
 
-        <!-- Final CTA / Contact Form -->
+        <!-- Contact Form -->
         <section class="contact" id="contact">
             <div class="container">
                 <div class="contact__grid">
                     <div class="contact__info">
                         <h2 class="section-title">Lock In Your Sound.</h2>
-                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will route your request directly to our WhatsApp for an instant response.</p>
-                        
-                        <div class="contact__socials" style="justify-content: flex-start; margin-top: 2rem;">
-                            <a href="#" class="social-link">Instagram</a>
-                            <span class="divider">/</span>
-                            <a href="mailto:booking@middleclassmusicians.com" class="social-link">Email</a>
-                        </div>
+                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will route your request directly to our WhatsApp.</p>
                     </div>
-                    
-                    <!-- Minimal Form routing to WhatsApp -->
                     <div class="contact__form-wrapper">
                         <form id="booking-form" class="minimal-form">
-                            <div class="form-row">
-                                <input type="text" id="name" class="minimal-input" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-row">
-                                <input type="tel" id="phone" class="minimal-input" placeholder="Phone Number (e.g. +91...)" required>
-                            </div>
-                            <div class="form-row">
-                                <input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle (@...)" required>
-                            </div>
-                            <div class="form-row">
-                                <textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea>
-                            </div>
+                            <div class="form-row"><input type="text" id="name" class="minimal-input" placeholder="Your Name" required></div>
+                            <div class="form-row"><input type="tel" id="phone" class="minimal-input" placeholder="Phone Number" required></div>
+                            <div class="form-row"><input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle" required></div>
+                            <div class="form-row"><textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea></div>
                             <button type="submit" class="btn btn--whatsapp btn--full">Send via WhatsApp</button>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="footer">
@@ -424,7 +398,6 @@
         </div>
     </footer>
 
-    <!-- ALL JAVASCRIPT IS NOW INSIDE THIS SCRIPT TAG -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // 1. Loading Screen
@@ -436,161 +409,183 @@
                 }, 800);
             });
 
-            // 2. Anti-Lag Header Scroll
+            // 2. Header Scroll
             const header = document.getElementById('header');
             let lastScrollY = window.scrollY;
-            let ticking = false;
-
             window.addEventListener('scroll', () => {
-                lastScrollY = window.scrollY;
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        if (lastScrollY > 100) {
-                            header.classList.add('hide');
-                        } else {
-                            header.classList.remove('hide');
-                        }
-                        ticking = false;
-                    });
-                    ticking = true;
+                if (window.scrollY > 100 && window.scrollY > lastScrollY) {
+                    header.classList.add('hide');
+                } else {
+                    header.classList.remove('hide');
                 }
+                lastScrollY = window.scrollY;
             }, { passive: true });
 
-            // 3. Audio Visualizer
-            const playBtn = document.getElementById('demo-play-btn');
-            const audioEl = document.getElementById('demo-audio');
+            // 3. Audio & Visualizer Engine
+            const audioEl = document.getElementById('global-audio');
             const canvas = document.getElementById('global-visualizer');
+            const ctx = canvas.getContext('2d', { alpha: false });
+            const visualizerContainer = document.getElementById('visualizer-container');
             
-            if (playBtn && audioEl && canvas) {
-                const ctx = canvas.getContext('2d', { alpha: false });
-                const visualizerContainer = document.querySelector('.audio-visualizer-container');
-                const iconPlay = document.querySelector('.icon-play');
-                const iconPause = document.querySelector('.icon-pause');
+            let audioContext, analyser, source, dataArray, bufferLength, animationId;
+            let isInitialized = false;
 
-                let audioContext, analyser, source, dataArray, bufferLength, animationId;
-                let isInitialized = false;
+            const resizeCanvas = () => {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = visualizerContainer.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+            };
+            window.addEventListener('resize', resizeCanvas, { passive: true });
 
-                const resizeCanvas = () => {
-                    const dpr = window.devicePixelRatio || 1;
-                    const rect = visualizerContainer.getBoundingClientRect();
-                    canvas.width = rect.width * dpr;
-                    canvas.height = rect.height * dpr;
-                    ctx.scale(dpr, dpr);
-                };
-                window.addEventListener('resize', resizeCanvas, { passive: true });
+            const initAudio = () => {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    analyser.fftSize = 512;
+                    analyser.smoothingTimeConstant = 0.85;
+                    source = audioContext.createMediaElementSource(audioEl);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    bufferLength = analyser.frequencyBinCount / 2;
+                    dataArray = new Uint8Array(bufferLength);
+                    resizeCanvas();
+                    isInitialized = true;
+                } catch (e) { console.warn("Audio Context blocked:", e); }
+            };
 
-                const initAudio = () => {
-                    try {
-                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                        analyser = audioContext.createAnalyser();
-                        analyser.fftSize = 512;
-                        analyser.smoothingTimeConstant = 0.85;
-                        
-                        source = audioContext.createMediaElementSource(audioEl);
-                        source.connect(analyser);
-                        analyser.connect(audioContext.destination);
-                        
-                        bufferLength = analyser.frequencyBinCount / 2;
-                        dataArray = new Uint8Array(bufferLength);
-                        resizeCanvas();
-                        isInitialized = true;
-                    } catch (e) {
-                        console.warn("Audio Context blocked:", e);
-                    }
-                };
+            const drawVisualizer = () => {
+                animationId = requestAnimationFrame(drawVisualizer);
+                analyser.getByteFrequencyData(dataArray);
+                const rect = visualizerContainer.getBoundingClientRect();
+                ctx.fillStyle = '#030303';
+                ctx.fillRect(0, 0, rect.width, rect.height);
+                
+                const barSpacing = 3;
+                const barWidth = (rect.width / bufferLength) - barSpacing;
+                let x = 0;
+                
+                for (let i = 0; i < bufferLength; i++) {
+                    const percent = dataArray[i] / 255;
+                    const barHeight = rect.height * percent;
+                    ctx.fillStyle = percent > 0.75 ? `rgba(217, 28, 53, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
+                    ctx.beginPath();
+                    ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0]);
+                    ctx.fill();
+                    x += barWidth + barSpacing;
+                }
+            };
 
-                const draw = () => {
-                    animationId = requestAnimationFrame(draw);
-                    analyser.getByteFrequencyData(dataArray);
+            // Global Stop Function
+            const stopAudio = () => {
+                audioEl.pause();
+                cancelAnimationFrame(animationId);
+                visualizerContainer.classList.remove('is-active');
+                ctx.fillStyle = '#030303';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            };
+
+            // Play track helper
+            const playTrack = (url) => {
+                if (!isInitialized) initAudio();
+                if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+                
+                audioEl.src = url;
+                audioEl.play().then(() => {
+                    drawVisualizer();
+                    visualizerContainer.classList.add('is-active');
+                }).catch(e => console.log("Playback prevented:", e));
+            };
+
+            // Hero Play Button
+            const heroPlayBtn = document.getElementById('hero-play-btn');
+            heroPlayBtn.addEventListener('click', () => {
+                const iconPlay = heroPlayBtn.querySelector('.icon-play');
+                const iconPause = heroPlayBtn.querySelector('.icon-pause');
+                
+                if (audioEl.paused || audioEl.src !== heroPlayBtn.dataset.audioSrc) {
+                    playTrack(heroPlayBtn.dataset.audioSrc);
+                    iconPlay.classList.add('hidden'); iconPause.classList.remove('hidden');
+                } else {
+                    stopAudio();
+                    iconPause.classList.add('hidden'); iconPlay.classList.remove('hidden');
+                }
+            });
+
+            // 4. Portfolio Carousel Logic
+            const track = document.getElementById('portfolio-track');
+            let carouselInterval;
+
+            const startCarousel = () => {
+                carouselInterval = setInterval(() => {
+                    const firstItem = track.firstElementChild;
+                    const itemWidth = firstItem.offsetWidth + 32; // width + gap (2rem = 32px)
                     
-                    const rect = visualizerContainer.getBoundingClientRect();
+                    track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                    track.style.transform = `translateX(-${itemWidth}px)`;
                     
-                    ctx.fillStyle = '#030303';
-                    ctx.fillRect(0, 0, rect.width, rect.height);
-                    
-                    const barSpacing = 3;
-                    const barWidth = (rect.width / bufferLength) - barSpacing;
-                    let x = 0;
-                    
-                    for (let i = 0; i < bufferLength; i++) {
-                        const percent = dataArray[i] / 255;
-                        const barHeight = rect.height * percent;
-                        
-                        ctx.fillStyle = percent > 0.75 ? `rgba(217, 28, 53, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
-                        
-                        ctx.beginPath();
-                        ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0]);
-                        ctx.fill();
-                        x += barWidth + barSpacing;
-                    }
-                };
+                    setTimeout(() => {
+                        track.style.transition = 'none';
+                        track.appendChild(firstItem); // Move first to end
+                        track.style.transform = 'translateX(0)';
+                    }, 600);
+                }, 3000); // Shifts every 3 seconds
+            };
+            
+            startCarousel();
 
-                playBtn.addEventListener('click', () => {
-                    if (!isInitialized) initAudio();
-                    if (audioContext && audioContext.state === 'suspended') audioContext.resume();
-
-                    if (audioEl.paused) {
-                        audioEl.play().then(() => {
-                            draw();
-                            visualizerContainer.classList.add('is-active');
-                            iconPlay.classList.add('hidden');
-                            iconPause.classList.remove('hidden');
-                        }).catch(e => console.log("Playback prevented:", e));
-                    } else {
-                        audioEl.pause();
-                        cancelAnimationFrame(animationId);
-                        visualizerContainer.classList.remove('is-active');
-                        iconPause.classList.add('hidden');
-                        iconPlay.classList.remove('hidden');
-                        ctx.fillStyle = '#030303';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    }
-                });
-            }
-
-            // 4. Portfolio Filtering
-            const filterBtns = document.querySelectorAll('.filter-btn');
+            // 5. Portfolio Click / Pop-out Logic
             const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const zoomedOverlay = document.getElementById('zoomed-overlay');
+            const closeZoomedBtn = document.getElementById('close-zoomed');
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('is-active'));
-                    btn.classList.add('is-active');
+            portfolioItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Extract data
+                    const imgSrc = item.querySelector('.portfolio-item__image').src;
+                    const title = item.querySelector('.portfolio-item__title').innerText;
+                    const artist = item.querySelector('.portfolio-item__artist').innerText;
+                    const audioUrl = item.getAttribute('data-audio-src');
+
+                    // Populate overlay
+                    document.getElementById('zoomed-img').src = imgSrc;
+                    document.getElementById('zoomed-title').innerText = title;
+                    document.getElementById('zoomed-artist').innerText = artist;
+
+                    // Show overlay & dim background
+                    zoomedOverlay.classList.add('is-active');
+                    track.classList.add('is-dimmed');
                     
-                    const filterValue = btn.getAttribute('data-filter');
-                    
-                    portfolioItems.forEach(item => {
-                        const categories = item.getAttribute('data-category').split(' ');
-                        if (filterValue === 'all' || categories.includes(filterValue)) {
-                            item.classList.remove('is-hidden');
-                        } else {
-                            item.classList.add('is-hidden');
-                        }
-                    });
+                    // Stop any existing audio and play new track
+                    stopAudio();
+                    playTrack(audioUrl);
                 });
             });
 
-            // 5. WhatsApp Form Routing Engine
-            const bookingForm = document.getElementById('booking-form');
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', (e) => {
-                    e.preventDefault(); 
-                    
-                    const name = document.getElementById('name').value;
-                    const phone = document.getElementById('phone').value;
-                    const ig = document.getElementById('ig').value;
-                    const query = document.getElementById('query').value;
+            // Close Overlay
+            closeZoomedBtn.addEventListener('click', () => {
+                zoomedOverlay.classList.remove('is-active');
+                track.classList.remove('is-dimmed');
+                stopAudio(); // Stop music when closed
+            });
 
-                    // ENTER YOUR WHATSAPP NUMBER HERE (e.g. 919876543210)
-                    const targetWhatsAppNumber = '918377883056'; 
-                    
-                    const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
-                    const encodedMessage = encodeURIComponent(rawMessage);
-                    
-                    window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodedMessage}`, '_blank');
-                    bookingForm.reset();
-                });
-            }
+            // 6. WhatsApp Routing Form
+            const bookingForm = document.getElementById('booking-form');
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault(); 
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const ig = document.getElementById('ig').value;
+                const query = document.getElementById('query').value;
+
+                // YOUR WHATSAPP NUMBER
+                const targetWhatsAppNumber = '910000000000'; 
+                
+                const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
+                window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
+                bookingForm.reset();
+            });
         });
     </script>
 </body>
