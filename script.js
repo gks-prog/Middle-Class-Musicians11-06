@@ -1,190 +1,127 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // 1. Lenis Smooth Scroll (Optimized for Mobile/Touch)
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-        smooth: true,
-        smoothTouch: false, // CRITICAL: Disabled to prevent scroll hijacking on mobile
+    // 1. Loading Screen
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.style.display = 'none', 1200);
+        }, 800);
     });
 
-    lenis.stop();
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    gsap.registerPlugin(ScrollTrigger);
+    // 2. Hide Header on Scroll Down
+    let lastScroll = 0;
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > 100 && currentScroll > lastScroll) {
+            header.classList.add('hide');
+        } else {
+            header.classList.remove('hide');
+        }
+        lastScroll = currentScroll;
+    });
 
-    // 2. Custom Cursor Logic (Degrades Gracefully)
-    const cursor = document.querySelector('.custom-cursor');
-    const follower = document.querySelector('.custom-cursor-follower');
-    let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
+    // 3. Audio Visualizer (Web Audio API)
+    const playBtn = document.getElementById('demo-play-btn');
+    const audioEl = document.getElementById('demo-audio');
+    const canvas = document.getElementById('global-visualizer');
+    const ctx = canvas.getContext('2d');
+    const visualizerContainer = document.querySelector('.audio-visualizer-container');
+    const iconPlay = document.querySelector('.icon-play');
+    const iconPause = document.querySelector('.icon-pause');
 
-    // Only run if touch is not detected to save battery
-    if (window.matchMedia("(pointer: fine)").matches) {
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+    let audioContext, analyser, source, dataArray, bufferLength, animationId;
+    let isInitialized = false;
 
-        gsap.ticker.add(() => {
-            posX += (mouseX - posX) * 0.15;
-            posY += (mouseY - posY) * 0.15;
+    const resizeCanvas = () => {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = visualizerContainer.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+    };
+    window.addEventListener('resize', resizeCanvas);
+
+    const initAudio = () => {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.85;
+        
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        
+        bufferLength = analyser.frequencyBinCount / 2;
+        dataArray = new Uint8Array(bufferLength);
+        resizeCanvas();
+        isInitialized = true;
+    };
+
+    const draw = () => {
+        animationId = requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+        
+        const rect = visualizerContainer.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        
+        const barSpacing = 3;
+        const barWidth = (rect.width / bufferLength) - barSpacing;
+        let x = 0;
+        
+        for (let i = 0; i < bufferLength; i++) {
+            const percent = dataArray[i] / 255;
+            const barHeight = rect.height * percent;
             
-            gsap.set(cursor, { x: mouseX, y: mouseY });
-            gsap.set(follower, { x: posX, y: posY });
-        });
+            // Premium cinematic grading (Soft whites, vibrant accent on peaks)
+            ctx.fillStyle = percent > 0.75 ? `rgba(217, 28, 53, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
+            
+            ctx.beginPath();
+            ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0]);
+            ctx.fill();
+            x += barWidth + barSpacing;
+        }
+    };
 
-        document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                gsap.to(cursor, { scale: 0, duration: 0.3 });
-                gsap.to(follower, { scale: 1.5, backgroundColor: 'rgba(194, 122, 66, 0.1)', borderColor: 'transparent', duration: 0.3 });
-            });
-            el.addEventListener('mouseleave', () => {
-                gsap.to(cursor, { scale: 1, duration: 0.3 });
-                gsap.to(follower, { scale: 1, backgroundColor: 'transparent', borderColor: 'rgba(194, 122, 66, 0.4)', duration: 0.3 });
-            });
-        });
-    }
+    playBtn.addEventListener('click', () => {
+        if (!isInitialized) initAudio();
+        if (audioContext.state === 'suspended') audioContext.resume();
 
-    // 3. Cinematic Loader
-    const loaderTl = gsap.timeline({
-        onComplete: () => {
-            document.querySelector('.loader').style.display = 'none';
-            lenis.start();
+        if (audioEl.paused) {
+            audioEl.play();
+            draw();
+            visualizerContainer.classList.add('is-active');
+            iconPlay.classList.add('hidden');
+            iconPause.classList.remove('hidden');
+        } else {
+            audioEl.pause();
+            cancelAnimationFrame(animationId);
+            visualizerContainer.classList.remove('is-active');
+            iconPause.classList.add('hidden');
+            iconPlay.classList.remove('hidden');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     });
 
-    loaderTl.to(".loader-progress", { scaleX: 1, duration: 1.5, ease: "power3.inOut" })
-            .to(".loader-text", { opacity: 0, y: -20, duration: 0.8, ease: "power2.in" }, "+=0.2")
-            .to(".loader", { yPercent: -100, duration: 1.2, ease: "expo.inOut" });
+    // 4. Portfolio Filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-    // 4. Parallax & Triggers
-    gsap.from(".hero-word", {
-        y: "115%", duration: 1.8, ease: "expo.out", stagger: 0.1, delay: 2.8
-    });
-
-    gsap.to(".hero-image", {
-        yPercent: 15,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-    });
-
-    // 5. MAGIC BTN INTERACTIVE LOGIC (Strict Functionality Preservation)
-    const magicBtn = document.querySelector('.magic-btn');
-    const magicText = document.querySelector('.magic-text');
-    const burstContainer = document.getElementById('burst-container');
-    
-    let physicsNodes = [];
-    let isPhysicsRunning = false;
-
-    // Node Factory
-    function createNode(x, y) {
-        const node = document.createElement('div');
-        node.classList.add('physics-node');
-        
-        // Random elliptical dimensions
-        const rx = 10 + Math.random() * 20; 
-        const ry = 10 + Math.random() * 30;
-        
-        node.style.width = `${rx * 2}px`;
-        node.style.height = `${ry * 2}px`;
-        node.style.background = Math.random() > 0.5 ? 'var(--accent-copper)' : 'var(--text-primary)';
-        
-        burstContainer.appendChild(node);
-
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 5 + Math.random() * 15;
-
-        return {
-            el: node,
-            x: x, y: y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            radius: Math.max(rx, ry), // Using bounding circle for faster collision math
-            life: 1.0
-        };
-    }
-
-    // Physics Engine Loop
-    function updatePhysics() {
-        if (physicsNodes.length === 0) {
-            isPhysicsRunning = false;
-            return;
-        }
-
-        for (let i = 0; i < physicsNodes.length; i++) {
-            let p1 = physicsNodes[i];
-
-            // Apply Velocity & Friction
-            p1.x += p1.vx;
-            p1.y += p1.vy;
-            p1.vx *= 0.92;
-            p1.vy *= 0.92;
-            p1.life -= 0.015; // Fade out
-
-            // Anti-Overlap Collision Resolution (O(N^2) simplified)
-            for (let j = i + 1; j < physicsNodes.length; j++) {
-                let p2 = physicsNodes[j];
-                let dx = p2.x - p1.x;
-                let dy = p2.y - p1.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                let min_dist = p1.radius + p2.radius;
-
-                if (dist < min_dist) {
-                    let angle = Math.atan2(dy, dx);
-                    let targetX = p1.x + Math.cos(angle) * min_dist;
-                    let targetY = p1.y + Math.sin(angle) * min_dist;
-                    let ax = (targetX - p2.x) * 0.1;
-                    let ay = (targetY - p2.y) * 0.1;
-                    
-                    p1.vx -= ax;
-                    p1.vy -= ay;
-                    p2.vx += ax;
-                    p2.vy += ay;
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            
+            const filterValue = btn.getAttribute('data-filter');
+            
+            portfolioItems.forEach(item => {
+                const categories = item.getAttribute('data-category').split(' ');
+                if (filterValue === 'all' || categories.includes(filterValue)) {
+                    item.classList.remove('is-hidden');
+                } else {
+                    item.classList.add('is-hidden');
                 }
-            }
-
-            // Render
-            p1.el.style.transform = `translate3d(${p1.x}px, ${p1.y}px, 0) scale(${p1.life})`;
-            p1.el.style.opacity = p1.life;
-        }
-
-        // Cleanup dead nodes
-        physicsNodes = physicsNodes.filter(p => {
-            if (p.life <= 0) {
-                p.el.remove();
-                return false;
-            }
-            return true;
+            });
         });
-
-        requestAnimationFrame(updatePhysics);
-    }
-
-    // Event Triggers mapping to exact requirements
-    magicBtn.addEventListener('mouseenter', () => {
-        magicText.textContent = "One Stop Solution for artists";
     });
-
-    magicBtn.addEventListener('mouseleave', () => {
-        magicText.textContent = "don't touch it";
-    });
-
-    magicBtn.addEventListener('click', (e) => {
-        const rect = magicBtn.getBoundingClientRect();
-        const containerRect = burstContainer.getBoundingClientRect();
-        const centerX = (rect.left - containerRect.left) + rect.width / 2;
-        const centerY = (rect.top - containerRect.top) + rect.height / 2;
-
-        // Generate 35 nodes per burst
-        for(let i = 0; i < 35; i++) {
-            physicsNodes.push(createNode(centerX, centerY));
-        }
-
-        if (!isPhysicsRunning) {
-            isPhysicsRunning = true;
-            updatePhysics();
-        }
-    });
-
 });
