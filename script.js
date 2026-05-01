@@ -1,16 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Loading Screen (Optimized)
+    // 1. Loading Screen
     const loader = document.getElementById('loader');
     window.addEventListener('load', () => {
         setTimeout(() => {
             loader.classList.add('hidden');
-            setTimeout(() => {
-                if (loader) loader.style.display = 'none';
-            }, 1200);
+            setTimeout(() => { if (loader) loader.style.display = 'none'; }, 1200);
         }, 800);
     });
 
-    // 2. Anti-Lag Header Scroll (Using requestAnimationFrame throttling)
+    // 2. Anti-Lag Header Scroll (Throttled for Performance)
     const header = document.getElementById('header');
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -28,15 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             ticking = true;
         }
-    }, { passive: true }); // Passive listener dramatically improves scroll performance
+    }, { passive: true });
 
-    // 3. Audio Visualizer (Error Handled & Optimized)
+    // 3. Audio Visualizer (Optimized and Error Handled)
     const playBtn = document.getElementById('demo-play-btn');
     const audioEl = document.getElementById('demo-audio');
     const canvas = document.getElementById('global-visualizer');
     
     if (playBtn && audioEl && canvas) {
-        const ctx = canvas.getContext('2d', { alpha: false }); // Alpha false optimizes canvas rendering
+        const ctx = canvas.getContext('2d', { alpha: false }); // alpha false speeds up rendering
         const visualizerContainer = document.querySelector('.audio-visualizer-container');
         const iconPlay = document.querySelector('.icon-play');
         const iconPause = document.querySelector('.icon-pause');
@@ -57,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
-                analyser.fftSize = 512; // Lower FFT size reduces CPU load for anti-lag
+                analyser.fftSize = 512; // Lower size reduces CPU lag
                 analyser.smoothingTimeConstant = 0.85;
                 
                 source = audioContext.createMediaElementSource(audioEl);
@@ -79,8 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const rect = visualizerContainer.getBoundingClientRect();
             
-            // Fill background with black to optimize instead of clearRect
-            ctx.fillStyle = '#030303'; 
+            ctx.fillStyle = '#030303'; // Fill black instead of clearRect for performance
             ctx.fillRect(0, 0, rect.width, rect.height);
             
             const barSpacing = 3;
@@ -148,28 +145,27 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 5. WhatsApp Form Routing
+    // 5. WhatsApp Form Routing Engine
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevents page reload
+            e.preventDefault(); 
             
-            // Get values
+            const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
             const ig = document.getElementById('ig').value;
             const query = document.getElementById('query').value;
 
-            // IMPORTANT: Replace this with your actual studio WhatsApp number (Include Country Code, no '+' or spaces)
-            const targetWhatsAppNumber = '918377883056'; 
+            // ENTER YOUR WHATSAPP NUMBER HERE (e.g. 919876543210)
+            const targetWhatsAppNumber = '910000000000'; 
             
-            // Format the message
-            const message = `*New Studio Inquiry*%0A%0A*Phone:* ${phone}%0A*Email:* ${email}%0A*Instagram:* ${ig}%0A*Query:* ${query}`;
+            // Encode the string so line breaks and special characters don't break the URL
+            const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
+            const encodedMessage = encodeURIComponent(rawMessage);
             
-            // Open WhatsApp in a new tab
-            window.open(`https://wa.me/${targetWhatsAppNumber}?text=${message}`, '_blank');
+            // Redirect user to WhatsApp Web or App
+            window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodedMessage}`, '_blank');
             
-            // Optional: Clear form after sending
             bookingForm.reset();
         });
     }
