@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Middle Class Musicians | Premium Studio</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Premium Typography: Syne (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- Optimized Hardware-Accelerated Noise -->
+    <div class="noise-overlay"></div>
+
+    <!-- Custom Cursor (Disabled on Mobile via CSS) -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <!-- Cinematic Loader -->
+    <div class="loader">
+        <div class="loader-content">
+            <span class="loader-text">MCM.</span>
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo nav-item" data-cursor="hover">MCM.</div>
+        <div class="nav-links desktop-only">
+            <a href="#about" class="nav-item" data-cursor="hover">About</a>
+            <a href="#work" class="nav-item" data-cursor="hover">Work</a>
+            <a href="#services" class="nav-item" data-cursor="hover">Services</a>
+            <a href="#contact" class="btn-outline nav-item" data-cursor="hover">Contact</a>
+        </div>
+        <div class="hamburger nav-item mobile-only">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <div class="mobile-menu-inner">
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#work" class="mobile-link">Work</a>
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <div class="text-mask"><span class="hero-word">RECORD.</span></div>
+                    <div class="text-mask"><span class="hero-word">CREATE.</span></div>
+                    <div class="text-mask"><span class="hero-word hero-accent">ELEVATE.</span></div>
+                </h1>
+                <p class="hero-subtext">The Premium Recording Sanctuary<br>New Delhi</p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-container" data-cursor="drag">
+                    <img class="hero-image" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop" alt="Studio Main Room">
+                </div>
+                
+                <div class="now-playing-card floating">
+                    <div class="album-art" style="background-image: url('https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=1000&auto=format&fit=crop');"></div>
+                    <div class="track-info">
+                        <p class="track-title">Midnight Session</p>
+                        <p class="track-artist">Live Room A</p>
+                    </div>
+                    <div class="audio-waves">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAGIC BTN SECTION (Anti-Overlap Physics Node Burst) -->
+        <section id="interactive-hub" class="magic-section">
+            <div class="magic-container" id="burst-container">
+                <button class="magic-btn" data-cursor="hover">
+                    <span class="magic-text">don't touch it</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="about section-padding">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="section-title gs-reveal">The<br>Sanctuary.</h2>
+                    <div class="text-divider gs-reveal"></div>
+                    <p class="gs-reveal">World-class sound shouldn't be an exclusive privilege. Middle Class Musicians is an architecturally tuned environment built for visionaries who refuse to compromise on fidelity.</p>
+                </div>
+                <div class="about-image-wrapper gs-reveal">
+                    <img src="https://images.unsplash.com/photo-1516280440502-a28ee787e914?q=80&w=1000&auto=format&fit=crop" alt="Analog Console" class="about-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- CAPABILITIES (SERVICES) -->
+        <section id="services" class="services section-padding">
+            <div class="services-header gs-reveal">
+                <h2 class="section-title">Capabilities.</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card gs-reveal" data-cursor="hover">
+                    <div class="card-inner">
+                        <h3 class="service-number">01</h3>
+                        <h4>Analog Tracking</h4>
+                        <p>Pristine capture chains utilizing vintage microphones and Neve preamps.</p>
+                    </div>
+                </div>
+                <div class="service-card gs-reveal" data-cursor="hover">
+                    <div class="card-inner">
+                        <h3 class="service-number">02</h3>
+                        <h4>Mix & Master</h4>
+                        <p>Immersive spatial audio and dynamic mastering ready for global distribution.</p>
+                    </div>
+                </div>
+                <div class="service-card gs-reveal" data-cursor="hover">
+                    <div class="card-inner">
+                        <h3 class="service-number">03</h3>
+                        <h4>Production</h4>
+                        <p>Bespoke composition and synthesis tailored to your sonic identity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2 class="footer-cta gs-reveal">Initiate a Session.</h2>
+        <a href="#contact" class="btn-primary gs-reveal" data-cursor="hover">Contact Studio</a>
+        <div class="footer-bottom">
+            <p>© 2026 MCM. Delhi, India.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
