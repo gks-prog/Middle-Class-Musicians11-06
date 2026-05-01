@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Middle Class Musicians - A premium recording studio in Delhi specializing in boom bap, underground hip-hop, and dynamic global instrumentation.">
+    <meta name="description" content="Middle Class Musicians - Premium Recording Studio.">
     <title>Middle Class Musicians | Premium Recording Studio</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- STRICT CSS LINK -->
+    <link rel="stylesheet" href="./styles.css">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,9 +26,6 @@
         <canvas id="global-visualizer"></canvas>
     </div>
 
-    <!-- Skip Link -->
-    <a href="#main-content" class="skip-link sr-only">Skip to main content</a>
-
     <!-- Header -->
     <header class="header" id="header">
         <div class="header__container">
@@ -41,10 +41,7 @@
                 </ul>
             </nav>
 
-            <!-- High Conversion Header CTA -->
-            <a href="https://wa.me/910000000000?text=Hi,%20I%20want%20to%20book%20a%20session." class="btn btn--primary btn--header" target="_blank" rel="noopener">
-                Book Now
-            </a>
+            <a href="#contact" class="btn btn--primary btn--header">Book Now</a>
         </div>
     </header>
 
@@ -57,9 +54,9 @@
                 <h1 class="hero__title">RECORD. CREATE. PERFORM.</h1>
                 <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
                 <div class="hero__actions">
-                    <a href="https://wa.me/910000000000?text=Hi,%20I'm%20interested%20in%20booking%20studio%20time." class="btn btn--whatsapp btn--large" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                        Book via WhatsApp
+                    <a href="#contact" class="btn btn--whatsapp btn--large">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
+                        Book Session
                     </a>
                     <button id="demo-play-btn" class="btn btn--minimal">
                         <span class="btn__icon-wrapper">
@@ -68,13 +65,10 @@
                         </span>
                         Demo Audio
                     </button>
-                    <!-- Ambient beat source for visualizer -->
                     <audio id="demo-audio" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" crossorigin="anonymous" loop></audio>
                 </div>
             </div>
-            <a href="#services" class="scroll-indicator" aria-label="Scroll down">
-                <span class="scroll-indicator__dot"></span>
-            </a>
+            <a href="#services" class="scroll-indicator" aria-label="Scroll down"><span class="scroll-indicator__dot"></span></a>
         </section>
 
         <!-- Services -->
@@ -94,7 +88,7 @@
                     </article>
                     <article class="service-card">
                         <h3 class="service-card__title">Mixing & Mastering</h3>
-                        <p class="service-card__description">High-end analog-modeled finishing ensuring warmth, dynamic punch, and competitive loudness across all platforms.</p>
+                        <p class="service-card__description">High-end analog-modeled finishing ensuring warmth, dynamic punch, and competitive loudness.</p>
                     </article>
                 </div>
             </div>
@@ -175,14 +169,14 @@
             </div>
         </section>
 
-        <!-- Final CTA / Contact -->
         <!-- Final CTA / Contact Form -->
         <section class="contact" id="contact">
             <div class="container">
                 <div class="contact__grid">
                     <div class="contact__info">
                         <h2 class="section-title">Lock In Your Sound.</h2>
-                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will get back to you instantly.</p>
+                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will route your request directly to our WhatsApp for an instant response.</p>
+                        
                         <div class="contact__socials" style="justify-content: flex-start; margin-top: 2rem;">
                             <a href="#" class="social-link">Instagram</a>
                             <span class="divider">/</span>
@@ -194,10 +188,10 @@
                     <div class="contact__form-wrapper">
                         <form id="booking-form" class="minimal-form">
                             <div class="form-row">
-                                <input type="tel" id="phone" class="minimal-input" placeholder="Phone Number (e.g. +91...)" required>
+                                <input type="text" id="name" class="minimal-input" placeholder="Your Name" required>
                             </div>
                             <div class="form-row">
-                                <input type="email" id="email" class="minimal-input" placeholder="Email Address" required>
+                                <input type="tel" id="phone" class="minimal-input" placeholder="Phone Number (e.g. +91...)" required>
                             </div>
                             <div class="form-row">
                                 <input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle (@...)" required>
@@ -205,18 +199,9 @@
                             <div class="form-row">
                                 <textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea>
                             </div>
-                            <button type="submit" class="btn btn--primary btn--full">Send via WhatsApp</button>
+                            <button type="submit" class="btn btn--whatsapp btn--full">Send via WhatsApp</button>
                         </form>
                     </div>
-                </div>
-            </div>
-        </section>
-                    Book Session via WhatsApp
-                </a>
-                <div class="contact__socials">
-                    <a href="#" class="social-link">Instagram</a>
-                    <span class="divider">/</span>
-                    <a href="mailto:booking@middleclassmusicians.com" class="social-link">Email</a>
                 </div>
             </div>
         </section>
@@ -230,6 +215,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- STRICT JS LINK -->
+    <script src="./script.js"></script>
 </body>
 </html>
