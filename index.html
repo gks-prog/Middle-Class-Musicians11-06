@@ -6,13 +6,222 @@
     <meta name="description" content="Middle Class Musicians - Premium Recording Studio.">
     <title>Middle Class Musicians | Premium Recording Studio</title>
     
-    <!-- STRICT CSS LINK -->
-    <link rel="stylesheet" href="./styles.css">
-    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- ALL CSS IS NOW INSIDE THIS STYLE TAG -->
+    <style>
+        :root {
+          --bg-base: #030303;
+          --bg-surface: #0a0a0a;
+          --text-primary: #f5f5f7;
+          --text-secondary: #a1a1a6;
+          --accent-vibrant: #d91c35; 
+          --whatsapp-green: #25D366;
+          --glass-border: rgba(255, 255, 255, 0.08);
+          --glass-bg: rgba(255, 255, 255, 0.02);
+          --font-heading: 'Bebas Neue', sans-serif;
+          --font-body: 'Inter', sans-serif;
+          --transition-fast: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+          background-color: var(--bg-base);
+          color: var(--text-primary);
+          font-family: var(--font-body);
+          font-weight: 300;
+          line-height: 1.6;
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background-color: var(--accent-vibrant); color: #fff; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        a { color: inherit; text-decoration: none; transition: var(--transition-fast); }
+        img { display: block; max-width: 100%; height: auto; }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .text-center { text-align: center; }
+
+        /* HARDWARE ACCELERATION (ANTI-LAG) */
+        .hero__content, .editorial-card__img, .portfolio-item__image, .audio-visualizer-container {
+          will-change: transform, opacity, filter;
+          transform: translateZ(0); 
+          backface-visibility: hidden;
+        }
+
+        h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
+        .section-title { font-size: clamp(3rem, 5vw, 5rem); margin-bottom: 1rem; }
+        .section-subtitle { color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.875rem; margin-bottom: 4rem; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        section { padding: 8rem 0; position: relative; }
+
+        /* Loader */
+        .loader {
+          position: fixed; inset: 0; background-color: var(--bg-base);
+          display: flex; justify-content: center; align-items: center;
+          z-index: 9999; transition: opacity 1.2s var(--transition-slow), visibility 1.2s;
+        }
+        .loader.hidden { opacity: 0; visibility: hidden; }
+        .loader__text {
+          font-size: clamp(2.5rem, 6vw, 6rem); color: var(--text-primary);
+          animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse {
+          0% { text-shadow: 0 0 10px rgba(255,255,255,0.05); }
+          100% { text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(217,28,53,0.2); }
+        }
+
+        /* Header */
+        .header {
+          position: fixed; top: 0; width: 100%; z-index: 100;
+          background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--glass-border);
+          transition: transform 0.4s ease;
+        }
+        .header.hide { transform: translateY(-100%); }
+        .header__container {
+          display: flex; justify-content: space-between; align-items: center;
+          height: 80px; padding: 0 5%; max-width: 1400px; margin: 0 auto;
+        }
+        .header__logo-text { font-family: var(--font-heading); font-size: 1.5rem; letter-spacing: 0.05em; }
+        .nav__list { display: flex; gap: 2rem; list-style: none; }
+        .nav__link { font-size: 0.875rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+        .nav__link:hover { color: var(--text-primary); }
+        @media (max-width: 768px) { .nav { display: none; } }
+
+        /* Buttons */
+        .btn {
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+          padding: 1rem 2.5rem; font-family: var(--font-body); font-size: 0.875rem;
+          font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em;
+          border-radius: 2px; cursor: pointer; border: 1px solid transparent;
+          transition: all var(--transition-fast);
+        }
+        .btn--primary { background-color: var(--text-primary); color: var(--bg-base); }
+        .btn--primary:hover { background-color: transparent; color: var(--text-primary); border-color: var(--text-primary); }
+        .btn--header { padding: 0.6rem 1.5rem; font-size: 0.75rem; }
+        .btn--whatsapp {
+          background-color: var(--whatsapp-green); color: #000; font-weight: 600;
+          box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
+        }
+        .btn--whatsapp:hover {
+          background-color: #1ebe5a; transform: translateY(-2px);
+          box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+        }
+        .btn--large { font-size: 1.1rem; padding: 1.2rem 2.5rem; border-radius: 4px; }
+        .btn--full { width: 100%; margin-top: 1rem; padding: 1.25rem; font-size: 1rem; border-radius: 4px; }
+
+        .btn--minimal {
+          background: rgba(255,255,255,0.05); color: var(--text-primary);
+          border: 1px solid var(--glass-border); padding: 1rem 2rem; border-radius: 40px;
+        }
+        .btn--minimal:hover { background: rgba(255,255,255,0.1); }
+        .btn__icon-wrapper { width: 16px; height: 16px; position: relative; }
+        .btn__icon-wrapper svg { position: absolute; width: 100%; height: 100%; transition: opacity 0.3s; }
+        .icon-pause.hidden, .icon-play.hidden { opacity: 0; pointer-events: none; }
+
+        /* Hero */
+        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .hero__bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, #111 0%, var(--bg-base) 70%); z-index: -2; }
+        .hero__bg::after {
+          content: ''; position: absolute; inset: 0; z-index: -1;
+          background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E');
+        }
+        .hero__content { z-index: 1; animation: fadeUp 1.5s var(--transition-slow) 0.5s both; }
+        .hero__title { font-size: clamp(4rem, 10vw, 10rem); line-height: 0.9; margin-bottom: 1.5rem; background: linear-gradient(180deg, #fff, #777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero__subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); margin-bottom: 3rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 26px; height: 44px; border: 1px solid rgba(255,255,255,0.2); border-radius: 13px; display: flex; justify-content: center; padding-top: 6px; z-index: 2; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; }
+        .scroll-indicator__dot { width: 4px; height: 6px; background: #fff; border-radius: 2px; animation: scrollDrop 1.5s infinite; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes scrollDrop { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+
+        /* Global Visualizer */
+        .audio-visualizer-container {
+          position: fixed; bottom: 0; left: 0; width: 100%; height: 35vh; z-index: -1;
+          pointer-events: none; opacity: 0; transition: opacity 1.5s ease;
+          mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+          -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        }
+        .audio-visualizer-container.is-active { opacity: 0.4; }
+        canvas#global-visualizer { width: 100%; height: 100%; }
+
+        /* Services */
+        .services { background: var(--bg-surface); }
+        .services__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 3rem 2rem; transition: transform var(--transition-fast); border-radius: 4px;}
+        .service-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.15); }
+        .service-card__title { font-size: 2rem; margin-bottom: 1rem; }
+        .service-card__description { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Showcase */
+        .editorial-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; auto-rows: minmax(280px, auto); }
+        .editorial-card { position: relative; overflow: hidden; background: #000; cursor: pointer; border-radius: 4px;}
+        .editorial-card.tall { grid-column: span 5; grid-row: span 2; }
+        .editorial-card.wide { grid-column: span 7; }
+        .editorial-card.square { grid-column: span 6; }
+        @media (max-width: 900px) { .editorial-card { grid-column: span 12 !important; grid-row: span 1 !important; aspect-ratio: 16/9; } }
+
+        .editorial-card__img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.6); transition: all 0.8s ease; }
+        .editorial-card:hover .editorial-card__img { transform: scale(1.05); filter: grayscale(0%) brightness(0.4); }
+        .editorial-card__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 2rem; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; transition: opacity 0.4s; }
+        .editorial-card:hover .editorial-card__overlay { opacity: 1; }
+        .editorial-card__title { font-size: 2.5rem; transform: translateY(20px); transition: transform 0.4s 0.1s; }
+        .editorial-card__desc { color: var(--text-secondary); transform: translateY(20px); transition: transform 0.4s 0.2s; }
+        .editorial-card:hover .editorial-card__title, .editorial-card:hover .editorial-card__desc { transform: translateY(0); }
+
+        /* Portfolio */
+        .portfolio { background: var(--bg-surface); }
+        .portfolio__filters { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+        .filter-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); padding: 0.5rem 1.5rem; border-radius: 40px; cursor: pointer; font-family: var(--font-body); text-transform: uppercase; font-size: 0.75rem; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.is-active { color: #fff; border-color: #fff; }
+
+        .portfolio__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem 2rem; }
+        .portfolio-item { transition: opacity 0.4s; }
+        .portfolio-item.is-hidden { display: none; }
+        .portfolio-item__image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1/1; margin-bottom: 1rem; border-radius: 4px; }
+        .portfolio-item__image { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) brightness(0.7); transition: all 0.6s; }
+        .portfolio-item:hover .portfolio-item__image { transform: scale(1.05); filter: grayscale(0%) brightness(0.9); }
+        .portfolio-item__overlay { position: absolute; inset: 0; padding: 1.5rem; display: flex; opacity: 0; transition: opacity 0.3s; }
+        .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
+        .portfolio-item__category { align-self: flex-start; background: #000; font-size: 0.75rem; padding: 0.3rem 0.8rem; text-transform: uppercase; border: 1px solid var(--glass-border); border-radius: 2px;}
+        .portfolio-item__title { font-size: 1.5rem; }
+        .portfolio-item__artist { color: var(--text-secondary); font-size: 0.875rem; }
+        .portfolio-item__date { color: var(--text-tertiary); font-size: 0.75rem; text-transform: uppercase; }
+
+        /* Contact Form & Routing */
+        .contact { padding: 10rem 0; }
+        .contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        @media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+        .contact__desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 2rem; }
+        .contact__socials { display: flex; gap: 1rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.1em; }
+        .social-link { color: var(--text-secondary); }
+        .social-link:hover { color: var(--text-primary); }
+        .divider { color: var(--glass-border); }
+
+        .contact__form-wrapper { background: var(--glass-bg); padding: 3rem; border-radius: 4px; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .form-row { margin-bottom: 1.5rem; }
+        .minimal-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--glass-border); color: var(--text-primary); padding: 1rem 0; font-family: var(--font-body); font-size: 1rem; transition: border-color var(--transition-fast); }
+        .minimal-input::placeholder { color: var(--text-tertiary); }
+        .minimal-input:focus { outline: none; border-bottom-color: var(--text-primary); }
+        .minimal-textarea { resize: vertical; min-height: 100px; }
+
+        /* Footer */
+        .footer { border-top: 1px solid var(--glass-border); padding: 3rem 0; }
+        .footer__logo { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-secondary); display: block; margin-bottom: 0.5rem; }
+        .footer__copy { color: var(--text-tertiary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
 </head>
 <body>
 
@@ -215,7 +424,174 @@
         </div>
     </footer>
 
-    <!-- STRICT JS LINK -->
-    <script src="./script.js"></script>
+    <!-- ALL JAVASCRIPT IS NOW INSIDE THIS SCRIPT TAG -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Loading Screen
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    setTimeout(() => { if (loader) loader.style.display = 'none'; }, 1200);
+                }, 800);
+            });
+
+            // 2. Anti-Lag Header Scroll
+            const header = document.getElementById('header');
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            window.addEventListener('scroll', () => {
+                lastScrollY = window.scrollY;
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        if (lastScrollY > 100) {
+                            header.classList.add('hide');
+                        } else {
+                            header.classList.remove('hide');
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // 3. Audio Visualizer
+            const playBtn = document.getElementById('demo-play-btn');
+            const audioEl = document.getElementById('demo-audio');
+            const canvas = document.getElementById('global-visualizer');
+            
+            if (playBtn && audioEl && canvas) {
+                const ctx = canvas.getContext('2d', { alpha: false });
+                const visualizerContainer = document.querySelector('.audio-visualizer-container');
+                const iconPlay = document.querySelector('.icon-play');
+                const iconPause = document.querySelector('.icon-pause');
+
+                let audioContext, analyser, source, dataArray, bufferLength, animationId;
+                let isInitialized = false;
+
+                const resizeCanvas = () => {
+                    const dpr = window.devicePixelRatio || 1;
+                    const rect = visualizerContainer.getBoundingClientRect();
+                    canvas.width = rect.width * dpr;
+                    canvas.height = rect.height * dpr;
+                    ctx.scale(dpr, dpr);
+                };
+                window.addEventListener('resize', resizeCanvas, { passive: true });
+
+                const initAudio = () => {
+                    try {
+                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        analyser = audioContext.createAnalyser();
+                        analyser.fftSize = 512;
+                        analyser.smoothingTimeConstant = 0.85;
+                        
+                        source = audioContext.createMediaElementSource(audioEl);
+                        source.connect(analyser);
+                        analyser.connect(audioContext.destination);
+                        
+                        bufferLength = analyser.frequencyBinCount / 2;
+                        dataArray = new Uint8Array(bufferLength);
+                        resizeCanvas();
+                        isInitialized = true;
+                    } catch (e) {
+                        console.warn("Audio Context blocked:", e);
+                    }
+                };
+
+                const draw = () => {
+                    animationId = requestAnimationFrame(draw);
+                    analyser.getByteFrequencyData(dataArray);
+                    
+                    const rect = visualizerContainer.getBoundingClientRect();
+                    
+                    ctx.fillStyle = '#030303';
+                    ctx.fillRect(0, 0, rect.width, rect.height);
+                    
+                    const barSpacing = 3;
+                    const barWidth = (rect.width / bufferLength) - barSpacing;
+                    let x = 0;
+                    
+                    for (let i = 0; i < bufferLength; i++) {
+                        const percent = dataArray[i] / 255;
+                        const barHeight = rect.height * percent;
+                        
+                        ctx.fillStyle = percent > 0.75 ? `rgba(217, 28, 53, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
+                        
+                        ctx.beginPath();
+                        ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0]);
+                        ctx.fill();
+                        x += barWidth + barSpacing;
+                    }
+                };
+
+                playBtn.addEventListener('click', () => {
+                    if (!isInitialized) initAudio();
+                    if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+
+                    if (audioEl.paused) {
+                        audioEl.play().then(() => {
+                            draw();
+                            visualizerContainer.classList.add('is-active');
+                            iconPlay.classList.add('hidden');
+                            iconPause.classList.remove('hidden');
+                        }).catch(e => console.log("Playback prevented:", e));
+                    } else {
+                        audioEl.pause();
+                        cancelAnimationFrame(animationId);
+                        visualizerContainer.classList.remove('is-active');
+                        iconPause.classList.add('hidden');
+                        iconPlay.classList.remove('hidden');
+                        ctx.fillStyle = '#030303';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
+                });
+            }
+
+            // 4. Portfolio Filtering
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('is-active'));
+                    btn.classList.add('is-active');
+                    
+                    const filterValue = btn.getAttribute('data-filter');
+                    
+                    portfolioItems.forEach(item => {
+                        const categories = item.getAttribute('data-category').split(' ');
+                        if (filterValue === 'all' || categories.includes(filterValue)) {
+                            item.classList.remove('is-hidden');
+                        } else {
+                            item.classList.add('is-hidden');
+                        }
+                    });
+                });
+            });
+
+            // 5. WhatsApp Form Routing Engine
+            const bookingForm = document.getElementById('booking-form');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); 
+                    
+                    const name = document.getElementById('name').value;
+                    const phone = document.getElementById('phone').value;
+                    const ig = document.getElementById('ig').value;
+                    const query = document.getElementById('query').value;
+
+                    // ENTER YOUR WHATSAPP NUMBER HERE (e.g. 919876543210)
+                    const targetWhatsAppNumber = '918377883056'; 
+                    
+                    const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
+                    const encodedMessage = encodeURIComponent(rawMessage);
+                    
+                    window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodedMessage}`, '_blank');
+                    bookingForm.reset();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
