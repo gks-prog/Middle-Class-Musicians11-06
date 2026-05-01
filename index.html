@@ -94,12 +94,12 @@
           justify-self: start; 
           display: flex; 
           align-items: center; 
-          gap: 0.6rem; /* Space between logo and text */
+          gap: 0.6rem; 
         }
         .header__logo-icon {
-          /* Logo perfectly matches the responsive height of the text */
-          height: clamp(1.2rem, 3vw, 1.5rem); 
+          height: clamp(1.2rem, 3.5vw, 1.8rem); 
           width: auto;
+          display: block;
           object-fit: contain;
         }
         .header__logo-text { 
@@ -297,9 +297,9 @@
     <!-- Symmetrical Apple Matte Glass Header -->
     <header class="header" id="header">
         <div class="header__container">
-            <!-- Redirects to homepage root '/' -->
+            <!-- Redirects to homepage root '/' with Google Proxy URL for the logo -->
             <a href="/" class="header__logo">
-                <img src="https://drive.google.com/uc?export=download&id=1J7iM5POzBueplsjzjYeIRRO4FEBsxhF-" alt="Logo" class="header__logo-icon">
+                <img src="https://lh3.googleusercontent.com/d/1J7iM5POzBueplsjzjYeIRRO4FEBsxhF-" alt="Logo" class="header__logo-icon">
                 <span class="header__logo-text">Middle Class Musicians</span>
             </a>
             <nav class="nav">
@@ -617,9 +617,7 @@
             const startCarousel = () => {
                 carouselInterval = setInterval(() => {
                     const firstItem = track.firstElementChild;
-                    const itemStyle = window.getComputedStyle(firstItem);
                     const itemWidth = firstItem.offsetWidth;
-                    // Extract gap from computed style (fallback to 32px if not defined)
                     const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
                     const moveDistance = itemWidth + gap;
                     
