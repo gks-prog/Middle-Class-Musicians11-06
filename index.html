@@ -176,11 +176,41 @@
         </section>
 
         <!-- Final CTA / Contact -->
+        <!-- Final CTA / Contact Form -->
         <section class="contact" id="contact">
-            <div class="container text-center">
-                <h2 class="section-title">Lock In Your Sound.</h2>
-                <p class="contact__desc">Ready to craft premium sonic architecture? Reach out to discuss availability and project scope.</p>
-                <a href="https://wa.me/910000000000?text=Hi,%20I%20want%20to%20discuss%20a%20project." class="btn btn--whatsapp btn--huge" target="_blank" rel="noopener">
+            <div class="container">
+                <div class="contact__grid">
+                    <div class="contact__info">
+                        <h2 class="section-title">Lock In Your Sound.</h2>
+                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will get back to you instantly.</p>
+                        <div class="contact__socials" style="justify-content: flex-start; margin-top: 2rem;">
+                            <a href="#" class="social-link">Instagram</a>
+                            <span class="divider">/</span>
+                            <a href="mailto:booking@middleclassmusicians.com" class="social-link">Email</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Minimal Form routing to WhatsApp -->
+                    <div class="contact__form-wrapper">
+                        <form id="booking-form" class="minimal-form">
+                            <div class="form-row">
+                                <input type="tel" id="phone" class="minimal-input" placeholder="Phone Number (e.g. +91...)" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="email" id="email" class="minimal-input" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle (@...)" required>
+                            </div>
+                            <div class="form-row">
+                                <textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn--primary btn--full">Send via WhatsApp</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
                     Book Session via WhatsApp
                 </a>
                 <div class="contact__socials">
