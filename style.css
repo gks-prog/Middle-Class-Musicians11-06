@@ -1,0 +1,208 @@
+/* === VARIABLES & SETUP === */
+:root {
+    --bg-color: #070708;
+    --surface-color: #111112;
+    --text-primary: #F0F0F2;
+    --text-secondary: #8E8E93;
+    --accent-copper: #C27A42;
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --spacing-lg: 18vh;
+    --padding-x: 6vw;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    cursor: none; /* Handled by custom cursor */
+}
+
+/* === MOBILE OPTIMIZED NOISE === */
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMzjxiAAAACHRSTlMAZmZmZmZmZvpQ5TMAAACTSURBVDjLpZA3DsMwDAUBpP9/GvS6dYsMOwMGS0oTvgI0N8E0e+I7D1sO/O+H/TDbNn2Rz7wL8uF1wZ+E1+Q0hQ8J3wmflV8JPwlPysPzI/Hk+Ez4ofgkPCu/EH4TPilPC0+CT8Kj4qPwg/CU+CT8JDwmPgo/CU+Jj8JPwmPio/CT8JT4KPwkPCY+Cj8JT4mPwk/CY+Kj8BOKV10+yB0KqwAAAABJRU5ErkJggg==");
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* === CUSTOM CURSOR (Hidden on Touch Devices) === */
+.custom-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--accent-copper);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+}
+.custom-cursor-follower {
+    position: fixed;
+    top: 0; left: 0;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(194, 122, 66, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+@media (pointer: coarse) {
+    body { cursor: auto; }
+    .custom-cursor, .custom-cursor-follower { display: none !important; }
+}
+
+/* === TYPOGRAPHY & BUTTONS === */
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.section-title {
+    font-size: clamp(3rem, 8vw, 8rem);
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--text-primary);
+    color: var(--bg-color);
+    font-family: var(--font-heading);
+    padding: 1.2rem 3.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 100px;
+    text-transform: uppercase;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+}
+.btn-primary:hover {
+    transform: translateY(-5px);
+    background: var(--accent-copper);
+    color: #fff;
+}
+
+/* === FROSTED GLASS OPTIMIZATION === */
+/* Fast fallback for mid-tier devices, robust blur for advanced browsers */
+.now-playing-card {
+    position: absolute;
+    bottom: -30px; left: -5%;
+    background: rgba(17, 17, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 280px;
+    z-index: 20;
+}
+@supports (backdrop-filter: blur(15px)) {
+    .now-playing-card {
+        background: rgba(17, 17, 18, 0.4);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+}
+
+/* === HERO SECTION === */
+.hero {
+    min-height: 100vh;
+    padding: calc(var(--spacing-lg) * 1.5) var(--padding-x) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.hero-content { flex: 1; z-index: 2; }
+.hero-title { font-size: clamp(4rem, 10vw, 11rem); }
+.hero-accent { color: var(--accent-copper); font-style: italic; }
+.text-mask { overflow: hidden; display: block; }
+.hero-word { display: block; will-change: transform; }
+
+.hero-visual {
+    flex: 1;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+.hero-image-container {
+    width: 85%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
+}
+.hero-image {
+    width: 100%; height: 115%;
+    object-fit: cover;
+    will-change: transform;
+    transform-origin: center;
+}
+
+/* === MAGIC BTN SECTION (NODE BURST) === */
+.magic-section {
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--surface-color);
+    position: relative;
+    overflow: hidden;
+}
+.magic-btn {
+    position: relative;
+    z-index: 10;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 1.5rem 4rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+}
+.magic-btn::before {
+    content: ''; position: absolute; inset: 0; background: var(--text-primary);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+.magic-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.4s ease;
+}
+.magic-btn:hover { border-color: var(--text-primary); }
+.magic-btn:hover::before { transform: scaleY(1); transform-origin: top; }
+.magic-btn:hover .magic-text { color: var(--bg-color); }
+
+/* Elliptical Nodes */
+.physics-node {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* === RESPONSIVE UTILS === */
+@media (max-width: 900px) {
+    .hero { flex-direction: column; text-align: center; justify-content: center; padding-top: 20vh; }
+    .hero-visual { width: 100%; margin-top: 5vh; justify-content: center; }
+    .now-playing-card { left: 50%; transform: translateX(-50%); bottom: -20px; }
+    .services-grid { grid-template-columns: 1fr; }
+}
