@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const query = document.getElementById('query').value;
 
             // IMPORTANT: Replace this with your actual studio WhatsApp number (Include Country Code, no '+' or spaces)
-            const targetWhatsAppNumber = '910000000000'; 
+            const targetWhatsAppNumber = '918377883056'; 
             
             // Format the message
             const message = `*New Studio Inquiry*%0A%0A*Phone:* ${phone}%0A*Email:* ${email}%0A*Instagram:* ${ig}%0A*Query:* ${query}`;
