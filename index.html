@@ -17,8 +17,8 @@
 </head>
 <body>
 
-    <!-- Floating Musical Notes Container (Effect injected via JS) -->
-    <div id="floating-notes-container" aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; z-index: -5; overflow: hidden;"></div>
+    <!-- Floating Musical Notes Container (FIXED: z-index is now 50 so it sits above backgrounds) -->
+    <div id="floating-notes-container" aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;"></div>
 
     <!-- Loading Screen -->
     <div class="loader" id="loader">
