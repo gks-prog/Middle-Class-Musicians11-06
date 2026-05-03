@@ -264,16 +264,17 @@ document.addEventListener("DOMContentLoaded", () => {
         window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
         bookingForm.reset();
     });
-// 7. Floating Musical Notes Background Effect
+
+    // 7. Floating Musical Notes Background Effect (Replaces the .tsx file)
     const initFloatingNotes = () => {
         const container = document.getElementById('floating-notes-container');
         if (!container) return;
 
         const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-        const noteCount = 20; // Number of notes on screen
+        const noteCount = 20; // Number of notes floating
         const notes = [];
 
-        // Generate the notes
+        // Generate the notes dynamically
         for (let i = 0; i < noteCount; i++) {
             const noteEl = document.createElement('span');
             const left = Math.random() * 100; // Random horizontal position
@@ -291,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
             noteEl.style.color = '#ffffff';
             noteEl.style.opacity = opacity;
             
-            // Hardware acceleration for smooth scrolling
+            // Hardware acceleration for ultra-smooth scrolling
             noteEl.style.willChange = 'transform';
             noteEl.style.transition = 'transform 0.1s linear';
 
@@ -308,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.requestAnimationFrame(() => {
                     const scrollY = window.scrollY;
                     
-                    // Move each note based on scroll depth and individual speed
+                    // Move each note up as the user scrolls down based on their individual speed
                     notes.forEach(note => {
                         const yPos = -(scrollY * note.speed);
                         note.el.style.transform = `translate3d(0, ${yPos}px, 0)`;
@@ -321,6 +322,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
     };
 
-    // Run the animation
     initFloatingNotes();
 });
