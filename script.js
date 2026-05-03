@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 2. HEADER SCROLL (ANTI-LAG)
+    // 2. HEADER SCROLL
     // ==========================================
     const header = document.getElementById('header');
     if (header) {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. AUDIO VISUALIZER & PLAYBACK
+    // 3. AUDIO VISUALIZER & PLAYBACK (WITH FAILSAFES)
     // ==========================================
     const audioEl = document.getElementById('global-audio');
     const canvas = document.getElementById('global-visualizer');
@@ -76,17 +76,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 resizeCanvas();
                 isInitialized = true;
             } catch (e) { 
-                console.warn("Audio Context blocked by browser:", e); 
+                console.warn("Audio Context blocked:", e); 
             }
         };
 
         const drawVisualizer = () => {
             animationId = requestAnimationFrame(drawVisualizer);
-            analyser.getByteFrequencyData(dataArray);
+            if(analyser && dataArray) {
+                analyser.getByteFrequencyData(dataArray);
+            }
+            
             const rect = visualizerContainer.getBoundingClientRect();
             ctx.fillStyle = '#030303';
             ctx.fillRect(0, 0, rect.width, rect.height);
             
+            if(!bufferLength) return;
+
             const barSpacing = 3;
             const barWidth = (rect.width / bufferLength) - barSpacing;
             let x = 0;
@@ -104,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         stopAudio = () => {
             audioEl.pause();
-            cancelAnimationFrame(animationId);
+            if(animationId) cancelAnimationFrame(animationId);
             visualizerContainer.classList.remove('is-active');
             ctx.fillStyle = '#030303';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -115,17 +120,22 @@ document.addEventListener("DOMContentLoaded", () => {
             for(let i=0; i<plays.length; i++) plays[i].classList.remove('hidden');
         };
 
+        // Added strict error handling for broken media links
         playTrack = (url) => {
             if (!isInitialized) initAudio();
             if (audioContext && audioContext.state === 'suspended') audioContext.resume();
             
             audioEl.src = url;
             const playPromise = audioEl.play();
+            
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     drawVisualizer();
                     visualizerContainer.classList.add('is-active');
-                }).catch(e => console.log("Playback prevented by browser auto-play policy."));
+                }).catch(error => {
+                    console.error("Audio playback blocked or file is missing/CORS restricted.", error);
+                    stopAudio(); // Failsafe: Reset the UI if the file fails to load
+                });
             }
         };
 
@@ -146,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. PORTFOLIO CAROUSEL & POP-OUT LOGIC
+    // 4. PORTFOLIO CAROUSEL
     // ==========================================
     const track = document.getElementById('portfolio-track');
     const prevBtn = document.getElementById('prev-btn');
@@ -239,15 +249,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
 
         wrapper.addEventListener('touchend', (e) => {
-            let endX = e.changedTouches[0].clientX;
-            let diffX = startX - endX;
+            if(e.changedTouches.length > 0) {
+                let endX = e.changedTouches[0].clientX;
+                let diffX = startX - endX;
 
-            if (diffX > 50) {
-                handleInteraction();
-                moveNext();
-            } else if (diffX < -50) {
-                handleInteraction();
-                movePrev();
+                if (diffX > 50) {
+                    handleInteraction();
+                    moveNext();
+                } else if (diffX < -50) {
+                    handleInteraction();
+                    movePrev();
+                }
             }
             setTimeout(() => { window.isDraggingCarousel = false; }, 100);
         });
@@ -311,14 +323,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 6. FLOATING MUSICAL NOTES (INFINITE PARALLAX FIXED)
+    // 6. FLOATING MUSICAL NOTES
     // ==========================================
     const initFloatingNotes = () => {
         const container = document.getElementById('floating-notes-container');
         if (!container) return;
 
         const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-        const noteCount = 35; // Number of notes floating
+        const noteCount = 35; 
         const notes = [];
 
         for (let i = 0; i < noteCount; i++) {
@@ -328,8 +340,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const opacity = Math.random() * 0.15 + 0.05; 
             const speed = Math.random() * 0.5 + 0.2; 
             const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-            
-            // Randomly position vertically between 0 and viewport height
             const startY = Math.random() * window.innerHeight; 
 
             noteEl.innerText = symbol;
@@ -358,8 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const note = notes[i];
                         let currentY = note.startY - (scrollY * note.speed);
                         
-                        // Modulo magic: If a note floats off the top, it instantly respawns at the bottom!
-                        const totalH = winH + 200; // Adding a 200px buffer zone so it doesn't pop in abruptly
+                        const totalH = winH + 200; 
                         currentY = ((currentY + 100) % totalH);
                         if (currentY < 0) currentY += totalH;
                         currentY -= 100; 
