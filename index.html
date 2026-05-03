@@ -1,4 +1,167 @@
-<!-- INTERACTIVE HUB (THE VAULT) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Middle Class Musicians - Premium Recording Studio.">
+    <title>Middle Class Musicians | Premium Recording Studio</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Floating Musical Notes Container -->
+    <div id="floating-notes-container" aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;"></div>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <h1 class="loader__text">Middle Class Musicians</h1>
+    </div>
+
+    <!-- Hidden Audio Player (Removed strict CORS to prevent visualizer crash) -->
+    <audio id="global-audio"></audio>
+
+    <!-- Global Audio Visualizer Background -->
+    <div class="audio-visualizer-container" id="visualizer-container" aria-hidden="true">
+        <canvas id="global-visualizer"></canvas>
+    </div>
+
+    <!-- Popped-out Tile Overlay -->
+    <div class="zoomed-tile-overlay" id="zoomed-overlay">
+        <button class="zoomed-close-btn" id="close-zoomed">×</button>
+        <img id="zoomed-img" src="" alt="Album Art">
+        <h3 id="zoomed-title" style="font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 0.2rem;"></h3>
+        <p id="zoomed-artist" style="color: var(--text-secondary);"></p>
+    </div>
+
+    <!-- Symmetrical Apple Matte Glass Header -->
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="/" class="header__logo">
+                <span class="header__logo-text">Middle Class Musicians</span>
+            </a>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#studio" class="nav__link">The Space</a></li>
+                    <li class="nav__item"><a href="#portfolio" class="nav__link">The Work</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="header__cta">
+                <a href="#contact" class="btn btn--primary btn--header">Book Now</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero__bg"></div>
+            <div class="hero__content">
+                <h1 class="hero__title">RECORD. CREATE. PERFORM.</h1>
+                <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
+                <div class="hero__actions">
+                    <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
+                    
+                    <!-- LOCAL AUDIO PATH: Replace this with your actual audio file -->
+                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="./audio/demo-beat.mp3">
+                        <span class="btn__icon-wrapper">
+                            <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </span>
+                        Demo Beat
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDIO SHOWCASE: Jigsaw Collage -->
+        <section class="studio" id="studio">
+            <div class="container">
+                <header class="section-header">
+                    <h2 class="section-title">The Space</h2>
+                    <p class="section-subtitle">Premium textures. Underground roots.</p>
+                </header>
+                
+                <div class="collage-container">
+                    <div class="collage-item collage-video">
+                        <!-- LOCAL VIDEO PATH: Browser won't block local mp4 files -->
+                        <video class="collage-media" autoplay loop muted playsinline>
+                            <source src="./images/studio-tour.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="collage-item collage-img-1">
+                        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&auto=format&fit=crop" class="collage-media" alt="Control Room">
+                    </div>
+                    <div class="collage-item collage-img-2">
+                        <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=800&auto=format&fit=crop" class="collage-media" alt="Vocal Booth">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO - CAROUSEL -->
+        <section class="portfolio" id="portfolio">
+            <header class="section-header">
+                <h2 class="section-title">Sonic Archive</h2>
+                <p class="section-subtitle">Click to experience the sound. Swipe to browse.</p>
+            </header>
+            
+            <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
+                <div class="portfolio-track" id="portfolio-track">
+                    <!-- PORTFOLIO ITEMS: Changed to reliable local .mp3 paths -->
+                    <article class="portfolio-item" data-audio-src="./audio/o-piyaa.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">O Piyaa</h3>
+                        <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
+                    </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/concrete.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Concrete Textures</h3>
+                        <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
+                    </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/silk.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Silk & Sitar</h3>
+                        <p class="portfolio-item__artist">Global Fusion EP</p>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Manual Slider Controls -->
+            <div class="portfolio-controls">
+                <button class="carousel-btn" id="prev-btn" aria-label="Previous Slide">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="carousel-btn" id="next-btn" aria-label="Next Slide">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        </section>
+<!-- INTERACTIVE HUB -->
         <section class="interactive-section" id="interactive-hub">
             <div class="container text-center">
                 <header class="section-header">
@@ -10,7 +173,6 @@
                     <button id="magic-btn" class="btn--minimal massive-btn sfx-hover">Don't Touch It</button>
                     
                     <div class="sub-nodes">
-                        <!-- Each node is assigned a specific data-angle for the CSS calculation -->
                         <div class="sub-node glass-panel node-1"><i data-lucide="mic"></i> Recording</div>
                         <div class="sub-node glass-panel node-2"><i data-lucide="sliders"></i> Mixing & Mastering</div>
                         <div class="sub-node glass-panel node-3"><i data-lucide="drum"></i> Beat Production</div>
@@ -33,6 +195,7 @@
                 <!-- Video Feedback Grid -->
                 <div class="video-feedback-grid">
                     <div class="video-card">
+                        <!-- Use an actual looping vertical video here -->
                         <video autoplay loop muted playsinline class="bg-video">
                             <source src="./images/feedback-1.mp4" type="video/mp4">
                         </video>
@@ -65,7 +228,7 @@
             <!-- Google Maps Floating Marquee -->
             <div class="marquee-container">
                 <div class="marquee-track">
-                    <!-- Set 1 -->
+                    <!-- Original Set -->
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
                         <p>"Crazy energy in the booth. Highly recommend!" <span>- Rahul T.</span></p>
@@ -82,7 +245,7 @@
                         <div class="stars">★★★★★</div>
                         <p>"Professional, clean, and massive sound." <span>- Divya S.</span></p>
                     </div>
-                    <!-- Set 2 (Exact Duplicate for Seamless Looping) -->
+                    <!-- Duplicated Set for Infinite Loop -->
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
                         <p>"Crazy energy in the booth. Highly recommend!" <span>- Rahul T.</span></p>
@@ -102,3 +265,66 @@
                 </div>
             </div>
         </section>
+        <!-- Contact Form -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact__grid">
+                    <div class="contact__info">
+                        <h2 class="section-title">Lock In Your Sound.</h2>
+                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will route your request directly to our WhatsApp.</p>
+                    </div>
+                    <div class="contact__form-wrapper">
+                        <form id="booking-form" class="minimal-form">
+                            <div class="form-row"><input type="text" id="name" class="minimal-input" placeholder="Your Name" required></div>
+                            <div class="form-row"><input type="tel" id="phone" class="minimal-input" placeholder="Phone Number" required></div>
+                            <div class="form-row"><input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle" required></div>
+                            <div class="form-row"><textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea></div>
+                            <button type="submit" class="btn btn--whatsapp btn--full">Send via WhatsApp</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            
+            <div class="footer__map-container">
+                <a href="https://maps.app.goo.gl/fvCJ7kYtDuzFVWzVA?g_st=ac" target="_blank" rel="noopener noreferrer" class="btn btn--minimal footer__map-btn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Open Studio Location Map
+                </a>
+            </div>
+
+            <div class="footer__socials">
+                <a href="mailto:inquiries@middleclassmusicians.in" class="footer__social-link" aria-label="Email Us via Gmail">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>Gmail</span>
+                </a>
+                <a href="https://www.instagram.com/middleclassmusicians/" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Follow us on Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span>Instagram</span>
+                </a>
+            </div>
+
+            <span class="footer__logo">Middle Class Musicians</span>
+            <p class="footer__copy">&copy; 2026. Premium sounds, grounded roots.</p>
+        </div>
+    </footer>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+</body>
+</html>
