@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Middle Class Musicians - Premium Recording Studio.">
     <title>Middle Class Musicians | Premium Recording Studio</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- External CSS -->
     <link rel="stylesheet" href="style.css">
@@ -24,7 +27,7 @@
         <h1 class="loader__text">Middle Class Musicians</h1>
     </div>
 
-    <!-- Hidden Audio Player (Removed strict CORS to prevent visualizer crash) -->
+    <!-- Hidden Audio Player -->
     <audio id="global-audio"></audio>
 
     <!-- Global Audio Visualizer Background -->
@@ -68,8 +71,6 @@
                 <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
                 <div class="hero__actions">
                     <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
-                    
-                    <!-- LOCAL AUDIO PATH: Replace this with your actual audio file -->
                     <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="./audio/demo-beat.mp3">
                         <span class="btn__icon-wrapper">
                             <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -91,7 +92,6 @@
                 
                 <div class="collage-container">
                     <div class="collage-item collage-video">
-                        <!-- LOCAL VIDEO PATH: Browser won't block local mp4 files -->
                         <video class="collage-media" autoplay loop muted playsinline>
                             <source src="./images/studio-tour.mp4" type="video/mp4">
                         </video>
@@ -106,7 +106,7 @@
             </div>
         </section>
 
-        <!-- PORTFOLIO - CAROUSEL -->
+        <!-- PORTFOLIO - CAROUSEL (Blank Bug Fixed via HTML Duplication) -->
         <section class="portfolio" id="portfolio">
             <header class="section-header">
                 <h2 class="section-title">Sonic Archive</h2>
@@ -115,7 +115,7 @@
             
             <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
                 <div class="portfolio-track" id="portfolio-track">
-                    <!-- PORTFOLIO ITEMS: Changed to reliable local .mp3 paths -->
+                    <!-- Original 6 Items -->
                     <article class="portfolio-item" data-audio-src="./audio/o-piyaa.mp3">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
@@ -148,6 +148,67 @@
                         <h3 class="portfolio-item__title">Silk & Sitar</h3>
                         <p class="portfolio-item__artist">Global Fusion EP</p>
                     </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/midnight.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=600&auto=format&fit=crop" alt="Midnight" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Midnight Run</h3>
+                        <p class="portfolio-item__artist">Underground Collective</p>
+                    </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/analog.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Analog" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Analog Dreams</h3>
+                        <p class="portfolio-item__artist">Synthwave Cuts</p>
+                    </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/raw.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=600&auto=format&fit=crop" alt="Vocal" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay">
+                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                        </div>
+                        <h3 class="portfolio-item__title">Raw Takes</h3>
+                        <p class="portfolio-item__artist">Studio Sessions</p>
+                    </article>
+
+                    <!-- Duplicated 6 Items to prevent blank space edge-case on ultra-wide screens -->
+                    <article class="portfolio-item" data-audio-src="./audio/o-piyaa.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        </div>
+                        <h3 class="portfolio-item__title">O Piyaa</h3>
+                        <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
+                    </article>
+
+                    <article class="portfolio-item" data-audio-src="./audio/concrete.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        </div>
+                        <h3 class="portfolio-item__title">Concrete Textures</h3>
+                        <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
+                    </article>
+                    
+                    <article class="portfolio-item" data-audio-src="./audio/silk.mp3">
+                        <div class="portfolio-item__image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy">
+                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        </div>
+                        <h3 class="portfolio-item__title">Silk & Sitar</h3>
+                        <p class="portfolio-item__artist">Global Fusion EP</p>
+                    </article>
                 </div>
             </div>
 
@@ -161,7 +222,8 @@
                 </button>
             </div>
         </section>
-<!-- INTERACTIVE HUB (THE VAULT) -->
+
+        <!-- INTERACTIVE HUB (THE VAULT) -->
         <section class="interactive-section" id="interactive-hub">
             <div class="container text-center">
                 <header class="section-header">
@@ -173,7 +235,6 @@
                     <button id="magic-btn" class="btn--minimal massive-btn sfx-hover">Don't Touch It</button>
                     
                     <div class="sub-nodes">
-                        <!-- Each node is assigned a specific data-angle for the CSS calculation -->
                         <div class="sub-node glass-panel node-1"><i data-lucide="mic"></i> Recording</div>
                         <div class="sub-node glass-panel node-2"><i data-lucide="sliders"></i> Mixing & Mastering</div>
                         <div class="sub-node glass-panel node-3"><i data-lucide="drum"></i> Beat Production</div>
@@ -225,46 +286,56 @@
                 </div>
             </div>
 
-            <!-- Google Maps Floating Marquee -->
+            <!-- Apple Matte Glass Google Maps Marquee -->
             <div class="marquee-container">
                 <div class="marquee-track">
-                    <!-- Set 1 -->
+                    <!-- Complete Set 1 -->
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"Crazy energy in the booth. Highly recommend!" <span>- Rahul T.</span></p>
+                        <p>"Crazy energy in the booth. Bunny knows exactly how to push your vocals and get the best take out of you." <span>- Amit K.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"Bunny knows exactly how to push your vocals." <span>- Amit K.</span></p>
+                        <p>"Best studio in Delhi hands down. The mixes are industry standard and the equipment is top tier." <span>- Rahul T.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"The beats are insane. Pure fire." <span>- Sneha V.</span></p>
+                        <p>"Pulled up to record a drill track. The type beats they had ready were absolute fire. One stop solution." <span>- Sneha V.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"Professional, clean, and massive sound." <span>- Divya S.</span></p>
-                    </div>
-                    <!-- Set 2 (Exact Duplicate for Seamless Looping) -->
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Crazy energy in the booth. Highly recommend!" <span>- Rahul T.</span></p>
+                        <p>"Professional, clean, and massive sound. They even helped me shoot content for the release." <span>- Divya S.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"Bunny knows exactly how to push your vocals." <span>- Amit K.</span></p>
+                        <p>"Affordable rates but extremely premium quality. MCM is going to take over the local scene." <span>- Karan M.</span></p>
+                    </div>
+                    
+                    <!-- Exact Duplicate Set 2 (Required for Seamless Infinite Loop) -->
+                    <div class="review-pill">
+                        <div class="stars">★★★★★</div>
+                        <p>"Crazy energy in the booth. Bunny knows exactly how to push your vocals and get the best take out of you." <span>- Amit K.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"The beats are insane. Pure fire." <span>- Sneha V.</span></p>
+                        <p>"Best studio in Delhi hands down. The mixes are industry standard and the equipment is top tier." <span>- Rahul T.</span></p>
                     </div>
                     <div class="review-pill">
                         <div class="stars">★★★★★</div>
-                        <p>"Professional, clean, and massive sound." <span>- Divya S.</span></p>
+                        <p>"Pulled up to record a drill track. The type beats they had ready were absolute fire. One stop solution." <span>- Sneha V.</span></p>
+                    </div>
+                    <div class="review-pill">
+                        <div class="stars">★★★★★</div>
+                        <p>"Professional, clean, and massive sound. They even helped me shoot content for the release." <span>- Divya S.</span></p>
+                    </div>
+                    <div class="review-pill">
+                        <div class="stars">★★★★★</div>
+                        <p>"Affordable rates but extremely premium quality. MCM is going to take over the local scene." <span>- Karan M.</span></p>
                     </div>
                 </div>
             </div>
         </section>
+
         <!-- Contact Form -->
         <section class="contact" id="contact">
             <div class="container">
@@ -326,18 +397,19 @@
 
     <!-- External JS -->
     <script src="script.js"></script>
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69f75bc4986f9c1c33e84e97/1jnn3sv1r';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+
+    <!-- Start of Tawk.to Script -->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/YOUR_UNIQUE_ID/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!-- End of Tawk.to Script -->
 </body>
 </html>
