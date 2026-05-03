@@ -476,14 +476,14 @@
 
             <!-- New Gmail & Instagram Social Links -->
             <div class="footer__socials">
-                <a href="mailto:inquiries@middleclassmusicians.in" class="footer__social-link" aria-label="Email Us via Gmail">
+                <a href="mailto:inquiries@middleclassmusicians.in">inquiries@middleclassmusicians.in</a> class="footer__social-link" aria-label="Email Us via Gmail">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
                     <span>Gmail</span>
                 </a>
-                <a href="https://instagram.com/middleclassmusicians" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Follow us on Instagram">
+                <a href="https://www.instagram.com/middleclassmusicians/" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Follow us on Instagram">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -675,8 +675,7 @@
                 const query = document.getElementById('query').value;
 
                 // YOUR WHATSAPP NUMBER
-                const targetWhatsAppNumber = '910000000000'; 
-                
+                const targetWhatsAppNumber = '919315778147
                 const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
                 window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
                 bookingForm.reset();
