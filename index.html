@@ -18,6 +18,7 @@
           --bg-surface: #0a0a0a;
           --text-primary: #f5f5f7;
           --text-secondary: #a1a1a6;
+          --text-tertiary: #6e6e73;
           --accent-vibrant: #d91c35; 
           --whatsapp-green: #25D366;
           --glass-border: rgba(255, 255, 255, 0.08);
@@ -90,25 +91,9 @@
           height: 80px; padding: 0 5%; max-width: 1400px; margin: 0 auto;
         }
         
-        /* LOGO & TITLE ALIGNMENT */
-        .header__logo { 
-          justify-self: start; 
-          display: flex; 
-          align-items: center; 
-          gap: 0.6rem; 
-        }
-        .header__logo-icon {
-          height: clamp(1.2rem, 3.5vw, 1.8rem); 
-          width: auto;
-          display: block;
-          object-fit: contain;
-        }
-        .header__logo-text { 
-          font-family: var(--font-heading); 
-          font-size: clamp(1.2rem, 3vw, 1.5rem); 
-          letter-spacing: 0.05em; 
-          white-space: nowrap;
-        }
+        .header__logo { justify-self: start; display: flex; align-items: center; gap: 0.6rem; }
+        .header__logo-icon { height: clamp(1.2rem, 3.5vw, 1.8rem); width: auto; display: block; object-fit: contain; }
+        .header__logo-text { font-family: var(--font-heading); font-size: clamp(1.2rem, 3vw, 1.5rem); letter-spacing: 0.05em; white-space: nowrap; }
         
         .nav { justify-self: center; }
         .header__cta { justify-self: end; }
@@ -169,7 +154,6 @@
         }
         .audio-visualizer-container.is-active { opacity: 0.8; }
         canvas#global-visualizer { width: 100%; height: 100%; }
-        
         @media (max-width: 768px) { .audio-visualizer-container { height: 30vh; } }
 
         /* STUDIO SPACE (JIGSAW COLLAGE) */
@@ -201,15 +185,28 @@
             .collage-img-1, .collage-img-2 { aspect-ratio: 4/3; height: auto; }
         }
 
-        /* PORTFOLIO - LOOPING CAROUSEL */
+        /* PORTFOLIO - LOOPING CAROUSEL WITH CONTROLS */
         .portfolio { background: var(--bg-base); overflow: hidden; position: relative; }
-        .portfolio-carousel-wrapper { width: 100%; overflow: hidden; position: relative; padding: 2rem 0; }
+        .portfolio-carousel-wrapper { width: 100%; overflow: hidden; position: relative; padding: 2rem 0; cursor: grab; }
+        .portfolio-carousel-wrapper:active { cursor: grabbing; }
         .portfolio-track { display: flex; gap: clamp(1rem, 3vw, 2rem); width: max-content; transition: filter 0.8s ease; }
         .portfolio-track.is-dimmed { filter: grayscale(100%) brightness(0.3) blur(2px); pointer-events: none; }
 
-        .portfolio-item { width: 85vw; max-width: 350px; flex-shrink: 0; cursor: pointer; transition: transform 0.3s ease; }
+        .portfolio-controls {
+            display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;
+        }
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            color: var(--text-primary); width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all var(--transition-fast); backdrop-filter: blur(5px);
+        }
+        .carousel-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.1); }
+        .carousel-btn svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+        .portfolio-item { width: 85vw; max-width: 350px; flex-shrink: 0; cursor: pointer; transition: transform 0.3s ease; user-select: none; }
         .portfolio-item:hover { transform: translateY(-10px); }
-        .portfolio-item__image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1/1; margin-bottom: 1rem; border-radius: 6px; background: #111; }
+        .portfolio-item__image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1/1; margin-bottom: 1rem; border-radius: 6px; background: #111; pointer-events: none; }
         .portfolio-item__image { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%) brightness(0.8); transition: all 0.6s; }
         .portfolio-item:hover .portfolio-item__image { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
         
@@ -224,8 +221,8 @@
         }
         .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
         
-        .portfolio-item__title { font-size: clamp(1.2rem, 4vw, 1.5rem); }
-        .portfolio-item__artist { color: var(--text-secondary); font-size: 0.875rem; }
+        .portfolio-item__title { font-size: clamp(1.2rem, 4vw, 1.5rem); pointer-events: none; }
+        .portfolio-item__artist { color: var(--text-secondary); font-size: 0.875rem; pointer-events: none; }
         
         .play-indicator { align-self: flex-end; background: var(--accent-vibrant); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
         .play-indicator svg { width: 18px; height: 18px; fill: white; margin-left: 3px;}
@@ -298,7 +295,6 @@
     <!-- Symmetrical Apple Matte Glass Header -->
     <header class="header" id="header">
         <div class="header__container">
-            <!-- Redirects to homepage root '/' with Google Proxy URL for the logo -->
             <a href="/" class="header__logo">
                 <img src="https://lh3.googleusercontent.com/d/1J7iM5POzBueplsjzjYeIRRO4FEBsxhF-" alt="Logo" class="header__logo-icon">
                 <span class="header__logo-text">Middle Class Musicians</span>
@@ -347,7 +343,7 @@
                 <div class="collage-container">
                     <div class="collage-item collage-video">
                         <video class="collage-media" autoplay loop muted playsinline>
-                            <source src="h<iframe src="https://drive.google.com/uc?export=download&id=1xuDa1mQZzmjKIT-G09LkbnT_XaMCSzzT" width="640" height="480"></iframe>" type="video/mp4">
+                            <source src="https://drive.google.com/uc?export=download&id=1xuDa1mQZzmjKIT-G09LkbnT_XaMCSzzT" type="video/mp4">
                         </video>
                     </div>
                     <div class="collage-item collage-img-1">
@@ -360,14 +356,14 @@
             </div>
         </section>
 
-        <!-- PORTFOLIO - LOOPING CAROUSEL -->
+        <!-- PORTFOLIO - CAROUSEL -->
         <section class="portfolio" id="portfolio">
             <header class="section-header">
                 <h2 class="section-title">Sonic Archive</h2>
-                <p class="section-subtitle">Click to experience the sound.</p>
+                <p class="section-subtitle">Click to experience the sound. Swipe to browse.</p>
             </header>
             
-            <div class="portfolio-carousel-wrapper">
+            <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
                 <div class="portfolio-track" id="portfolio-track">
                     <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2448408f9c.mp3">
                         <div class="portfolio-item__image-wrapper">
@@ -436,6 +432,16 @@
                     </article>
                 </div>
             </div>
+
+            <!-- Manual Slider Controls -->
+            <div class="portfolio-controls">
+                <button class="carousel-btn" id="prev-btn" aria-label="Previous Slide">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="carousel-btn" id="next-btn" aria-label="Next Slide">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
         </section>
 
         <!-- Contact Form -->
@@ -460,7 +466,7 @@
         </section>
     </main>
 
-    <!-- Footer with Socials & Map Redirect -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container text-center">
             
@@ -474,9 +480,8 @@
                 </a>
             </div>
 
-            <!-- New Gmail & Instagram Social Links -->
             <div class="footer__socials">
-                <a href="mailto:inquiries@middleclassmusicians.in">inquiries@middleclassmusicians.in</a> class="footer__social-link" aria-label="Email Us via Gmail">
+                <a href="mailto:inquiries@middleclassmusicians.in" class="footer__social-link" aria-label="Email Us via Gmail">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -509,16 +514,24 @@
                 }, 800);
             });
 
-            // 2. Header Scroll
+            // 2. Header Scroll Performance Optimized
             const header = document.getElementById('header');
             let lastScrollY = window.scrollY;
+            let ticking = false;
+
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 100 && window.scrollY > lastScrollY) {
-                    header.classList.add('hide');
-                } else {
-                    header.classList.remove('hide');
-                }
                 lastScrollY = window.scrollY;
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        if (lastScrollY > 100) {
+                            header.classList.add('hide');
+                        } else {
+                            header.classList.remove('hide');
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
             }, { passive: true });
 
             // 3. Audio & Visualizer Engine
@@ -543,7 +556,7 @@
                 try {
                     audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     analyser = audioContext.createAnalyser();
-                    analyser.fftSize = 256; /* Lowered for even better mobile performance */
+                    analyser.fftSize = 256; 
                     analyser.smoothingTimeConstant = 0.85;
                     source = audioContext.createMediaElementSource(audioEl);
                     source.connect(analyser);
@@ -583,6 +596,8 @@
                 visualizerContainer.classList.remove('is-active');
                 ctx.fillStyle = '#030303';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+                document.querySelectorAll('.icon-pause').forEach(i => i.classList.add('hidden'));
+                document.querySelectorAll('.icon-play').forEach(i => i.classList.remove('hidden'));
             };
 
             const playTrack = (url) => {
@@ -596,7 +611,6 @@
                 }).catch(e => console.log("Playback prevented:", e));
             };
 
-            // Hero Play Button
             const heroPlayBtn = document.getElementById('hero-play-btn');
             heroPlayBtn.addEventListener('click', () => {
                 const iconPlay = heroPlayBtn.querySelector('.icon-play');
@@ -607,32 +621,106 @@
                     iconPlay.classList.add('hidden'); iconPause.classList.remove('hidden');
                 } else {
                     stopAudio();
-                    iconPause.classList.add('hidden'); iconPlay.classList.remove('hidden');
                 }
             });
 
-            // 4. Portfolio Carousel Logic - Responsive calculations
+            // 4. Portfolio Carousel Logic (Upgraded with Manual Swipe/Buttons)
             const track = document.getElementById('portfolio-track');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const wrapper = document.getElementById('portfolio-wrapper');
+            
             let carouselInterval;
+            let slideIntervalTime = 3000;
+            let hasInteracted = false;
+            let isAnimating = false;
+
+            const handleInteraction = () => {
+                if (!hasInteracted) {
+                    hasInteracted = true;
+                    slideIntervalTime = 5500; // Increase sliding time slightly after first toggle
+                }
+                resetCarousel();
+            };
+
+            const moveNext = () => {
+                if(isAnimating) return;
+                isAnimating = true;
+                const firstItem = track.firstElementChild;
+                const itemWidth = firstItem.offsetWidth;
+                const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
+                const moveDistance = itemWidth + gap;
+                
+                track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                track.style.transform = `translateX(-${moveDistance}px)`;
+                
+                setTimeout(() => {
+                    track.style.transition = 'none';
+                    track.appendChild(firstItem); 
+                    track.style.transform = 'translateX(0)';
+                    isAnimating = false;
+                }, 600);
+            };
+
+            const movePrev = () => {
+                if(isAnimating) return;
+                isAnimating = true;
+                const lastItem = track.lastElementChild;
+                const itemWidth = lastItem.offsetWidth;
+                const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
+                const moveDistance = itemWidth + gap;
+
+                track.style.transition = 'none';
+                track.insertBefore(lastItem, track.firstElementChild);
+                track.style.transform = `translateX(-${moveDistance}px)`;
+
+                // Force layout reflow
+                void track.offsetWidth;
+
+                track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                track.style.transform = 'translateX(0)';
+
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 600);
+            };
 
             const startCarousel = () => {
-                carouselInterval = setInterval(() => {
-                    const firstItem = track.firstElementChild;
-                    const itemWidth = firstItem.offsetWidth;
-                    const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
-                    const moveDistance = itemWidth + gap;
-                    
-                    track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-                    track.style.transform = `translateX(-${moveDistance}px)`;
-                    
-                    setTimeout(() => {
-                        track.style.transition = 'none';
-                        track.appendChild(firstItem); 
-                        track.style.transform = 'translateX(0)';
-                    }, 600);
-                }, 3000); 
+                carouselInterval = setInterval(moveNext, slideIntervalTime); 
             };
-            
+
+            const resetCarousel = () => {
+                clearInterval(carouselInterval);
+                startCarousel();
+            };
+
+            // Button controls
+            nextBtn.addEventListener('click', () => { handleInteraction(); moveNext(); });
+            prevBtn.addEventListener('click', () => { handleInteraction(); movePrev(); });
+
+            // Touch/Swipe Controls
+            let startX = 0, isDragging = false;
+            wrapper.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                let endX = e.changedTouches[0].clientX;
+                let diffX = startX - endX;
+
+                if (diffX > 50) {
+                    handleInteraction();
+                    moveNext();
+                } else if (diffX < -50) {
+                    handleInteraction();
+                    movePrev();
+                }
+                isDragging = false;
+            });
+
+            // Start initial rotation
             startCarousel();
 
             // 5. Portfolio Click / Pop-out Logic
@@ -641,7 +729,10 @@
             const closeZoomedBtn = document.getElementById('close-zoomed');
 
             portfolioItems.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (e) => {
+                    // Ignore clicks if they happened during a swipe
+                    if (isDragging && Math.abs(startX - e.clientX) > 10) return;
+
                     const imgSrc = item.querySelector('.portfolio-item__image').src;
                     const title = item.querySelector('.portfolio-item__title').innerText;
                     const artist = item.querySelector('.portfolio-item__artist').innerText;
@@ -674,8 +765,7 @@
                 const ig = document.getElementById('ig').value;
                 const query = document.getElementById('query').value;
 
-                // YOUR WHATSAPP NUMBER
-                const targetWhatsAppNumber = '919315778147
+                const targetWhatsAppNumber = '919315778147';
                 const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
                 window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
                 bookingForm.reset();
