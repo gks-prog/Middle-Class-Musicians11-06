@@ -41,7 +41,7 @@ body {
 }
 
 ::selection { 
-  background-color: var(--accent-vibrant); 
+  background-color: var(--whatsapp-green); 
   color: #fff; 
 }
 
@@ -86,7 +86,8 @@ img, video {
 .portfolio-item__image, 
 .audio-visualizer-container, 
 .portfolio-track, 
-.zoomed-tile-overlay {
+.zoomed-tile-overlay,
+.review-pill {
   will-change: transform, opacity, filter;
   transform: translateZ(0); 
   backface-visibility: hidden;
@@ -187,13 +188,6 @@ section {
   display: flex; 
   align-items: center; 
   gap: 0.6rem; 
-}
-
-.header__logo-icon { 
-  height: clamp(1.2rem, 3.5vw, 1.8rem); 
-  width: auto; 
-  display: block; 
-  object-fit: contain; 
 }
 
 .header__logo-text { 
@@ -636,7 +630,7 @@ canvas#global-visualizer {
 
 .play-indicator { 
   align-self: flex-end; 
-  background: var(--accent-vibrant); 
+  background: var(--whatsapp-green); 
   width: 40px; 
   height: 40px; 
   border-radius: 50%; 
@@ -649,7 +643,7 @@ canvas#global-visualizer {
 .play-indicator svg { 
   width: 18px; 
   height: 18px; 
-  fill: white; 
+  fill: #000; 
   margin-left: 3px;
 }
 
@@ -694,10 +688,10 @@ canvas#global-visualizer {
   right: -15px; 
   width: 44px; 
   height: 44px;
-  background: var(--accent-vibrant); 
+  background: var(--whatsapp-green); 
   border: none; 
   border-radius: 50%; 
-  color: white;
+  color: #000;
   font-size: 1.5rem; 
   cursor: pointer; 
   display: flex; 
@@ -705,6 +699,199 @@ canvas#global-visualizer {
   justify-content: center;
   box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
   z-index: 106;
+}
+
+/* =========================================
+   INTERACTIVE HUB (GLASSY WHATSAPP UI)
+   ========================================= */
+.interactive-section { 
+    background: var(--bg-surface); 
+    padding-bottom: 8rem; 
+}
+
+.magic-hub { 
+    position: relative; 
+    height: 450px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.massive-btn {
+    font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
+    padding: 1.5rem 3rem !important;
+    
+    /* WhatsApp Green Glass Effect */
+    background: rgba(37, 211, 102, 0.15) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(37, 211, 102, 0.4) !important;
+    color: #fff !important;
+    
+    z-index: 100;
+    position: relative;
+    box-shadow: 0 0 30px rgba(37, 211, 102, 0.2), inset 0 0 20px rgba(37, 211, 102, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.massive-btn:hover { 
+    transform: scale(1.05); 
+    background: rgba(37, 211, 102, 0.25) !important;
+    border-color: rgba(37, 211, 102, 0.8) !important;
+    box-shadow: 0 0 40px rgba(37, 211, 102, 0.4);
+}
+
+.massive-btn.is-active { 
+    background: rgba(3, 3, 3, 0.8) !important; 
+    color: var(--whatsapp-green) !important; 
+    border: 1px solid var(--whatsapp-green) !important; 
+    box-shadow: none; 
+}
+
+.sub-nodes { 
+    position: absolute; 
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px; height: 1px; 
+    pointer-events: none; 
+    z-index: 10;
+}
+
+.sub-node {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 40px;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem; white-space: nowrap;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.sub-node i { 
+    width: 18px; 
+    height: 18px; 
+    stroke: var(--whatsapp-green); 
+}
+
+/* Symmetrical Orbital Spread when Active */
+.magic-hub.is-active .sub-nodes { pointer-events: all; }
+.magic-hub.is-active .sub-node { opacity: 1; }
+
+.magic-hub.is-active .node-1 { transform: translate(calc(-50% - 150px), calc(-50% - 150px)) scale(1); transition-delay: 0.05s; }
+.magic-hub.is-active .node-2 { transform: translate(calc(-50% + 150px), calc(-50% - 150px)) scale(1); transition-delay: 0.1s; } 
+.magic-hub.is-active .node-3 { transform: translate(calc(-50% - 210px), -50%) scale(1); transition-delay: 0.15s; }              
+.magic-hub.is-active .node-4 { transform: translate(calc(-50% + 210px), -50%) scale(1); transition-delay: 0.2s; }               
+.magic-hub.is-active .node-5 { transform: translate(calc(-50% - 150px), calc(-50% + 150px)) scale(1); transition-delay: 0.25s; }
+.magic-hub.is-active .node-6 { transform: translate(calc(-50% + 150px), calc(-50% + 150px)) scale(1); transition-delay: 0.3s; } 
+
+
+@media (max-width: 900px) {
+    .magic-hub { height: auto; flex-direction: column; gap: 2rem; }
+    .sub-nodes { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; height: auto; transform: none; top: auto; left: auto; }
+    
+    .sub-node { 
+        position: relative; top: 0; left: 0; 
+        transform: translateY(-20px); 
+        opacity: 0; padding: 1rem; justify-content: center; width: 100%; display: none;
+    }
+    
+    .magic-hub.is-active .sub-nodes { margin-top: 1rem; }
+    .magic-hub.is-active .sub-node { 
+        display: flex; transform: translateY(0); opacity: 1; transition: all 0.4s ease; 
+    }
+    
+    .magic-hub.is-active .node-1 { transition-delay: 0.0s; }
+    .magic-hub.is-active .node-2 { transition-delay: 0.1s; }
+    .magic-hub.is-active .node-3 { transition-delay: 0.2s; }
+    .magic-hub.is-active .node-4 { transition-delay: 0.3s; }
+    .magic-hub.is-active .node-5 { transition-delay: 0.4s; }
+    .magic-hub.is-active .node-6 { transition-delay: 0.5s; }
+}
+
+/* =========================================
+   REVIEWS & VIDEOS
+   ========================================= */
+.reviews-section { background: var(--bg-base); padding-bottom: 0; overflow: hidden; }
+
+.video-feedback-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    margin-bottom: 4rem;
+}
+.video-card {
+    position: relative; aspect-ratio: 9/16; border-radius: 12px;
+    overflow: hidden; background: #111; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform var(--transition-fast); cursor: pointer;
+}
+.video-card:hover { transform: translateY(-10px); }
+.video-card .bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity var(--transition-fast); }
+.video-card:hover .bg-video { opacity: 1; }
+.video-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+.video-overlay h4 { font-family: var(--font-body); font-weight: 500; font-size: 1.1rem; margin-bottom: 0.2rem; }
+.video-overlay p { color: var(--whatsapp-green); font-size: 0.875rem; font-weight: 600; }
+
+@media (max-width: 900px) {
+    .video-feedback-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 4rem auto; }
+}
+
+/* Apple Matte Glass Google Maps Marquee */
+.marquee-container {
+    width: 100vw; 
+    margin-left: calc(-50vw + 50%); 
+    padding: 3rem 0; 
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border); 
+    background: transparent;
+    overflow: hidden; 
+    position: relative;
+    display: flex; 
+    align-items: center;
+}
+.marquee-track {
+    display: flex; 
+    gap: 2rem; 
+    width: max-content;
+    animation: marquee 40s linear infinite; /* Slowed down for smooth reading */
+    will-change: transform;
+}
+.marquee-container:hover .marquee-track { animation-play-state: paused; }
+
+.review-pill {
+    /* Apple Matte Glass Design */
+    background: rgba(255, 255, 255, 0.03); 
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+    
+    padding: 2rem 2.5rem; 
+    border-radius: 20px; 
+    display: flex; 
+    flex-direction: column;
+    gap: 0.8rem; 
+    width: 400px; 
+    flex-shrink: 0; 
+    transition: transform 0.3s ease;
+}
+.review-pill:hover {
+    transform: translateY(-5px);
+}
+.review-pill .stars { color: #fbbc05; letter-spacing: 2px; font-size: 1.2rem; }
+.review-pill p { font-size: 1rem; color: var(--text-primary); font-style: italic; line-height: 1.5; }
+.review-pill span { color: var(--text-secondary); font-style: normal; font-size: 0.875rem; display: block; margin-top: 0.5rem;}
+
+@keyframes marquee {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(calc(-50% - 1rem), 0, 0); } 
 }
 
 /* =========================================
@@ -758,7 +945,7 @@ canvas#global-visualizer {
 
 .minimal-input:focus { 
   outline: none; 
-  border-bottom-color: var(--text-primary); 
+  border-bottom-color: var(--whatsapp-green); 
 }
 
 .minimal-textarea { 
@@ -812,7 +999,7 @@ canvas#global-visualizer {
 }
 
 .footer__social-link:hover { 
-  color: var(--text-primary); 
+  color: var(--whatsapp-green); 
 }
 
 .footer__logo { 
@@ -828,183 +1015,4 @@ canvas#global-visualizer {
   font-size: 0.75rem; 
   text-transform: uppercase; 
   letter-spacing: 0.05em; 
-}
-/* =========================================
-   INTERACTIVE HUB (PERFECT ORBITAL UI)
-   ========================================= */
-.interactive-section { 
-    background: var(--bg-surface); 
-    padding-bottom: 8rem; 
-}
-
-.magic-hub { 
-    position: relative; 
-    height: 450px; /* Increased height to give the orbit room to breathe */
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-}
-
-.massive-btn {
-    font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
-    padding: 1.5rem 3rem !important;
-    background: var(--accent-vibrant) !important;
-    border-color: transparent !important;
-    color: white !important;
-    z-index: 100; /* Ensure button stays on top of nodes */
-    position: relative;
-    box-shadow: 0 0 30px rgba(217, 28, 53, 0.4);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s !important;
-}
-
-.massive-btn:hover { 
-    transform: scale(1.05); 
-    background: #ff2a46 !important; 
-}
-
-.massive-btn.is-active { 
-    background: var(--bg-base) !important; 
-    color: var(--text-primary) !important; 
-    border: 1px solid var(--accent-vibrant) !important; 
-    box-shadow: none; 
-}
-
-.sub-nodes { 
-    position: absolute; 
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1px; height: 1px; 
-    pointer-events: none; 
-    z-index: 10;
-}
-
-.sub-node {
-    position: absolute;
-    /* Start hidden at true center */
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    padding: 0.8rem 1.5rem;
-    border-radius: 40px;
-    display: flex; align-items: center; gap: 0.5rem;
-    font-size: 0.875rem; white-space: nowrap;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-}
-
-.sub-node i { 
-    width: 18px; 
-    height: 18px; 
-    stroke: var(--accent-vibrant); 
-}
-
-/* Symmetrical Orbital Spread when Active (Desktop Hexagon Layout) */
-/* The math pushes them outward by ~180px in their respective directions */
-.magic-hub.is-active .sub-nodes { pointer-events: all; }
-.magic-hub.is-active .sub-node { opacity: 1; }
-
-.magic-hub.is-active .node-1 { transform: translate(calc(-50% - 150px), calc(-50% - 150px)) scale(1); transition-delay: 0.05s; } /* Top Left */
-.magic-hub.is-active .node-2 { transform: translate(calc(-50% + 150px), calc(-50% - 150px)) scale(1); transition-delay: 0.1s; }  /* Top Right */
-.magic-hub.is-active .node-3 { transform: translate(calc(-50% - 210px), -50%) scale(1); transition-delay: 0.15s; }               /* Mid Left */
-.magic-hub.is-active .node-4 { transform: translate(calc(-50% + 210px), -50%) scale(1); transition-delay: 0.2s; }                /* Mid Right */
-.magic-hub.is-active .node-5 { transform: translate(calc(-50% - 150px), calc(-50% + 150px)) scale(1); transition-delay: 0.25s; } /* Bottom Left */
-.magic-hub.is-active .node-6 { transform: translate(calc(-50% + 150px), calc(-50% + 150px)) scale(1); transition-delay: 0.3s; }  /* Bottom Right */
-
-
-/* Anti-Overlap Fallback for Mobile */
-@media (max-width: 900px) {
-    .magic-hub { height: auto; flex-direction: column; gap: 2rem; }
-    .sub-nodes { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; height: auto; transform: none; top: auto; left: auto; }
-    
-    .sub-node { 
-        position: relative; top: 0; left: 0; 
-        transform: translateY(-20px); 
-        opacity: 0; padding: 1rem; justify-content: center; width: 100%; display: none;
-    }
-    
-    .magic-hub.is-active .sub-nodes { margin-top: 1rem; }
-    .magic-hub.is-active .sub-node { 
-        display: flex; transform: translateY(0); opacity: 1; transition: all 0.4s ease; 
-    }
-    
-    /* Reset delays for mobile grid flow */
-    .magic-hub.is-active .node-1 { transition-delay: 0.0s; }
-    .magic-hub.is-active .node-2 { transition-delay: 0.1s; }
-    .magic-hub.is-active .node-3 { transition-delay: 0.2s; }
-    .magic-hub.is-active .node-4 { transition-delay: 0.3s; }
-    .magic-hub.is-active .node-5 { transition-delay: 0.4s; }
-    .magic-hub.is-active .node-6 { transition-delay: 0.5s; }
-}
-
-/* =========================================
-   REVIEWS & VIDEOS
-   ========================================= */
-.reviews-section { background: var(--bg-base); padding-bottom: 0; overflow: hidden; }
-
-.video-feedback-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
-    margin-bottom: 4rem;
-}
-.video-card {
-    position: relative; aspect-ratio: 9/16; border-radius: 12px;
-    overflow: hidden; background: #111; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    transition: transform var(--transition-fast); cursor: pointer;
-}
-.video-card:hover { transform: translateY(-10px); }
-.video-card .bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity var(--transition-fast); }
-.video-card:hover .bg-video { opacity: 1; }
-.video-overlay {
-    position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1.5rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-}
-.video-overlay h4 { font-family: var(--font-body); font-weight: 500; font-size: 1.1rem; margin-bottom: 0.2rem; }
-.video-overlay p { color: var(--accent-vibrant); font-size: 0.875rem; font-weight: 600; }
-
-@media (max-width: 900px) {
-    .video-feedback-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 4rem auto; }
-}
-
-/* Google Maps Floating Marquee */
-.marquee-container {
-    width: 100vw; /* Force full width */
-    margin-left: calc(-50vw + 50%); /* Break out of container padding */
-    padding: 3rem 0; 
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border); 
-    background: var(--glass-bg);
-    overflow: hidden; 
-    position: relative;
-    display: flex; 
-    align-items: center;
-}
-.marquee-track {
-    display: flex; 
-    gap: 2rem; 
-    width: max-content;
-    animation: marquee 35s linear infinite;
-}
-.marquee-container:hover .marquee-track { animation-play-state: paused; }
-
-.review-pill {
-    background: var(--bg-surface); 
-    border: 1px solid var(--glass-border);
-    padding: 1.5rem 2rem; 
-    border-radius: 8px; 
-    display: flex; 
-    flex-direction: column;
-    gap: 0.5rem; 
-    width: 350px; 
-    flex-shrink: 0; /* CRITICAL: Prevents pills from squishing */
-}
-.review-pill .stars { color: #fbbc05; letter-spacing: 2px; font-size: 1.2rem; }
-.review-pill p { font-size: 1rem; color: var(--text-primary); font-style: italic; }
-.review-pill span { color: var(--text-secondary); font-style: normal; font-size: 0.875rem; display: block; margin-top: 0.5rem;}
-
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 1rem)); } /* Accounts for gap to make it seamless */
 }
