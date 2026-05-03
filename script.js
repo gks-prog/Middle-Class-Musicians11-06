@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const query = document.getElementById('query').value;
 
             // ENTER YOUR WHATSAPP NUMBER HERE (e.g. 919876543210)
-            const targetWhatsAppNumber = '910000000000'; 
+            const targetWhatsAppNumber = '919315778147'; 
             
             // Encode the string so line breaks and special characters don't break the URL
             const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
