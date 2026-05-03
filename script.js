@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. PORTFOLIO CAROUSEL (Blank Fix Applied)
+    // 4. PORTFOLIO CAROUSEL
     // ==========================================
     const track = document.getElementById('portfolio-track');
     const prevBtn = document.getElementById('prev-btn');
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 track.appendChild(firstItem); 
                 track.style.transform = 'translateX(0)';
                 isAnimating = false;
-            }, 600); // Must match transition duration perfectly
+            }, 600); 
         };
 
         const movePrev = () => {
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 5. INTERACTIVE MAGIC HUB LOGIC (Button Morph)
+    // 5. INTERACTIVE MAGIC HUB LOGIC 
     // ==========================================
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
