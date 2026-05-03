@@ -190,28 +190,26 @@ section {
   justify-self: start; 
   display: flex; 
   align-items: center; 
-  gap: 0.6rem; /* Perfect optical breathing room */
+  gap: 0.5rem; 
+  /* We set the font size on the container, so BOTH items share it */
+  font-size: clamp(1.2rem, 3vw, 1.5rem); 
 }
 
 .header__logo-icon { 
-  /* Sized specifically to match the "Cap Height" of Bebas Neue */
-  height: clamp(1.05rem, 2.5vw, 1.3rem); 
-  width: clamp(1.05rem, 2.5vw, 1.3rem); 
+  height: 1em; /* This locks the image to the exact font size */
+  width: 1em; 
   display: block; 
   object-fit: cover; 
   border-radius: 50%; 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .header__logo-text { 
   font-family: var(--font-heading); 
-  /* Font size is mathematically larger, but visible letters will perfectly match the icon */
-  font-size: clamp(1.4rem, 3.5vw, 1.7rem); 
+  font-size: inherit; /* Matches the container exactly */
   letter-spacing: 0.05em; 
   white-space: nowrap; 
   line-height: 1; 
-  /* Optical adjustment: nudges the text down to align its visual center with the image's center */
-  transform: translateY(2px); 
+  transform: translateY(1px); /* Just a tiny 1px nudge so the text sits on the same baseline */
 }
 
 .nav { justify-self: center; }
