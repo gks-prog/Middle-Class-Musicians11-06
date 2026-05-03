@@ -702,16 +702,24 @@ canvas#global-visualizer {
 }
 
 /* =========================================
-   INTERACTIVE HUB (ANTI-OVERLAP GLASSY UI)
+   INTERACTIVE HUB (MOBILE-FIRST ANTI-OVERLAP)
    ========================================= */
 .interactive-section { 
     background: var(--bg-surface); 
-    padding-bottom: 8rem; 
+    padding: 6rem 0; 
+    overflow: hidden;
+}
+
+.magic-hub-wrapper {
+    position: relative;
+    width: 100%;
+    /* On mobile, this will expand dynamically */
+    transition: height 0.4s ease;
 }
 
 .magic-hub { 
     position: relative; 
-    height: 450px; 
+    width: 100%;
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -721,14 +729,14 @@ canvas#global-visualizer {
     font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
     padding: 1.5rem 3rem !important;
     
-    /* WhatsApp Green Glass Effect */
     background: rgba(37, 211, 102, 0.15) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(37, 211, 102, 0.4) !important;
     color: #fff !important;
     
-    z-index: 100; /* Stays above orbital nodes */
+    /* VERY IMPORTANT: Main button stays above all nodes */
+    z-index: 200; 
     position: relative;
     box-shadow: 0 0 30px rgba(37, 211, 102, 0.2), inset 0 0 20px rgba(37, 211, 102, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
@@ -748,30 +756,23 @@ canvas#global-visualizer {
     box-shadow: none; 
 }
 
+/* Base styles for sub-nodes */
 .sub-nodes { 
-    position: absolute; 
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1px; height: 1px; 
     pointer-events: none; 
-    z-index: 10; /* Sub-nodes stay below the massive-btn */
+    z-index: 10; /* Safely underneath the massive-btn */
 }
 
 .sub-node {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     padding: 0.8rem 1.5rem;
     border-radius: 40px;
-    display: flex; align-items: center; gap: 0.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     font-size: 0.875rem; white-space: nowrap;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sub-node i { 
@@ -780,28 +781,39 @@ canvas#global-visualizer {
     stroke: var(--whatsapp-green); 
 }
 
-/* Symmetrical Orbital Spread when Active */
-.magic-hub.is-active .sub-nodes { pointer-events: all; }
-.magic-hub.is-active .sub-node { opacity: 1; }
+/* ================== DESKTOP ORBITAL LAYOUT ================== */
+@media (min-width: 901px) {
+    .magic-hub { height: 450px; }
+    
+    .sub-nodes { 
+        position: absolute; 
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 1px; height: 1px; 
+    }
 
-.magic-hub.is-active .node-1 { transform: translate(calc(-50% - 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.05s; }
-.magic-hub.is-active .node-2 { transform: translate(calc(-50% + 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.1s; } 
-.magic-hub.is-active .node-3 { transform: translate(calc(-50% - 220px), -50%) scale(1); transition-delay: 0.15s; }              
-.magic-hub.is-active .node-4 { transform: translate(calc(-50% + 220px), -50%) scale(1); transition-delay: 0.2s; }               
-.magic-hub.is-active .node-5 { transform: translate(calc(-50% - 160px), calc(-50% + 160px)) scale(1); transition-delay: 0.25s; }
-.magic-hub.is-active .node-6 { transform: translate(calc(-50% + 160px), calc(-50% + 160px)) scale(1); transition-delay: 0.3s; } 
+    .sub-node {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+    }
 
-/* Fix Anti-Overlap for Mobile Devices */
+    .magic-hub.is-active .sub-nodes { pointer-events: all; }
+    .magic-hub.is-active .sub-node { opacity: 1; }
+
+    /* They slide out from UNDER the main button to these coordinates */
+    .magic-hub.is-active .node-1 { transform: translate(calc(-50% - 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.05s; }
+    .magic-hub.is-active .node-2 { transform: translate(calc(-50% + 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.1s; } 
+    .magic-hub.is-active .node-3 { transform: translate(calc(-50% - 220px), -50%) scale(1); transition-delay: 0.15s; }              
+    .magic-hub.is-active .node-4 { transform: translate(calc(-50% + 220px), -50%) scale(1); transition-delay: 0.2s; }               
+    .magic-hub.is-active .node-5 { transform: translate(calc(-50% - 160px), calc(-50% + 160px)) scale(1); transition-delay: 0.25s; }
+    .magic-hub.is-active .node-6 { transform: translate(calc(-50% + 160px), calc(-50% + 160px)) scale(1); transition-delay: 0.3s; } 
+}
+
+/* ================== MOBILE SMART-GRID LAYOUT ================== */
 @media (max-width: 900px) {
     .magic-hub { 
-        height: auto; 
         flex-direction: column; 
-        gap: 1rem; 
-        padding: 2rem 0; 
-    }
-    
-    .massive-btn { 
-        margin-bottom: 2rem; /* Creates buffer zone */
     }
     
     .sub-nodes { 
@@ -810,22 +822,28 @@ canvas#global-visualizer {
         grid-template-columns: 1fr 1fr; 
         gap: 1rem; 
         width: 100%; 
-        height: auto; 
-        transform: none; 
-        top: auto; 
-        left: auto; 
-        z-index: 1; 
+        /* Start collapsed */
+        height: 0;
+        margin-top: 0;
+        overflow: hidden;
     }
     
     .sub-node { 
-        position: relative; top: 0; left: 0; 
-        transform: translateY(-20px); 
-        opacity: 0; padding: 1rem; justify-content: center; width: 100%; display: none;
+        position: relative; 
+        transform: translateY(-20px) scale(0.9); 
     }
     
-    .magic-hub.is-active .sub-nodes { margin-top: 1rem; }
+    /* When active, expand container and slide items in */
+    .magic-hub.is-active .sub-nodes { 
+        height: auto; 
+        margin-top: 2rem; 
+        overflow: visible;
+        pointer-events: all;
+    }
+    
     .magic-hub.is-active .sub-node { 
-        display: flex; transform: translateY(0); opacity: 1; transition: all 0.4s ease; 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
     }
     
     .magic-hub.is-active .node-1 { transition-delay: 0.0s; }
