@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 2. HEADER SCROLL
+    // 2. HEADER SCROLL (ANTI-LAG)
     // ==========================================
     const header = document.getElementById('header');
     if (header) {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. AUDIO VISUALIZER & PLAYBACK (WITH FAILSAFES)
+    // 3. AUDIO VISUALIZER & PLAYBACK
     // ==========================================
     const audioEl = document.getElementById('global-audio');
     const canvas = document.getElementById('global-visualizer');
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 resizeCanvas();
                 isInitialized = true;
             } catch (e) { 
-                console.warn("Audio Context blocked:", e); 
+                console.warn("Audio Context blocked by browser:", e); 
             }
         };
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             for (let i = 0; i < bufferLength; i++) {
                 const percent = dataArray[i] / 255;
                 const barHeight = rect.height * percent;
-                ctx.fillStyle = percent > 0.75 ? `rgba(217, 28, 53, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
+                ctx.fillStyle = percent > 0.75 ? `rgba(37, 211, 102, ${percent * 0.6})` : `rgba(255, 255, 255, ${percent * 0.2})`;
                 ctx.beginPath();
                 ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0]);
                 ctx.fill();
@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
             for(let i=0; i<plays.length; i++) plays[i].classList.remove('hidden');
         };
 
-        // Added strict error handling for broken media links
         playTrack = (url) => {
             if (!isInitialized) initAudio();
             if (audioContext && audioContext.state === 'suspended') audioContext.resume();
@@ -133,8 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     drawVisualizer();
                     visualizerContainer.classList.add('is-active');
                 }).catch(error => {
-                    console.error("Audio playback blocked or file is missing/CORS restricted.", error);
-                    stopAudio(); // Failsafe: Reset the UI if the file fails to load
+                    console.error("Audio playback blocked.", error);
+                    stopAudio();
                 });
             }
         };
@@ -156,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. PORTFOLIO CAROUSEL
+    // 4. PORTFOLIO CAROUSEL (Blank Fix Applied)
     // ==========================================
     const track = document.getElementById('portfolio-track');
     const prevBtn = document.getElementById('prev-btn');
@@ -204,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 track.appendChild(firstItem); 
                 track.style.transform = 'translateX(0)';
                 isAnimating = false;
-            }, 600);
+            }, 600); // Must match transition duration perfectly
         };
 
         const movePrev = () => {
@@ -298,7 +297,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 5. WHATSAPP BOOKING FORM
+    // 5. INTERACTIVE MAGIC HUB LOGIC (Button Morph)
+    // ==========================================
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    const magicBtn = document.getElementById('magic-btn');
+    const magicHub = document.getElementById('magic-hub');
+
+    if (magicBtn && magicHub) {
+        magicBtn.addEventListener('click', () => {
+            magicHub.classList.toggle('is-active');
+            
+            if (magicHub.classList.contains('is-active')) {
+                magicBtn.innerText = "One Stop Solution for Artists";
+                magicBtn.classList.add('is-active');
+            } else {
+                magicBtn.innerText = "Don't Touch It";
+                magicBtn.classList.remove('is-active');
+            }
+        });
+    }
+
+    // ==========================================
+    // 6. WHATSAPP BOOKING FORM
     // ==========================================
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
@@ -323,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 6. FLOATING MUSICAL NOTES
+    // 7. FLOATING MUSICAL NOTES
     // ==========================================
     const initFloatingNotes = () => {
         const container = document.getElementById('floating-notes-container');
@@ -383,31 +406,4 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     initFloatingNotes();
-    // ==========================================
-    // 7. LUCIDE ICONS INIT
-    // ==========================================
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-
-    // ==========================================
-    // 8. INTERACTIVE MAGIC HUB LOGIC
-    // ==========================================
-    const magicBtn = document.getElementById('magic-btn');
-    const magicHub = document.getElementById('magic-hub');
-
-    if (magicBtn && magicHub) {
-        magicBtn.addEventListener('click', () => {
-            magicHub.classList.toggle('is-active');
-            
-            // Change button text based on state
-            if (magicHub.classList.contains('is-active')) {
-                magicBtn.innerText = "Close Vault";
-                magicBtn.classList.add('is-active');
-            } else {
-                magicBtn.innerText = "Don't Touch It";
-                magicBtn.classList.remove('is-active');
-            }
-        });
-    }
 });
