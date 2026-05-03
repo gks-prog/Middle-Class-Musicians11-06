@@ -187,23 +187,25 @@ section {
   justify-self: start; 
   display: flex; 
   align-items: center; 
-  gap: 0.8rem; /* Premium breathing room */
+  gap: 0.5rem; /* Tightened the gap so the smaller logo feels connected to the text */
 }
 
 .header__logo-icon { 
-  height: clamp(1.8rem, 4vw, 2.2rem); /* Scales perfectly from mobile to desktop */
-  width: auto; 
+  /* EXACTLY matches the font-size of the title */
+  height: clamp(1.2rem, 3vw, 1.5rem); 
+  width: clamp(1.2rem, 3vw, 1.5rem); /* Forces a perfect square */
   display: block; 
-  object-fit: contain; 
-  border-radius: 50%; /* Turns the square favicon into a sleek circular badge */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle depth shadow */
+  object-fit: cover; 
+  border-radius: 50%; 
 }
 
 .header__logo-text { 
   font-family: var(--font-heading); 
-  font-size: clamp(1.2rem, 3vw, 1.5rem); 
+  font-size: clamp(1.2rem, 3vw, 1.5rem); /* Matches the icon height */
   letter-spacing: 0.05em; 
   white-space: nowrap; 
+  line-height: 1; /* Prevents invisible padding from throwing off vertical centering */
+  transform: translateY(1px); /* Optical alignment: shifts text slightly to balance the uppercase font with the image */
 }
 
 .nav { justify-self: center; }
