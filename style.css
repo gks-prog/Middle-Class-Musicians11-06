@@ -829,3 +829,123 @@ canvas#global-visualizer {
   text-transform: uppercase; 
   letter-spacing: 0.05em; 
 }
+/* =========================================
+   INTERACTIVE HUB (ORBITAL UI)
+   ========================================= */
+.interactive-section { background: var(--bg-surface); padding-bottom: 8rem; }
+.magic-hub { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
+
+.massive-btn {
+    font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
+    padding: 1.5rem 3rem !important;
+    background: var(--accent-vibrant) !important;
+    border-color: transparent !important;
+    color: white !important;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(217, 28, 53, 0.4);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s !important;
+}
+.massive-btn:hover { transform: scale(1.05); background: #ff2a46 !important; }
+.massive-btn.is-active { background: var(--bg-base) !important; color: var(--text-primary) !important; border: 1px solid var(--accent-vibrant) !important; box-shadow: none; }
+
+.sub-nodes { position: absolute; inset: 0; pointer-events: none; }
+.sub-node {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 40px;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem; white-space: nowrap;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+.sub-node i { width: 18px; height: 18px; stroke: var(--accent-vibrant); }
+
+/* Orbital Spread when Active (Desktop) */
+.magic-hub.is-active .sub-nodes { pointer-events: all; }
+.magic-hub.is-active .sub-node { opacity: 1; }
+.magic-hub.is-active .node-1 { transform: translate(-180%, -250%) scale(1); transition-delay: 0.05s; }
+.magic-hub.is-active .node-2 { transform: translate(80%, -250%) scale(1); transition-delay: 0.1s; }
+.magic-hub.is-active .node-3 { transform: translate(-230%, -50%) scale(1); transition-delay: 0.15s; }
+.magic-hub.is-active .node-4 { transform: translate(130%, -50%) scale(1); transition-delay: 0.2s; }
+.magic-hub.is-active .node-5 { transform: translate(-180%, 150%) scale(1); transition-delay: 0.25s; }
+.magic-hub.is-active .node-6 { transform: translate(80%, 150%) scale(1); transition-delay: 0.3s; }
+
+/* Anti-Overlap Grid for Mobile */
+@media (max-width: 900px) {
+    .magic-hub { height: auto; flex-direction: column; gap: 2rem; }
+    .massive-btn { position: relative; z-index: 10; }
+    .sub-nodes { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; inset: auto; }
+    .sub-node { position: relative; top: 0; left: 0; transform: translateY(-20px); opacity: 0; padding: 1rem; justify-content: center; width: 100%; display: none;}
+    
+    .magic-hub.is-active .sub-nodes { margin-top: 1rem; }
+    .magic-hub.is-active .sub-node { display: flex; transform: translateY(0); opacity: 1; transition: all 0.4s ease; }
+    
+    /* Reset delays for mobile grid flow */
+    .magic-hub.is-active .node-1 { transition-delay: 0.0s; }
+    .magic-hub.is-active .node-2 { transition-delay: 0.1s; }
+    .magic-hub.is-active .node-3 { transition-delay: 0.2s; }
+    .magic-hub.is-active .node-4 { transition-delay: 0.3s; }
+    .magic-hub.is-active .node-5 { transition-delay: 0.4s; }
+    .magic-hub.is-active .node-6 { transition-delay: 0.5s; }
+}
+
+/* =========================================
+   REVIEWS & VIDEOS
+   ========================================= */
+.reviews-section { background: var(--bg-base); padding-bottom: 0; overflow: hidden; }
+
+.video-feedback-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    margin-bottom: 4rem;
+}
+.video-card {
+    position: relative; aspect-ratio: 9/16; border-radius: 12px;
+    overflow: hidden; background: #111; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform var(--transition-fast); cursor: pointer;
+}
+.video-card:hover { transform: translateY(-10px); }
+.video-card .bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity var(--transition-fast); }
+.video-card:hover .bg-video { opacity: 1; }
+.video-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+.video-overlay h4 { font-family: var(--font-body); font-weight: 500; font-size: 1.1rem; margin-bottom: 0.2rem; }
+.video-overlay p { color: var(--accent-vibrant); font-size: 0.875rem; font-weight: 600; }
+
+@media (max-width: 900px) {
+    .video-feedback-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 4rem auto; }
+}
+
+/* Google Maps Marquee */
+.marquee-container {
+    width: 100%; padding: 3rem 0; border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border); background: var(--glass-bg);
+    overflow: hidden; position: relative;
+    display: flex; align-items: center;
+}
+.marquee-track {
+    display: flex; gap: 2rem; width: max-content;
+    animation: marquee 30s linear infinite;
+}
+.marquee-container:hover .marquee-track { animation-play-state: paused; }
+
+.review-pill {
+    background: var(--bg-surface); border: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem; border-radius: 8px; display: flex; flex-direction: column;
+    gap: 0.5rem; min-width: 350px;
+}
+.review-pill .stars { color: #fbbc05; letter-spacing: 2px; font-size: 1.2rem; }
+.review-pill p { font-size: 1rem; color: var(--text-primary); font-style: italic; }
+.review-pill span { color: var(--text-secondary); font-style: normal; font-size: 0.875rem; display: block; margin-top: 0.5rem;}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Scrolls exactly half, then resets seamlessly */
+}
