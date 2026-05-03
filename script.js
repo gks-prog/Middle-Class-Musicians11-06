@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    "use strict";
     
     // ==========================================
     // 1. LOADING SCREEN
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 2. HEADER SCROLL (ANTI-LAG)
+    // 2. HEADER SCROLL
     // ==========================================
     const header = document.getElementById('header');
     if (header) {
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. AUDIO VISUALIZER & PLAYBACK
+    // 3. AUDIO VISUALIZER
     // ==========================================
     const audioEl = document.getElementById('global-audio');
     const canvas = document.getElementById('global-visualizer');
@@ -82,15 +83,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const drawVisualizer = () => {
             animationId = requestAnimationFrame(drawVisualizer);
-            if(analyser && dataArray) {
-                analyser.getByteFrequencyData(dataArray);
-            }
+            
+            // STRICT NULL CHECK to prevent errors if audio crashes
+            if (!analyser || !dataArray) return;
+            
+            analyser.getByteFrequencyData(dataArray);
             
             const rect = visualizerContainer.getBoundingClientRect();
             ctx.fillStyle = '#030303';
             ctx.fillRect(0, 0, rect.width, rect.height);
             
-            if(!bufferLength) return;
+            if (!bufferLength) return;
 
             const barSpacing = 3;
             const barWidth = (rect.width / bufferLength) - barSpacing;
@@ -109,15 +112,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         stopAudio = () => {
             audioEl.pause();
-            if(animationId) cancelAnimationFrame(animationId);
+            if (animationId) cancelAnimationFrame(animationId);
             visualizerContainer.classList.remove('is-active');
             ctx.fillStyle = '#030303';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             const pauses = document.querySelectorAll('.icon-pause');
             const plays = document.querySelectorAll('.icon-play');
-            for(let i=0; i<pauses.length; i++) pauses[i].classList.add('hidden');
-            for(let i=0; i<plays.length; i++) plays[i].classList.remove('hidden');
+            for(let i=0; i < pauses.length; i++) pauses[i].classList.add('hidden');
+            for(let i=0; i < plays.length; i++) plays[i].classList.remove('hidden');
         };
 
         playTrack = (url) => {
@@ -165,12 +168,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const zoomedOverlay = document.getElementById('zoomed-overlay');
     const closeZoomedBtn = document.getElementById('close-zoomed');
 
-    if (track && wrapper) {
+    // Attach dragging var to local scope instead of window for strict mode
+    let isDraggingCarousel = false; 
+
+    if (track && wrapper && track.firstElementChild) {
         let carouselInterval;
         let slideIntervalTime = 3000;
         let hasInteracted = false;
         let isAnimating = false;
-        window.isDraggingCarousel = false; 
 
         const handleInteraction = () => {
             if (!hasInteracted) {
@@ -182,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const moveNext = () => {
-            if(isAnimating || !track.firstElementChild) return;
+            if (isAnimating || !track.firstElementChild) return;
             isAnimating = true;
             const firstItem = track.firstElementChild;
             const itemWidth = firstItem.offsetWidth;
@@ -207,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const movePrev = () => {
-            if(isAnimating || !track.lastElementChild) return;
+            if (isAnimating || !track.lastElementChild) return;
             isAnimating = true;
             const lastItem = track.lastElementChild;
             const itemWidth = lastItem.offsetWidth;
@@ -240,15 +245,15 @@ document.addEventListener("DOMContentLoaded", () => {
         let startX = 0;
         wrapper.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
-            window.isDraggingCarousel = false;
+            isDraggingCarousel = false;
         }, { passive: true });
 
         wrapper.addEventListener('touchmove', () => {
-            window.isDraggingCarousel = true;
+            isDraggingCarousel = true;
         }, { passive: true });
 
         wrapper.addEventListener('touchend', (e) => {
-            if(e.changedTouches.length > 0) {
+            if (e.changedTouches.length > 0) {
                 let endX = e.changedTouches[0].clientX;
                 let diffX = startX - endX;
 
@@ -260,47 +265,49 @@ document.addEventListener("DOMContentLoaded", () => {
                     movePrev();
                 }
             }
-            setTimeout(() => { window.isDraggingCarousel = false; }, 100);
+            setTimeout(() => { isDraggingCarousel = false; }, 100);
         });
 
         carouselInterval = setInterval(moveNext, slideIntervalTime);
+    }
 
-        if (zoomedOverlay && closeZoomedBtn) {
-            for (let i = 0; i < portfolioItems.length; i++) {
-                const item = portfolioItems[i];
-                item.addEventListener('click', () => {
-                    if (window.isDraggingCarousel) return;
+    if (zoomedOverlay && closeZoomedBtn && portfolioItems.length > 0) {
+        for (let i = 0; i < portfolioItems.length; i++) {
+            const item = portfolioItems[i];
+            item.addEventListener('click', () => {
+                if (isDraggingCarousel) return;
 
-                    const imgEl = item.querySelector('.portfolio-item__image');
-                    const titleEl = item.querySelector('.portfolio-item__title');
-                    const artistEl = item.querySelector('.portfolio-item__artist');
-                    const audioUrl = item.getAttribute('data-audio-src');
+                const imgEl = item.querySelector('.portfolio-item__image');
+                const titleEl = item.querySelector('.portfolio-item__title');
+                const artistEl = item.querySelector('.portfolio-item__artist');
+                const audioUrl = item.getAttribute('data-audio-src');
 
-                    if (imgEl) document.getElementById('zoomed-img').src = imgEl.src;
-                    if (titleEl) document.getElementById('zoomed-title').innerText = titleEl.innerText;
-                    if (artistEl) document.getElementById('zoomed-artist').innerText = artistEl.innerText;
+                if (imgEl) document.getElementById('zoomed-img').src = imgEl.src;
+                if (titleEl) document.getElementById('zoomed-title').innerText = titleEl.innerText;
+                if (artistEl) document.getElementById('zoomed-artist').innerText = artistEl.innerText;
 
-                    zoomedOverlay.classList.add('is-active');
-                    track.classList.add('is-dimmed');
-                    
-                    stopAudio();
-                    if (audioUrl) playTrack(audioUrl);
-                });
-            }
-
-            closeZoomedBtn.addEventListener('click', () => {
-                zoomedOverlay.classList.remove('is-active');
-                track.classList.remove('is-dimmed');
-                stopAudio(); 
+                zoomedOverlay.classList.add('is-active');
+                if (track) track.classList.add('is-dimmed');
+                
+                stopAudio();
+                if (audioUrl) playTrack(audioUrl);
             });
         }
+
+        closeZoomedBtn.addEventListener('click', () => {
+            zoomedOverlay.classList.remove('is-active');
+            if (track) track.classList.remove('is-dimmed');
+            stopAudio(); 
+        });
     }
 
     // ==========================================
-    // 5. INTERACTIVE MAGIC HUB LOGIC 
+    // 5. MAGIC HUB LOGIC 
     // ==========================================
-    if (typeof lucide !== 'undefined') {
+    if (window.lucide) {
         lucide.createIcons();
+    } else {
+        console.warn("Lucide icons failed to load.");
     }
 
     const magicBtn = document.getElementById('magic-btn');
