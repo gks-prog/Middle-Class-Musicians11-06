@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 2. HEADER SCROLL
+    // 2. HEADER SCROLL (ANTI-LAG)
     // ==========================================
     const header = document.getElementById('header');
     if (header) {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. AUDIO VISUALIZER
+    // 3. AUDIO VISUALIZER & PLAYBACK (STRICT CORS FIX)
     // ==========================================
     const audioEl = document.getElementById('global-audio');
     const canvas = document.getElementById('global-visualizer');
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 resizeCanvas();
                 isInitialized = true;
             } catch (e) { 
-                console.warn("Audio Context blocked by browser:", e); 
+                console.warn("Audio Context blocked silently by browser."); 
             }
         };
 
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     drawVisualizer();
                     visualizerContainer.classList.add('is-active');
                 }).catch(error => {
-                    console.error("Audio playback blocked.", error);
+                    // Fail silently to prevent console errors when blocked by CORS
                     stopAudio();
                 });
             }
@@ -406,8 +406,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     initFloatingNotes();
-    
-    // Fallback load for Lucide icons in case they are deferred
+
+    // Fallback load for Lucide icons to prevent script crashing
     setTimeout(() => {
         if (window.lucide) {
             lucide.createIcons();
