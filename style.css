@@ -187,7 +187,16 @@ section {
   justify-self: start; 
   display: flex; 
   align-items: center; 
-  gap: 0.6rem; 
+  gap: 0.8rem; /* Premium breathing room */
+}
+
+.header__logo-icon { 
+  height: clamp(1.8rem, 4vw, 2.2rem); /* Scales perfectly from mobile to desktop */
+  width: auto; 
+  display: block; 
+  object-fit: contain; 
+  border-radius: 50%; /* Turns the square favicon into a sleek circular badge */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle depth shadow */
 }
 
 .header__logo-text { 
