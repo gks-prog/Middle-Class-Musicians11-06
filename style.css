@@ -79,7 +79,7 @@ img, video {
 }
 
 /* =========================================
-   ANTI-LAG HARDWARE ACCELERATION
+   HARDWARE ACCELERATION
    ========================================= */
 .hero__content, 
 .collage-item, 
@@ -424,7 +424,7 @@ canvas#global-visualizer {
 }
 
 /* =========================================
-   STUDIO SPACE (JIGSAW COLLAGE)
+   STUDIO SPACE
    ========================================= */
 .studio { 
   background: var(--bg-surface); 
@@ -488,7 +488,7 @@ canvas#global-visualizer {
 }
 
 /* =========================================
-   PORTFOLIO - LOOPING CAROUSEL
+   PORTFOLIO - CAROUSEL
    ========================================= */
 .portfolio { 
   background: var(--bg-base); 
@@ -713,7 +713,6 @@ canvas#global-visualizer {
 .magic-hub-wrapper {
     position: relative;
     width: 100%;
-    /* On mobile, this will expand dynamically */
     transition: height 0.4s ease;
 }
 
@@ -728,14 +727,11 @@ canvas#global-visualizer {
 .massive-btn {
     font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
     padding: 1.5rem 3rem !important;
-    
     background: rgba(37, 211, 102, 0.15) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(37, 211, 102, 0.4) !important;
     color: #fff !important;
-    
-    /* VERY IMPORTANT: Main button stays above all nodes */
     z-index: 200; 
     position: relative;
     box-shadow: 0 0 30px rgba(37, 211, 102, 0.2), inset 0 0 20px rgba(37, 211, 102, 0.1);
@@ -756,10 +752,9 @@ canvas#global-visualizer {
     box-shadow: none; 
 }
 
-/* Base styles for sub-nodes */
 .sub-nodes { 
     pointer-events: none; 
-    z-index: 10; /* Safely underneath the massive-btn */
+    z-index: 10; 
 }
 
 .sub-node {
@@ -781,7 +776,7 @@ canvas#global-visualizer {
     stroke: var(--whatsapp-green); 
 }
 
-/* ================== DESKTOP ORBITAL LAYOUT ================== */
+/* Desktop Orbital Layout */
 @media (min-width: 901px) {
     .magic-hub { height: 450px; }
     
@@ -801,7 +796,6 @@ canvas#global-visualizer {
     .magic-hub.is-active .sub-nodes { pointer-events: all; }
     .magic-hub.is-active .sub-node { opacity: 1; }
 
-    /* They slide out from UNDER the main button to these coordinates */
     .magic-hub.is-active .node-1 { transform: translate(calc(-50% - 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.05s; }
     .magic-hub.is-active .node-2 { transform: translate(calc(-50% + 160px), calc(-50% - 160px)) scale(1); transition-delay: 0.1s; } 
     .magic-hub.is-active .node-3 { transform: translate(calc(-50% - 220px), -50%) scale(1); transition-delay: 0.15s; }              
@@ -810,7 +804,7 @@ canvas#global-visualizer {
     .magic-hub.is-active .node-6 { transform: translate(calc(-50% + 160px), calc(-50% + 160px)) scale(1); transition-delay: 0.3s; } 
 }
 
-/* ================== MOBILE SMART-GRID LAYOUT ================== */
+/* Mobile Smart-Grid Layout */
 @media (max-width: 900px) {
     .magic-hub { 
         flex-direction: column; 
@@ -822,7 +816,6 @@ canvas#global-visualizer {
         grid-template-columns: 1fr 1fr; 
         gap: 1rem; 
         width: 100%; 
-        /* Start collapsed */
         height: 0;
         margin-top: 0;
         overflow: hidden;
@@ -833,7 +826,6 @@ canvas#global-visualizer {
         transform: translateY(-20px) scale(0.9); 
     }
     
-    /* When active, expand container and slide items in */
     .magic-hub.is-active .sub-nodes { 
         height: auto; 
         margin-top: 2rem; 
@@ -910,7 +902,6 @@ canvas#global-visualizer {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
-    
     padding: 2rem 2.5rem; 
     border-radius: 20px; 
     display: flex; 
@@ -978,6 +969,7 @@ canvas#global-visualizer {
   font-size: 1rem; 
   transition: border-color var(--transition-fast); 
   border-radius: 0; 
+  appearance: none;
   -webkit-appearance: none; 
 }
 
