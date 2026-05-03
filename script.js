@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // 1. Loading Screen
+    // ==========================================
+    // 1. LOADING SCREEN
+    // ==========================================
     const loader = document.getElementById('loader');
     if (loader) {
         window.addEventListener('load', () => {
@@ -11,7 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. Header Scroll Performance Optimized
+    // ==========================================
+    // 2. HEADER SCROLL (ANTI-LAG)
+    // ==========================================
     const header = document.getElementById('header');
     if (header) {
         let lastScrollY = window.scrollY;
@@ -33,13 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
     }
 
-    // 3. Audio & Visualizer Engine
+    // ==========================================
+    // 3. AUDIO VISUALIZER & PLAYBACK
+    // ==========================================
     const audioEl = document.getElementById('global-audio');
     const canvas = document.getElementById('global-visualizer');
     const visualizerContainer = document.getElementById('visualizer-container');
     const heroPlayBtn = document.getElementById('hero-play-btn');
 
-    if (audioEl && canvas && visualizerContainer && heroPlayBtn) {
+    // Declare playback functions globally so the portfolio can use them
+    let stopAudio = () => {};
+    let playTrack = () => {};
+
+    if (audioEl && canvas && visualizerContainer) {
         const ctx = canvas.getContext('2d', { alpha: false });
         let audioContext, analyser, source, dataArray, bufferLength, animationId;
         let isInitialized = false;
@@ -67,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 resizeCanvas();
                 isInitialized = true;
             } catch (e) { 
-                console.warn("Audio Context blocked:", e); 
+                console.warn("Audio Context blocked by browser:", e); 
             }
         };
 
@@ -93,96 +103,75 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        const stopAudio = () => {
+        stopAudio = () => {
             audioEl.pause();
             cancelAnimationFrame(animationId);
             visualizerContainer.classList.remove('is-active');
             ctx.fillStyle = '#030303';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            document.querySelectorAll('.icon-pause').forEach(i => i.classList.add('hidden'));
-            document.querySelectorAll('.icon-play').forEach(i => i.classList.remove('hidden'));
+            
+            const pauses = document.querySelectorAll('.icon-pause');
+            const plays = document.querySelectorAll('.icon-play');
+            for(let i=0; i<pauses.length; i++) pauses[i].classList.add('hidden');
+            for(let i=0; i<plays.length; i++) plays[i].classList.remove('hidden');
         };
 
-        const playTrack = (url) => {
+        playTrack = (url) => {
             if (!isInitialized) initAudio();
             if (audioContext && audioContext.state === 'suspended') audioContext.resume();
             
             audioEl.src = url;
-            audioEl.play().then(() => {
-                drawVisualizer();
-                visualizerContainer.classList.add('is-active');
-            }).catch(e => console.log("Playback prevented by browser auto-play policy."));
+            const playPromise = audioEl.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    drawVisualizer();
+                    visualizerContainer.classList.add('is-active');
+                }).catch(e => console.log("Playback prevented by browser auto-play policy."));
+            }
         };
 
-        heroPlayBtn.addEventListener('click', () => {
-            const iconPlay = heroPlayBtn.querySelector('.icon-play');
-            const iconPause = heroPlayBtn.querySelector('.icon-pause');
-            
-            if (audioEl.paused || audioEl.src !== heroPlayBtn.dataset.audioSrc) {
-                playTrack(heroPlayBtn.dataset.audioSrc);
-                if (iconPlay) iconPlay.classList.add('hidden'); 
-                if (iconPause) iconPause.classList.remove('hidden');
-            } else {
-                stopAudio();
-            }
-        });
-
-        // 4. Portfolio Click / Pop-out Logic (Tied to Audio)
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        const zoomedOverlay = document.getElementById('zoomed-overlay');
-        const closeZoomedBtn = document.getElementById('close-zoomed');
-        const track = document.getElementById('portfolio-track');
-
-        if (zoomedOverlay && closeZoomedBtn && track) {
-            portfolioItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    // Ignore if dragging
-                    if (window.isDraggingCarousel) return;
-
-                    const imgSrc = item.querySelector('.portfolio-item__image')?.src;
-                    const title = item.querySelector('.portfolio-item__title')?.innerText;
-                    const artist = item.querySelector('.portfolio-item__artist')?.innerText;
-                    const audioUrl = item.getAttribute('data-audio-src');
-
-                    if (imgSrc) document.getElementById('zoomed-img').src = imgSrc;
-                    if (title) document.getElementById('zoomed-title').innerText = title;
-                    if (artist) document.getElementById('zoomed-artist').innerText = artist;
-
-                    zoomedOverlay.classList.add('is-active');
-                    track.classList.add('is-dimmed');
-                    
+        if (heroPlayBtn) {
+            heroPlayBtn.addEventListener('click', () => {
+                const iconPlay = heroPlayBtn.querySelector('.icon-play');
+                const iconPause = heroPlayBtn.querySelector('.icon-pause');
+                
+                if (audioEl.paused || audioEl.src !== heroPlayBtn.getAttribute('data-audio-src')) {
+                    playTrack(heroPlayBtn.getAttribute('data-audio-src'));
+                    if (iconPlay) iconPlay.classList.add('hidden'); 
+                    if (iconPause) iconPause.classList.remove('hidden');
+                } else {
                     stopAudio();
-                    if (audioUrl) playTrack(audioUrl);
-                });
-            });
-
-            closeZoomedBtn.addEventListener('click', () => {
-                zoomedOverlay.classList.remove('is-active');
-                track.classList.remove('is-dimmed');
-                stopAudio(); 
+                }
             });
         }
     }
 
-    // 5. Portfolio Carousel Logic
+    // ==========================================
+    // 4. PORTFOLIO CAROUSEL & POP-OUT LOGIC
+    // ==========================================
     const track = document.getElementById('portfolio-track');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const wrapper = document.getElementById('portfolio-wrapper');
-    
-    if (track && prevBtn && nextBtn && wrapper && track.children.length > 0) {
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const zoomedOverlay = document.getElementById('zoomed-overlay');
+    const closeZoomedBtn = document.getElementById('close-zoomed');
+
+    if (track && wrapper) {
         let carouselInterval;
         let slideIntervalTime = 3000;
         let hasInteracted = false;
         let isAnimating = false;
-        window.isDraggingCarousel = false; // Global flag for click prevention
+        window.isDraggingCarousel = false; // Flag to prevent accidental clicks while swiping
 
+        // --- CAROUSEL SLIDING LOGIC ---
         const handleInteraction = () => {
             if (!hasInteracted) {
                 hasInteracted = true;
-                slideIntervalTime = 5500;
+                slideIntervalTime = 5500; // Increase time after user interacts
             }
-            resetCarousel();
+            clearInterval(carouselInterval);
+            carouselInterval = setInterval(moveNext, slideIntervalTime);
         };
 
         const moveNext = () => {
@@ -190,7 +179,14 @@ document.addEventListener("DOMContentLoaded", () => {
             isAnimating = true;
             const firstItem = track.firstElementChild;
             const itemWidth = firstItem.offsetWidth;
-            const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
+            
+            // Calculate gap dynamically, fallback to 32px
+            let gap = 32;
+            if (window.getComputedStyle) {
+                const trackStyle = window.getComputedStyle(track);
+                gap = parseFloat(trackStyle.gap) || 32;
+            }
+            
             const moveDistance = itemWidth + gap;
             
             track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
@@ -209,7 +205,13 @@ document.addEventListener("DOMContentLoaded", () => {
             isAnimating = true;
             const lastItem = track.lastElementChild;
             const itemWidth = lastItem.offsetWidth;
-            const gap = parseFloat(window.getComputedStyle(track).gap) || 32; 
+            
+            let gap = 32;
+            if (window.getComputedStyle) {
+                const trackStyle = window.getComputedStyle(track);
+                gap = parseFloat(trackStyle.gap) || 32;
+            }
+
             const moveDistance = itemWidth + gap;
 
             track.style.transition = 'none';
@@ -221,23 +223,16 @@ document.addEventListener("DOMContentLoaded", () => {
             track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             track.style.transform = 'translateX(0)';
 
-            setTimeout(() => {
-                isAnimating = false;
-            }, 600);
+            setTimeout(() => { isAnimating = false; }, 600);
         };
 
-        const startCarousel = () => {
-            carouselInterval = setInterval(moveNext, slideIntervalTime); 
-        };
+        // Initialize Carousel
+        if (prevBtn && nextBtn) {
+            nextBtn.addEventListener('click', () => { handleInteraction(); moveNext(); });
+            prevBtn.addEventListener('click', () => { handleInteraction(); movePrev(); });
+        }
 
-        const resetCarousel = () => {
-            clearInterval(carouselInterval);
-            startCarousel();
-        };
-
-        nextBtn.addEventListener('click', () => { handleInteraction(); moveNext(); });
-        prevBtn.addEventListener('click', () => { handleInteraction(); movePrev(); });
-
+        // Swipe support for mobile
         let startX = 0;
         wrapper.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
@@ -259,22 +254,63 @@ document.addEventListener("DOMContentLoaded", () => {
                 handleInteraction();
                 movePrev();
             }
-            
+            // Small delay to prevent a swipe from registering as a click
             setTimeout(() => { window.isDraggingCarousel = false; }, 100);
         });
 
-        startCarousel();
+        carouselInterval = setInterval(moveNext, slideIntervalTime);
+
+        // --- POP-OUT / CLICK LOGIC ---
+        if (zoomedOverlay && closeZoomedBtn) {
+            for (let i = 0; i < portfolioItems.length; i++) {
+                const item = portfolioItems[i];
+                item.addEventListener('click', () => {
+                    // Ignore clicks if the user was just swiping
+                    if (window.isDraggingCarousel) return;
+
+                    const imgEl = item.querySelector('.portfolio-item__image');
+                    const titleEl = item.querySelector('.portfolio-item__title');
+                    const artistEl = item.querySelector('.portfolio-item__artist');
+                    const audioUrl = item.getAttribute('data-audio-src');
+
+                    if (imgEl) document.getElementById('zoomed-img').src = imgEl.src;
+                    if (titleEl) document.getElementById('zoomed-title').innerText = titleEl.innerText;
+                    if (artistEl) document.getElementById('zoomed-artist').innerText = artistEl.innerText;
+
+                    zoomedOverlay.classList.add('is-active');
+                    track.classList.add('is-dimmed');
+                    
+                    stopAudio();
+                    if (audioUrl) playTrack(audioUrl);
+                });
+            }
+
+            closeZoomedBtn.addEventListener('click', () => {
+                zoomedOverlay.classList.remove('is-active');
+                track.classList.remove('is-dimmed');
+                stopAudio(); 
+            });
+        }
     }
 
-    // 6. WhatsApp Routing Form
+    // ==========================================
+    // 5. WHATSAPP BOOKING FORM
+    // ==========================================
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
-            const name = document.getElementById('name')?.value || '';
-            const phone = document.getElementById('phone')?.value || '';
-            const ig = document.getElementById('ig')?.value || '';
-            const query = document.getElementById('query')?.value || '';
+            
+            // Standard null checks instead of optional chaining for old browsers
+            const nameEl = document.getElementById('name');
+            const phoneEl = document.getElementById('phone');
+            const igEl = document.getElementById('ig');
+            const queryEl = document.getElementById('query');
+
+            const name = nameEl ? nameEl.value : '';
+            const phone = phoneEl ? phoneEl.value : '';
+            const ig = igEl ? igEl.value : '';
+            const query = queryEl ? queryEl.value : '';
 
             const targetWhatsAppNumber = '919315778147';
             const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
@@ -283,7 +319,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 7. Floating Musical Notes Background Effect
+    // ==========================================
+    // 6. FLOATING MUSICAL NOTES (PARALLAX)
+    // ==========================================
     const initFloatingNotes = () => {
         const container = document.getElementById('floating-notes-container');
         if (!container) return;
@@ -320,10 +358,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!notesTicking) {
                 window.requestAnimationFrame(() => {
                     const scrollY = window.scrollY;
-                    notes.forEach(note => {
+                    for (let i = 0; i < notes.length; i++) {
+                        const note = notes[i];
                         const yPos = -(scrollY * note.speed);
                         note.el.style.transform = `translate3d(0, ${yPos}px, 0)`;
-                    });
+                    }
                     notesTicking = false;
                 });
                 notesTicking = true;
