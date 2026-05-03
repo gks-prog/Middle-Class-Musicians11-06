@@ -264,4 +264,63 @@ document.addEventListener("DOMContentLoaded", () => {
         window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
         bookingForm.reset();
     });
+// 7. Floating Musical Notes Background Effect
+    const initFloatingNotes = () => {
+        const container = document.getElementById('floating-notes-container');
+        if (!container) return;
+
+        const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
+        const noteCount = 20; // Number of notes on screen
+        const notes = [];
+
+        // Generate the notes
+        for (let i = 0; i < noteCount; i++) {
+            const noteEl = document.createElement('span');
+            const left = Math.random() * 100; // Random horizontal position
+            const size = Math.random() * 2 + 1; // Size between 1rem and 3rem
+            const opacity = Math.random() * 0.15 + 0.05; // Faint opacity
+            const speed = Math.random() * 0.5 + 0.2; // Parallax scroll speed
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            const baseY = Math.random() * 100; // Starting vertical position
+
+            noteEl.innerText = symbol;
+            noteEl.style.position = 'absolute';
+            noteEl.style.left = `${left}%`;
+            noteEl.style.top = `${baseY}%`;
+            noteEl.style.fontSize = `${size}rem`;
+            noteEl.style.color = '#ffffff';
+            noteEl.style.opacity = opacity;
+            
+            // Hardware acceleration for smooth scrolling
+            noteEl.style.willChange = 'transform';
+            noteEl.style.transition = 'transform 0.1s linear';
+
+            container.appendChild(noteEl);
+
+            // Store the element and its speed for the scroll event
+            notes.push({ el: noteEl, speed });
+        }
+
+        // Attach to the existing scroll listener logic for performance
+        let notesTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!notesTicking) {
+                window.requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    
+                    // Move each note based on scroll depth and individual speed
+                    notes.forEach(note => {
+                        const yPos = -(scrollY * note.speed);
+                        note.el.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                    });
+                    
+                    notesTicking = false;
+                });
+                notesTicking = true;
+            }
+        }, { passive: true });
+    };
+
+    // Run the animation
+    initFloatingNotes();
 });
