@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const visualizerContainer = document.getElementById('visualizer-container');
     const heroPlayBtn = document.getElementById('hero-play-btn');
 
-    // Declare playback functions globally so the portfolio can use them
     let stopAudio = () => {};
     let playTrack = () => {};
 
@@ -162,13 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let slideIntervalTime = 3000;
         let hasInteracted = false;
         let isAnimating = false;
-        window.isDraggingCarousel = false; // Flag to prevent accidental clicks while swiping
+        window.isDraggingCarousel = false; 
 
-        // --- CAROUSEL SLIDING LOGIC ---
         const handleInteraction = () => {
             if (!hasInteracted) {
                 hasInteracted = true;
-                slideIntervalTime = 5500; // Increase time after user interacts
+                slideIntervalTime = 5500; 
             }
             clearInterval(carouselInterval);
             carouselInterval = setInterval(moveNext, slideIntervalTime);
@@ -180,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const firstItem = track.firstElementChild;
             const itemWidth = firstItem.offsetWidth;
             
-            // Calculate gap dynamically, fallback to 32px
             let gap = 32;
             if (window.getComputedStyle) {
                 const trackStyle = window.getComputedStyle(track);
@@ -218,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
             track.insertBefore(lastItem, track.firstElementChild);
             track.style.transform = `translateX(-${moveDistance}px)`;
 
-            void track.offsetWidth; // Force layout reflow
+            void track.offsetWidth; 
 
             track.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             track.style.transform = 'translateX(0)';
@@ -226,13 +223,11 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => { isAnimating = false; }, 600);
         };
 
-        // Initialize Carousel
         if (prevBtn && nextBtn) {
             nextBtn.addEventListener('click', () => { handleInteraction(); moveNext(); });
             prevBtn.addEventListener('click', () => { handleInteraction(); movePrev(); });
         }
 
-        // Swipe support for mobile
         let startX = 0;
         wrapper.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
@@ -254,18 +249,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 handleInteraction();
                 movePrev();
             }
-            // Small delay to prevent a swipe from registering as a click
             setTimeout(() => { window.isDraggingCarousel = false; }, 100);
         });
 
         carouselInterval = setInterval(moveNext, slideIntervalTime);
 
-        // --- POP-OUT / CLICK LOGIC ---
         if (zoomedOverlay && closeZoomedBtn) {
             for (let i = 0; i < portfolioItems.length; i++) {
                 const item = portfolioItems[i];
                 item.addEventListener('click', () => {
-                    // Ignore clicks if the user was just swiping
                     if (window.isDraggingCarousel) return;
 
                     const imgEl = item.querySelector('.portfolio-item__image');
@@ -301,7 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
         bookingForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
             
-            // Standard null checks instead of optional chaining for old browsers
             const nameEl = document.getElementById('name');
             const phoneEl = document.getElementById('phone');
             const igEl = document.getElementById('ig');
@@ -320,14 +311,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 6. FLOATING MUSICAL NOTES (PARALLAX)
+    // 6. FLOATING MUSICAL NOTES (INFINITE PARALLAX FIXED)
     // ==========================================
     const initFloatingNotes = () => {
         const container = document.getElementById('floating-notes-container');
         if (!container) return;
 
         const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-        const noteCount = 20; 
+        const noteCount = 35; // Number of notes floating
         const notes = [];
 
         for (let i = 0; i < noteCount; i++) {
@@ -337,20 +328,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const opacity = Math.random() * 0.15 + 0.05; 
             const speed = Math.random() * 0.5 + 0.2; 
             const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-            const baseY = Math.random() * 100; 
+            
+            // Randomly position vertically between 0 and viewport height
+            const startY = Math.random() * window.innerHeight; 
 
             noteEl.innerText = symbol;
             noteEl.style.position = 'absolute';
             noteEl.style.left = `${left}%`;
-            noteEl.style.top = `${baseY}%`;
+            noteEl.style.top = `0px`; 
             noteEl.style.fontSize = `${size}rem`;
             noteEl.style.color = '#ffffff';
             noteEl.style.opacity = opacity;
             noteEl.style.willChange = 'transform';
-            noteEl.style.transition = 'transform 0.1s linear';
+            
+            noteEl.style.transform = `translate3d(0, ${startY}px, 0)`;
 
             container.appendChild(noteEl);
-            notes.push({ el: noteEl, speed });
+            notes.push({ el: noteEl, speed, startY });
         }
 
         let notesTicking = false;
@@ -358,10 +352,19 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!notesTicking) {
                 window.requestAnimationFrame(() => {
                     const scrollY = window.scrollY;
+                    const winH = window.innerHeight;
+                    
                     for (let i = 0; i < notes.length; i++) {
                         const note = notes[i];
-                        const yPos = -(scrollY * note.speed);
-                        note.el.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                        let currentY = note.startY - (scrollY * note.speed);
+                        
+                        // Modulo magic: If a note floats off the top, it instantly respawns at the bottom!
+                        const totalH = winH + 200; // Adding a 200px buffer zone so it doesn't pop in abruptly
+                        currentY = ((currentY + 100) % totalH);
+                        if (currentY < 0) currentY += totalH;
+                        currentY -= 100; 
+                        
+                        note.el.style.transform = `translate3d(0, ${currentY}px, 0)`;
                     }
                     notesTicking = false;
                 });
