@@ -860,7 +860,7 @@ canvas#global-visualizer {
     display: flex; 
     gap: 2rem; 
     width: max-content;
-    animation: marquee 40s linear infinite; /* Slowed down for smooth reading */
+    animation: marquee 40s linear infinite; 
     will-change: transform;
 }
 .marquee-container:hover .marquee-track { animation-play-state: paused; }
