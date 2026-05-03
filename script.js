@@ -83,8 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const drawVisualizer = () => {
             animationId = requestAnimationFrame(drawVisualizer);
-            
-            // STRICT NULL CHECK to prevent errors if audio crashes
             if (!analyser || !dataArray) return;
             
             analyser.getByteFrequencyData(dataArray);
@@ -168,7 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const zoomedOverlay = document.getElementById('zoomed-overlay');
     const closeZoomedBtn = document.getElementById('close-zoomed');
 
-    // Attach dragging var to local scope instead of window for strict mode
     let isDraggingCarousel = false; 
 
     if (track && wrapper && track.firstElementChild) {
@@ -304,12 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // 5. MAGIC HUB LOGIC 
     // ==========================================
-    if (window.lucide) {
-        lucide.createIcons();
-    } else {
-        console.warn("Lucide icons failed to load.");
-    }
-
     const magicBtn = document.getElementById('magic-btn');
     const magicHub = document.getElementById('magic-hub');
 
@@ -415,4 +406,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     initFloatingNotes();
+    
+    // Fallback load for Lucide icons in case they are deferred
+    setTimeout(() => {
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    }, 500);
 });
