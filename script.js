@@ -307,14 +307,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const magicHub = document.getElementById('magic-hub');
 
     if (magicBtn && magicHub) {
+        const btnText = magicBtn.querySelector('.btn-text');
+        
         magicBtn.addEventListener('click', () => {
             magicHub.classList.toggle('is-active');
             
             if (magicHub.classList.contains('is-active')) {
-                magicBtn.innerText = "One Stop Solution for Artists";
+                if (btnText) btnText.innerText = "One Stop Solution for Artists";
                 magicBtn.classList.add('is-active');
             } else {
-                magicBtn.innerText = "Don't Touch It";
+                if (btnText) btnText.innerText = "Don't Touch It";
                 magicBtn.classList.remove('is-active');
             }
         });
