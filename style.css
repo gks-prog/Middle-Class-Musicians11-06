@@ -866,7 +866,6 @@ canvas#global-visualizer {
 .marquee-container:hover .marquee-track { animation-play-state: paused; }
 
 .review-pill {
-    /* Apple Matte Glass Design */
     background: rgba(255, 255, 255, 0.03); 
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -890,8 +889,8 @@ canvas#global-visualizer {
 .review-pill span { color: var(--text-secondary); font-style: normal; font-size: 0.875rem; display: block; margin-top: 0.5rem;}
 
 @keyframes marquee {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(calc(-50% - 1rem), 0, 0); } 
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 1rem)); } 
 }
 
 /* =========================================
