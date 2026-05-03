@@ -383,4 +383,31 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     initFloatingNotes();
+    // ==========================================
+    // 7. LUCIDE ICONS INIT
+    // ==========================================
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    // ==========================================
+    // 8. INTERACTIVE MAGIC HUB LOGIC
+    // ==========================================
+    const magicBtn = document.getElementById('magic-btn');
+    const magicHub = document.getElementById('magic-hub');
+
+    if (magicBtn && magicHub) {
+        magicBtn.addEventListener('click', () => {
+            magicHub.classList.toggle('is-active');
+            
+            // Change button text based on state
+            if (magicHub.classList.contains('is-active')) {
+                magicBtn.innerText = "Close Vault";
+                magicBtn.classList.add('is-active');
+            } else {
+                magicBtn.innerText = "Don't Touch It";
+                magicBtn.classList.remove('is-active');
+            }
+        });
+    }
 });
