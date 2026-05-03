@@ -17,7 +17,7 @@
 </head>
 <body>
 
-    <!-- Floating Musical Notes Container (FIXED: z-index is now 50 so it sits above backgrounds) -->
+    <!-- Floating Musical Notes Container -->
     <div id="floating-notes-container" aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;"></div>
 
     <!-- Loading Screen -->
@@ -45,7 +45,7 @@
     <header class="header" id="header">
         <div class="header__container">
             <a href="/" class="header__logo">
-                <img src="https://lh3.googleusercontent.com/d/1J7iM5POzBueplsjzjYeIRRO4FEBsxhF-" alt="Logo" class="header__logo-icon">
+                <img src="https://images.unsplash.com/photo-1614680376573-3e4e1ef4101e?q=80&w=100&auto=format&fit=crop" alt="Logo" class="header__logo-icon" style="border-radius: 50%;">
                 <span class="header__logo-text">Middle Class Musicians</span>
             </a>
             <nav class="nav">
@@ -70,7 +70,8 @@
                 <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
                 <div class="hero__actions">
                     <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
-                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3">
+                    <!-- Reliable open-source audio link for testing -->
+                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">
                         <span class="btn__icon-wrapper">
                             <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
@@ -92,14 +93,14 @@
                 <div class="collage-container">
                     <div class="collage-item collage-video">
                         <video class="collage-media" autoplay loop muted playsinline>
-                            <source src="https://drive.google.com/uc?export=download&id=1xuDa1mQZzmjKIT-G09LkbnT_XaMCSzzT" type="video/mp4">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="collage-item collage-img-1">
-                        <img src="https://drive.google.com/uc?export=download&id=1aSvW7Bep42TUfMXBb7kn6nU1Y7bbWJRP" class="collage-media" alt="Control Room">
+                        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&auto=format&fit=crop" class="collage-media" alt="Control Room">
                     </div>
                     <div class="collage-item collage-img-2">
-                        <img src="https://drive.google.com/uc?export=download&id=16wildrlQxD9pmGyp-8PcYiMC_aQR4NE8" class="collage-media" alt="Vocal Booth">
+                        <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=800&auto=format&fit=crop" class="collage-media" alt="Vocal Booth">
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
             
             <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
                 <div class="portfolio-track" id="portfolio-track">
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2448408f9c.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -125,7 +126,7 @@
                         <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/04/27/audio_67b4578bce.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -136,7 +137,7 @@
                         <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -145,39 +146,6 @@
                         </div>
                         <h3 class="portfolio-item__title">Silk & Sitar</h3>
                         <p class="portfolio-item__artist">Global Fusion EP</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_dbed170154.mp3">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=600&auto=format&fit=crop" alt="Midnight" class="portfolio-item__image" loading="lazy">
-                            <div class="portfolio-item__overlay">
-                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                            </div>
-                        </div>
-                        <h3 class="portfolio-item__title">Midnight Run</h3>
-                        <p class="portfolio-item__artist">Underground Collective</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Analog" class="portfolio-item__image" loading="lazy">
-                            <div class="portfolio-item__overlay">
-                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                            </div>
-                        </div>
-                        <h3 class="portfolio-item__title">Analog Dreams</h3>
-                        <p class="portfolio-item__artist">Synthwave Cuts</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_d600b1068c.mp3">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=600&auto=format&fit=crop" alt="Vocal" class="portfolio-item__image" loading="lazy">
-                            <div class="portfolio-item__overlay">
-                                <div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                            </div>
-                        </div>
-                        <h3 class="portfolio-item__title">Raw Takes</h3>
-                        <p class="portfolio-item__artist">Studio Sessions</p>
                     </article>
                 </div>
             </div>
