@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Middle Class Musicians - Premium Recording Studio.">
+    <meta name="description" content="Middle Class Musicians - Premium Recording Studio in Delhi.">
     <title>Middle Class Musicians | Premium Recording Studio</title>
     
     <!-- Fonts -->
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Hidden Audio Player -->
-    <audio id="global-audio"></audio>
+    <audio id="global-audio" crossorigin="anonymous"></audio>
 
     <!-- Global Audio Visualizer Background -->
     <div class="audio-visualizer-container" id="visualizer-container" aria-hidden="true">
@@ -71,7 +71,8 @@
                 <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
                 <div class="hero__actions">
                     <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
-                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="./audio/demo-beat.mp3">
+                    <!-- Reliable Cloud Audio Link to prevent 404 errors -->
+                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg">
                         <span class="btn__icon-wrapper">
                             <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
@@ -92,8 +93,9 @@
                 
                 <div class="collage-container">
                     <div class="collage-item collage-video">
+                        <!-- Reliable Cloud Video Link -->
                         <video class="collage-media" autoplay loop muted playsinline>
-                            <source src="./images/studio-tour.mp4" type="video/mp4">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="collage-item collage-img-1">
@@ -106,7 +108,7 @@
             </div>
         </section>
 
-        <!-- PORTFOLIO - CAROUSEL (Blank Bug Fixed via HTML Duplication) -->
+        <!-- PORTFOLIO - CAROUSEL -->
         <section class="portfolio" id="portfolio">
             <header class="section-header">
                 <h2 class="section-title">Sonic Archive</h2>
@@ -115,8 +117,8 @@
             
             <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
                 <div class="portfolio-track" id="portfolio-track">
-                    <!-- Original 6 Items -->
-                    <article class="portfolio-item" data-audio-src="./audio/o-piyaa.mp3">
+                    <!-- Original 6 Items (Cloud Links) -->
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -127,7 +129,7 @@
                         <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/concrete.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -138,7 +140,7 @@
                         <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/silk.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -149,7 +151,7 @@
                         <p class="portfolio-item__artist">Global Fusion EP</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/midnight.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=600&auto=format&fit=crop" alt="Midnight" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -160,7 +162,7 @@
                         <p class="portfolio-item__artist">Underground Collective</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/analog.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Analog" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -171,7 +173,7 @@
                         <p class="portfolio-item__artist">Synthwave Cuts</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/raw.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=600&auto=format&fit=crop" alt="Vocal" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay">
@@ -182,8 +184,8 @@
                         <p class="portfolio-item__artist">Studio Sessions</p>
                     </article>
 
-                    <!-- Duplicated 6 Items to prevent blank space edge-case on ultra-wide screens -->
-                    <article class="portfolio-item" data-audio-src="./audio/o-piyaa.mp3">
+                    <!-- Duplicated 6 Items to prevent blank space edge-case -->
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -192,7 +194,7 @@
                         <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
                     </article>
 
-                    <article class="portfolio-item" data-audio-src="./audio/concrete.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -201,7 +203,7 @@
                         <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
                     </article>
                     
-                    <article class="portfolio-item" data-audio-src="./audio/silk.mp3">
+                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
                         <div class="portfolio-item__image-wrapper">
                             <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy">
                             <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -258,7 +260,7 @@
                 <div class="video-feedback-grid">
                     <div class="video-card">
                         <video autoplay loop muted playsinline class="bg-video">
-                            <source src="./images/feedback-1.mp4" type="video/mp4">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         </video>
                         <div class="video-overlay">
                             <h4>"Best mix I've ever had."</h4>
@@ -267,7 +269,7 @@
                     </div>
                     <div class="video-card">
                         <video autoplay loop muted playsinline class="bg-video">
-                            <source src="./images/feedback-2.mp4" type="video/mp4">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         </video>
                         <div class="video-overlay">
                             <h4>"The vibe is unmatched."</h4>
@@ -276,7 +278,7 @@
                     </div>
                     <div class="video-card">
                         <video autoplay loop muted playsinline class="bg-video">
-                            <source src="./images/feedback-3.mp4" type="video/mp4">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         </video>
                         <div class="video-overlay">
                             <h4>"Industry standard quality."</h4>
