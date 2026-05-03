@@ -717,46 +717,43 @@ canvas#global-visualizer {
   z-index: 106;
 }
 
-/*/* =========================================
-   INTERACTIVE HUB (100% ANTI-OVERLAP SMART UI)
+/* =========================================
+   INTERACTIVE HUB (BULLETPROOF GRID UI)
    ========================================= */
 .interactive-section { 
     background: var(--bg-surface); 
     padding: 6rem 0; 
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
 }
 
 .magic-hub-wrapper {
     position: relative;
     width: 100%;
-    max-width: 900px; /* Constrains the orbit for perfect symmetry */
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .magic-hub { 
     position: relative; 
     display: flex; 
+    flex-direction: column;
     align-items: center; 
     justify-content: center; 
-    flex-direction: column;
-    min-height: 500px; /* Gives the orbit room to breathe vertically */
+    min-height: 400px;
 }
 
 .massive-btn {
     font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
-    padding: 1.5rem 3.5rem !important;
+    padding: 1.5rem 3rem !important;
     background: rgba(37, 211, 102, 0.15) !important;
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(37, 211, 102, 0.4) !important;
     color: #fff !important;
     border-radius: 50px;
-    z-index: 200; /* Stays permanently above the glass nodes */
-    position: relative;
+    z-index: 100; /* Stays above nodes */
     box-shadow: 0 0 30px rgba(37, 211, 102, 0.2), inset 0 0 20px rgba(37, 211, 102, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    margin-bottom: 2rem; /* Buffer zone */
 }
 
 .massive-btn:hover { 
@@ -771,12 +768,25 @@ canvas#global-visualizer {
     color: var(--whatsapp-green) !important; 
     border: 1px solid var(--whatsapp-green) !important; 
     box-shadow: 0 0 20px rgba(37, 211, 102, 0.2); 
+    transform: scale(1); /* Prevent scale jitter on click */
 }
 
 /* Base styles for the glass nodes */
 .sub-nodes { 
-    pointer-events: none; 
-    z-index: 10; 
+    display: none; /* Physically removed from document flow until active */
+    width: 100%;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.magic-hub.is-active .sub-nodes {
+    display: grid; /* Brings it back into flow */
+    animation: fadeInNodes 0.6s ease forwards;
+}
+
+@keyframes fadeInNodes {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .sub-node {
@@ -784,224 +794,80 @@ canvas#global-visualizer {
     border: 1px solid var(--glass-border);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    padding: 1rem 1.8rem;
-    border-radius: 40px;
+    padding: 1.2rem 1.5rem;
+    border-radius: 20px; /* Switched to a cleaner pill shape */
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    gap: 0.6rem;
-    font-size: 0.9rem; 
+    gap: 0.8rem;
+    font-size: 1rem; 
     font-weight: 500;
-    white-space: nowrap;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    opacity: 0;
     color: var(--text-primary);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, background 0.3s ease;
+    cursor: default; /* Remove if you want them clickable */
+}
+
+.sub-node:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .sub-node i { 
-    width: 18px; 
-    height: 18px; 
+    width: 20px; 
+    height: 20px; 
     stroke: var(--whatsapp-green); 
 }
 
 /* =========================================
-   DESKTOP (Perfect Hexagon Orbit)
+   DESKTOP (3-Column Grid)
    ========================================= */
 @media (min-width: 901px) {
     .sub-nodes { 
-        position: absolute; 
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%; height: 100%; 
+        grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+        max-width: 900px;
     }
-
-    .sub-node {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(0.5); /* Start tiny and hidden at the center */
-    }
-
-    .magic-hub.is-active .sub-nodes { pointer-events: all; }
-    .magic-hub.is-active .sub-node { opacity: 1; }
-
-    /* Wide offsets guarantee they will NEVER overlap the massive button */
-    .magic-hub.is-active .node-1 { transform: translate(calc(-50% - 220px), calc(-50% - 150px)) scale(1); transition-delay: 0.05s; }
-    .magic-hub.is-active .node-2 { transform: translate(calc(-50% + 220px), calc(-50% - 150px)) scale(1); transition-delay: 0.1s; } 
-    .magic-hub.is-active .node-3 { transform: translate(calc(-50% - 280px), -50%) scale(1); transition-delay: 0.15s; }              
-    .magic-hub.is-active .node-4 { transform: translate(calc(-50% + 280px), -50%) scale(1); transition-delay: 0.2s; }               
-    .magic-hub.is-active .node-5 { transform: translate(calc(-50% - 220px), calc(-50% + 150px)) scale(1); transition-delay: 0.25s; }
-    .magic-hub.is-active .node-6 { transform: translate(calc(-50% + 220px), calc(-50% + 150px)) scale(1); transition-delay: 0.3s; } 
 }
 
 /* =========================================
-   MOBILE (Premium Cascading Drop-Down)
+   MOBILE (2-Column Responsive Grid)
    ========================================= */
 @media (max-width: 900px) {
-    .magic-hub { 
-        min-height: auto;
-    }
+    .interactive-section { padding: 4rem 0; }
+    
+    .magic-hub { min-height: auto; }
     
     .massive-btn {
-        margin-bottom: 0;
+        width: 90%;
+        max-width: 350px;
+        padding: 1.2rem 2rem !important; /* Slightly smaller for mobile */
     }
     
     .sub-nodes { 
-        position: relative; 
-        display: flex; 
-        flex-direction: column; /* Stacks vertically to completely prevent cropping */
-        align-items: center;
-        gap: 1rem; 
-        width: 100%; 
-        max-width: 320px;
-        max-height: 0; /* Starts collapsed */
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+        gap: 1rem;
+        padding: 0 1rem;
     }
     
-    .sub-node { 
-        position: relative; 
-        transform: translateY(-20px) scale(0.9); 
-        width: 100%;
-        opacity: 0;
-        transition: transform 0.4s ease, opacity 0.4s ease;
-    }
-    
-    .magic-hub.is-active .sub-nodes { 
-        max-height: 800px; /* Massive allowance so it never crops */
-        opacity: 1;
-        overflow: visible; /* Prevents the drop-shadow from getting clipped */
-        pointer-events: all;
-        margin-top: 2rem; /* Pushes away from the main button */
-    }
-    
-    .magic-hub.is-active .sub-node { 
-        transform: translateY(0) scale(1); 
-        opacity: 1; 
-    }
-    
-    /* Cascading waterfall animation effect */
-    .magic-hub.is-active .node-1 { transition-delay: 0.1s; }
-    .magic-hub.is-active .node-2 { transition-delay: 0.15s; }
-    .magic-hub.is-active .node-3 { transition-delay: 0.2s; }
-    .magic-hub.is-active .node-4 { transition-delay: 0.25s; }
-    .magic-hub.is-active .node-5 { transition-delay: 0.3s; }
-    .magic-hub.is-active .node-6 { transition-delay: 0.35s; }
-}
-
-/* Base styles for sub-nodes */
-.sub-nodes { 
-    pointer-events: none; 
-    z-index: 10; 
-}
-
-.sub-node {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 0.8rem 1.5rem;
-    border-radius: 40px;
-    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    font-size: 0.875rem; white-space: nowrap;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sub-node i { 
-    width: 18px; 
-    height: 18px; 
-    stroke: var(--whatsapp-green); 
-}
-
-/* Desktop Orbital Layout (Perfect Trigonometry to avoid overlap) */
-@media (min-width: 901px) {
-    .magic-hub-wrapper { height: 500px; }
-    .magic-hub { height: 100%; }
-    
-    .sub-nodes { 
-        position: absolute; 
-        top: 50%; left: 50%;
-        width: 0; height: 0; 
-    }
-
     .sub-node {
-        position: absolute;
-        top: 0; left: 0;
-        transform: translate(-50%, -50%) scale(0);
+        padding: 1rem;
+        font-size: 0.85rem; /* Prevents text from breaking */
+        flex-direction: column; /* Stacks icon above text to save horizontal space */
+        text-align: center;
+        gap: 0.5rem;
     }
-
-    .magic-hub.is-active .sub-nodes { pointer-events: all; }
-    .magic-hub.is-active .sub-node { opacity: 1; }
-
-    /* Mathematically perfect circle that rotates out, pushes out 200px, and rotates back flat */
-    .magic-hub.is-active .node-1 { transform: translate(-50%, -50%) rotate(270deg) translateY(-200px) rotate(-270deg) scale(1); transition-delay: 0.05s; }
-    .magic-hub.is-active .node-2 { transform: translate(-50%, -50%) rotate(330deg) translateY(-200px) rotate(-330deg) scale(1); transition-delay: 0.1s; } 
-    .magic-hub.is-active .node-3 { transform: translate(-50%, -50%) rotate(30deg) translateY(-200px) rotate(-30deg) scale(1); transition-delay: 0.15s; }              
-    .magic-hub.is-active .node-4 { transform: translate(-50%, -50%) rotate(90deg) translateY(-200px) rotate(-90deg) scale(1); transition-delay: 0.2s; }               
-    .magic-hub.is-active .node-5 { transform: translate(-50%, -50%) rotate(150deg) translateY(-200px) rotate(-150deg) scale(1); transition-delay: 0.25s; }
-    .magic-hub.is-active .node-6 { transform: translate(-50%, -50%) rotate(210deg) translateY(-200px) rotate(-210deg) scale(1); transition-delay: 0.3s; } 
 }
 
-/* Mobile Smart-Grid Layout (Zero Overlap Guaranteed) */
-@media (max-width: 900px) {
-    .magic-hub-wrapper { 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-    }
-    
-    .magic-hub { 
-        flex-direction: column; 
-    }
-    
-    .massive-btn {
-        margin-bottom: 1rem;
-    }
-    
+/* For extremely narrow phones (like iPhone SE) */
+@media (max-width: 400px) {
     .sub-nodes { 
-        position: relative; 
-        display: grid; 
-        grid-template-columns: 1fr 1fr; 
-        gap: 1rem; 
-        width: 100%; 
-        max-width: 600px;
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height 0.6s ease, opacity 0.6s ease;
-        top: auto; left: auto;
-        transform: none;
+        grid-template-columns: 1fr; /* 1 item per row */
     }
-    
-    .sub-node { 
-        position: relative; 
-        transform: translateY(-20px) scale(0.9); 
-        width: 100%;
-        top: auto; left: auto;
+    .sub-node {
+        flex-direction: row; /* Put icon back next to text */
+        justify-content: flex-start;
+        padding: 1rem 1.5rem;
     }
-    
-    .magic-hub.is-active .sub-nodes { 
-        max-height: 600px; 
-        opacity: 1;
-        overflow: visible;
-        pointer-events: all;
-        margin-top: 1rem;
-    }
-    
-    .magic-hub.is-active .sub-node { 
-        transform: translateY(0) scale(1); 
-        opacity: 1; 
-    }
-    
-    .magic-hub.is-active .node-1 { transition-delay: 0.0s; }
-    .magic-hub.is-active .node-2 { transition-delay: 0.1s; }
-    .magic-hub.is-active .node-3 { transition-delay: 0.2s; }
-    .magic-hub.is-active .node-4 { transition-delay: 0.3s; }
-    .magic-hub.is-active .node-5 { transition-delay: 0.4s; }
-    .magic-hub.is-active .node-6 { transition-delay: 0.5s; }
 }
 
 /* =========================================
