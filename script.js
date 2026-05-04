@@ -320,8 +320,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // 6. WHATSAPP BOOKING FORM
+ // ==========================================
+    // 6. WHATSAPP BOOKING FORM (BOT-PROTECTED)
     // ==========================================
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
@@ -338,9 +338,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const ig = igEl ? igEl.value : '';
             const query = queryEl ? queryEl.value : '';
 
-            const targetWhatsAppNumber = '919315778147';
+            // BOT PROTECTION: Splitting the number so scrapers cannot read it easily
+            const _0x1 = '9193';
+            const _0x2 = '1577';
+            const _0x3 = '8147';
+            const secureRoute = _0x1 + _0x2 + _0x3; 
+
             const rawMessage = `*New Studio Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Instagram:* ${ig}\n*Query:* ${query}`;
-            window.open(`https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
+            window.open(`https://wa.me/${secureRoute}?text=${encodeURIComponent(rawMessage)}`, '_blank');
             bookingForm.reset();
         });
     }
