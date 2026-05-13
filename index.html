@@ -1,442 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PD9BYH5TJ2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-PD9BYH5TJ2');
-</script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="description" content="Middle Class Musicians - Premium Recording Studio in Delhi." />
-    <title>Middle Class Musicians | Premium Recording Studio</title>
-    <!-- Local Business Schema for Google Knowledge Graph -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "RecordingStudio",
-  "name": "Middle Class Musicians",
-  "image": "https://middleclassmusicians.in/images/setup1.jpg",
-  "@id": "https://middleclassmusicians.in",
-  "url": "https://middleclassmusicians.in",
-  "telephone": "+919315778147",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "New Delhi",
-    "addressRegion": "DL",
-    "addressCountry": "IN"
-  },
-  "sameAs": [
-    "https://www.instagram.com/your_actual_instagram_handle",
-    "https://www.youtube.com/@WenonBont",
-    "https://www.youtube.com/@YourTypeBeats"
-  ]
-}
-</script>
-    <!-- 1. The Title Tag (What shows up in the big blue link on Google) -->
-<title>Middle Class Musicians | Recording Studio & Hip-Hop Production</title>
-
-<!-- 2. The Meta Description (The grey text under the blue link) -->
-<meta name="description" content="Most Loved recording studio, mixing, mastering, and hip-hop beat production. Elevate your sound with professional artist management and video production." />
-
-<!-- 3. Keywords (Less important now, but still good practice) -->
-<meta name="keywords" content="recording studio, hip-hop production, mixing and mastering, beat producer, music business, artist management,wenon bont,bunny nation music,best studio near me,unique studio near me,nearby studios,studio near me" />
-
-<!-- 4. Open Graph Tags (Makes your link look premium when shared on WhatsApp/Instagram) -->
-<meta property="og:title" content="Middle Class Musicians | The Vault" />
-<meta property="og:description" content="Professional recording, mixing, and beat production." />
-<meta property="og:image" content="https://middleclassmusicians.in/images/setup1.jpg" />
-<meta property="og:url" content="https://middleclassmusicians.in" />
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest" defer></script>
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi. Record. Create. Perform. Starting ₹350/hr." />
+  <title>Middle Class Musicians — Record. Create. Perform.</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <!-- Floating Musical Notes Container -->
-    <div id="floating-notes-container" aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;"></div>
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <h1 class="loader__text">Middle Class Musicians</h1>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <div class="preloader-logo">MCM</div>
+      <div class="preloader-bar"><span></span></div>
+      <div class="preloader-text">LOADING THE EXPERIENCE</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <span class="logo-mark">M</span>
+        <span class="logo-text">Middle Class Musicians</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#testimonials">Voices</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="https://wa.me/919999999999?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="nav-cta">Book Session</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#testimonials">Voices</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://wa.me/919999999999" class="mobile-cta">Book on WhatsApp</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-gradient"></div>
+      <div class="hero-grain"></div>
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
     </div>
 
-    <!-- Audio Engine (Removed crossorigin to prevent strict CORS console errors) -->
-    <audio id="global-audio"></audio>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="dot"></span> Delhi · Est. 2019
+      </div>
 
-    <div class="audio-visualizer-container" id="visualizer-container" aria-hidden="true">
-        <canvas id="global-visualizer"></canvas>
+      <h1 class="hero-title">
+        <span class="line"><span class="word">RECORD.</span></span>
+        <span class="line"><span class="word">CREATE.</span></span>
+        <span class="line"><span class="word accent">PERFORM.</span></span>
+      </h1>
+
+      <p class="hero-sub">
+        Professional Recording Studio in Delhi
+        <span class="divider"></span>
+        Starting <strong>₹350/hr</strong>
+      </p>
+
+      <div class="hero-cta">
+        <a href="https://wa.me/919999999999?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="btn btn-primary">
+          <span>Book Now</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#studio" class="btn btn-ghost">
+          <span>View Studio</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="meta-item"><strong>500+</strong><span>Sessions</span></div>
+        <div class="meta-item"><strong>120+</strong><span>Artists</span></div>
+        <div class="meta-item"><strong>4.9★</strong><span>Rating</span></div>
+      </div>
     </div>
 
-    <!-- Popped-out Tile Overlay -->
-    <div class="zoomed-tile-overlay" id="zoomed-overlay">
-        <button class="zoomed-close-btn" id="close-zoomed" aria-label="Close Preview">×</button>
-        <img id="zoomed-img" src="" alt="Album Art" />
-        <h3 id="zoomed-title" style="font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 0.2rem;"></h3>
-        <p id="zoomed-artist" style="color: var(--text-secondary);"></p>
-    </div>
+    <a href="#studio" class="scroll-indicator" aria-label="Scroll">
+      <span class="scroll-text">Scroll</span>
+      <span class="scroll-line"></span>
+    </a>
 
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="header__container">
-         <a href="/" class="header__logo">
-                <img src="./favicon.png" alt="MCM Logo" class="header__logo-icon" />
-                <span class="header__logo-text">Middle Class Musicians</span>
+    <div class="hero-tape">
+      <div class="tape-track">
+        <span>Recording</span><span>·</span>
+        <span>Mixing</span><span>·</span>
+        <span>Mastering</span><span>·</span>
+        <span>Beat Production</span><span>·</span>
+        <span>Music Courses</span><span>·</span>
+        <span>Recording</span><span>·</span>
+        <span>Mixing</span><span>·</span>
+        <span>Mastering</span><span>·</span>
+        <span>Beat Production</span><span>·</span>
+        <span>Music Courses</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO SHOWCASE -->
+  <section class="studio" id="studio">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">01 / Studio</span>
+        <h2 class="section-title">Built for <em>sound</em>.<br/>Designed for <em>vision</em>.</h2>
+        <p class="section-sub">A space engineered with acoustic precision and cinematic ambience — where ideas become records.</p>
+      </div>
+
+      <div class="studio-grid">
+        <div class="studio-card large reveal" data-tilt>
+          <div class="studio-img" style="background-image:url('setup1.jpg')"></div>
+          <div class="studio-overlay">
+            <span class="studio-tag">Live Room</span>
+            <h3>The Control Hub</h3>
+            <p>Full analog & digital console with monitor-grade acoustics.</p>
+          </div>
+        </div>
+        <div class="studio-card reveal" data-tilt>
+          <div class="studio-img" style="background-image:url('SETUP 2.jpg')"></div>
+          <div class="studio-overlay">
+            <span class="studio-tag">Vocal Booth</span>
+            <h3>Isolation Chamber</h3>
+            <p>Treated for warmth and clarity.</p>
+          </div>
+        </div>
+        <div class="studio-card reveal" data-tilt>
+          <div class="studio-img" style="background-image:url('MIC.png');background-size:contain;background-color:#0d0d0d;"></div>
+          <div class="studio-overlay">
+            <span class="studio-tag">Signal Chain</span>
+            <h3>Premium Mics</h3>
+            <p>Neumann · AKG · Shure.</p>
+          </div>
+        </div>
+        <div class="studio-card wide reveal" data-tilt>
+          <div class="studio-img" style="background-image:url('KEY1.jpg')"></div>
+          <div class="studio-overlay">
+            <span class="studio-tag">Production Suite</span>
+            <h3>Keys & Synthesis</h3>
+            <p>MIDI controllers, vintage keys, modern plugins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">02 / Services</span>
+        <h2 class="section-title">What we <em>craft</em>.</h2>
+        <p class="section-sub">From the first take to the final master — end-to-end music production under one roof.</p>
+      </div>
+
+      <div class="services-list">
+        <article class="service-row reveal">
+          <span class="service-num">01</span>
+          <div class="service-body">
+            <h3>Recording</h3>
+            <p>Vocals, instruments and full-band sessions captured in a treated, studio-grade environment.</p>
+          </div>
+          <div class="service-tags">
+            <span>Vocals</span><span>Live</span><span>Podcasts</span>
+          </div>
+          <span class="service-arrow">→</span>
+        </article>
+
+        <article class="service-row reveal">
+          <span class="service-num">02</span>
+          <div class="service-body">
+            <h3>Mixing &amp; Mastering</h3>
+            <p>Industry-standard mixing chain, mastered for streaming, radio & vinyl-ready releases.</p>
+          </div>
+          <div class="service-tags">
+            <span>Stems</span><span>Dolby</span><span>Spotify</span>
+          </div>
+          <span class="service-arrow">→</span>
+        </article>
+
+        <article class="service-row reveal">
+          <span class="service-num">03</span>
+          <div class="service-body">
+            <h3>Beat Production</h3>
+            <p>Custom-built beats and instrumentals across hip-hop, pop, indie, lo-fi, and cinematic genres.</p>
+          </div>
+          <div class="service-tags">
+            <span>Hip-Hop</span><span>Indie</span><span>Cinematic</span>
+          </div>
+          <span class="service-arrow">→</span>
+        </article>
+
+        <article class="service-row reveal">
+          <span class="service-num">04</span>
+          <div class="service-body">
+            <h3>Music Courses</h3>
+            <p>Hands-on training for producers and artists — from DAW basics to release-ready records.</p>
+          </div>
+          <div class="service-tags">
+            <span>Beginner</span><span>Pro</span><span>1-on-1</span>
+          </div>
+          <span class="service-arrow">→</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">03 / Pricing</span>
+        <h2 class="section-title">Studio-grade.<br/><em>Street-smart pricing.</em></h2>
+        <p class="section-sub">Transparent rates. No hidden fees. Lock your slot with a small advance.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <div class="price-head">
+            <span class="price-badge">Most Booked</span>
+            <h3>Recording</h3>
+          </div>
+          <div class="price-figure">
+            <span class="currency">₹</span>
+            <span class="amount">350</span>
+            <span class="unit">/hr</span>
+          </div>
+          <ul class="price-list">
+            <li>Acoustically treated room</li>
+            <li>Engineer included</li>
+            <li>Pro mics &amp; preamps</li>
+            <li>Raw stems delivered</li>
+          </ul>
+          <a href="https://wa.me/919999999999?text=Book%20Recording%20Session" target="_blank" rel="noopener" class="btn btn-primary full">Book Now</a>
+        </div>
+
+        <div class="price-card highlight reveal">
+          <div class="price-head">
+            <span class="price-badge gold">Reserve Your Slot</span>
+            <h3>Booking Advance</h3>
+          </div>
+          <div class="price-figure">
+            <span class="currency">₹</span>
+            <span class="amount">100</span>
+            <span class="unit">only</span>
+          </div>
+          <ul class="price-list">
+            <li>Confirms your time slot</li>
+            <li>Adjusted in final bill</li>
+            <li>Instant WhatsApp confirmation</li>
+            <li>Reschedule once free</li>
+          </ul>
+          <a href="https://wa.me/919999999999?text=Pay%20%E2%82%B9100%20Advance" target="_blank" rel="noopener" class="btn btn-gold full">Pay Advance</a>
+        </div>
+
+        <div class="price-card reveal">
+          <div class="price-head">
+            <span class="price-badge">Custom</span>
+            <h3>Full Production</h3>
+          </div>
+          <div class="price-figure">
+            <span class="currency"></span>
+            <span class="amount custom">Tailored</span>
+            <span class="unit">quote</span>
+          </div>
+          <ul class="price-list">
+            <li>Songwriting + Production</li>
+            <li>Mix &amp; Master included</li>
+            <li>Release-ready masters</li>
+            <li>Distribution support</li>
+          </ul>
+          <a href="https://wa.me/919999999999?text=Get%20Custom%20Quote" target="_blank" rel="noopener" class="btn btn-ghost full">Get Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio" id="portfolio">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">04 / Portfolio</span>
+        <h2 class="section-title">Selected <em>work</em>.</h2>
+        <p class="section-sub">A glimpse of records, beats, and sessions crafted at MCM.</p>
+      </div>
+
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="record">Recording</button>
+        <button class="filter-btn" data-filter="mix">Mix &amp; Master</button>
+        <button class="filter-btn" data-filter="beat">Beats</button>
+        <button class="filter-btn" data-filter="visual">Visuals</button>
+      </div>
+
+      <div class="portfolio-grid">
+        <a class="port-item reveal" data-cat="record" href="#">
+          <div class="port-img" style="background-image:url('setup1.jpg')"></div>
+          <div class="port-meta">
+            <span>Recording</span>
+            <h4>Midnight Tapes — Vol. 1</h4>
+          </div>
+        </a>
+        <a class="port-item reveal" data-cat="mix" href="#">
+          <div class="port-img" style="background-image:url('SETUP 2.jpg')"></div>
+          <div class="port-meta">
+            <span>Mix · Master</span>
+            <h4>Neon Streets EP</h4>
+          </div>
+        </a>
+        <a class="port-item reveal" data-cat="beat" href="#">
+          <div class="port-img" style="background-image:url('KEY1.jpg')"></div>
+          <div class="port-meta">
+            <span>Beats</span>
+            <h4>808 Diaries</h4>
+          </div>
+        </a>
+        <a class="port-item reveal" data-cat="visual" href="#">
+          <div class="port-img" style="background-image:url('MIC.png');background-size:cover;background-color:#111;"></div>
+          <div class="port-meta">
+            <span>Visuals</span>
+            <h4>Studio Film</h4>
+          </div>
+        </a>
+        <a class="port-item reveal" data-cat="record" href="#">
+          <div class="port-img" style="background-image:url('SETUP 2.jpg')"></div>
+          <div class="port-meta">
+            <span>Recording</span>
+            <h4>Live Acoustic</h4>
+          </div>
+        </a>
+        <a class="port-item reveal" data-cat="mix" href="#">
+          <div class="port-img" style="background-image:url('setup1.jpg')"></div>
+          <div class="port-meta">
+            <span>Mix · Master</span>
+            <h4>Indie Bloom</h4>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">05 / Voices</span>
+        <h2 class="section-title">What artists <em>say</em>.</h2>
+      </div>
+
+      <div class="testi-track reveal">
+        <article class="testi-card">
+          <div class="quote">“The cleanest sound I've recorded in Delhi. The room itself made my vocals sit better.”</div>
+          <div class="who">
+            <div class="avatar" style="background:linear-gradient(135deg,#d4a857,#7a5a1f)">A</div>
+            <div>
+              <strong>Aarav K.</strong>
+              <span>Independent Artist</span>
+            </div>
+          </div>
+        </article>
+        <article class="testi-card">
+          <div class="quote">“Affordable, professional, and creative. They treat your project like their own.”</div>
+          <div class="who">
+            <div class="avatar" style="background:linear-gradient(135deg,#9aa5b8,#2e3a52)">R</div>
+            <div>
+              <strong>Riya M.</strong>
+              <span>Singer-Songwriter</span>
+            </div>
+          </div>
+        </article>
+        <article class="testi-card">
+          <div class="quote">“Best beats and master I've gotten in this price range — period.”</div>
+          <div class="who">
+            <div class="avatar" style="background:linear-gradient(135deg,#b48cff,#3a1f7a)">S</div>
+            <div>
+              <strong>Skrunkz</strong>
+              <span>Rapper / Producer</span>
+            </div>
+          </div>
+        </article>
+        <article class="testi-card">
+          <div class="quote">“The coaching program literally changed how I produce. Worth every rupee.”</div>
+          <div class="who">
+            <div class="avatar" style="background:linear-gradient(135deg,#57d4a8,#1f7a5a)">D</div>
+            <div>
+              <strong>Devansh P.</strong>
+              <span>Producer · Student</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-inner reveal">
+        <div class="contact-left">
+          <span class="section-tag">06 / Contact</span>
+          <h2 class="contact-title">Let's make<br/>something <em>iconic</em>.</h2>
+          <p class="contact-sub">Reach out on WhatsApp for the fastest reply — or send us a note via email.</p>
+
+          <div class="contact-channels">
+            <a href="https://wa.me/919999999999?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="channel">
+              <span class="ch-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3.5A11.5 11.5 0 0 0 3.5 19.7L2 22.5l2.9-1.5A11.5 11.5 0 1 0 20 3.5Zm-8 19a9.4 9.4 0 0 1-4.8-1.3l-.3-.2-2.9.8.8-2.8-.2-.3A9.4 9.4 0 1 1 12 22.5Zm5.3-7c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a7.8 7.8 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.3 0-.4.1-.5l.4-.5a2 2 0 0 0 .3-.4.4.4 0 0 0 0-.4l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.4 3.4 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.7 13.7 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2-1.5 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.4Z"/></svg>
+              </span>
+              <div>
+                <strong>WhatsApp</strong>
+                <span>+91 99999 99999</span>
+              </div>
             </a>
-            <nav class="nav">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="#studio" class="nav__link">The Space</a></li>
-                    <li class="nav__item"><a href="#portfolio" class="nav__link">The Work</a></li>
-                    <li class="nav__item"><a href="#contact" class="nav__link">Contact Us</a></li>
-                </ul>
-            </nav>
-            <div class="header__cta">
-                <a href="#contact" class="btn btn--primary btn--header">Book Now</a>
-            </div>
+            <a href="https://instagram.com/middleclassmusicians" target="_blank" rel="noopener" class="channel">
+              <span class="ch-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              </span>
+              <div>
+                <strong>Instagram</strong>
+                <span>@middleclassmusicians</span>
+              </div>
+            </a>
+            <a href="mailto:hello@middleclassmusicians.com" class="channel">
+              <span class="ch-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              </span>
+              <div>
+                <strong>Email</strong>
+                <span>hello@middleclassmusicians.com</span>
+              </div>
+            </a>
+          </div>
         </div>
-    </header>
 
-    <main id="main-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero__bg"></div>
-            <div class="hero__content">
-                <h1 class="hero__title">RECORD. CREATE. PERFORM.</h1>
-                <p class="hero__subtitle">Premium Recording Studio in Delhi – Starting ₹350/hr</p>
-                <div class="hero__actions">
-                    <a href="#contact" class="btn btn--whatsapp btn--large">Book Session</a>
-                    <button id="hero-play-btn" class="btn btn--minimal" data-audio-src="https://actions.google.com/sounds/v1/water/rain_on_roof.ogg" aria-label="Play Demo Beat">
-                        <span class="btn__icon-wrapper">
-                            <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </span>
-                        Demo Beat
-                    </button>
-                </div>
-            </div>
-        </section>
+        <form class="contact-form" onsubmit="return handleContact(event)">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" required placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label>Email / Phone</label>
+            <input type="text" required placeholder="How we reach you" />
+          </div>
+          <div class="field">
+            <label>Service</label>
+            <select required>
+              <option value="">Select a service</option>
+              <option>Recording — ₹350/hr</option>
+              <option>Mixing &amp; Mastering</option>
+              <option>Beat Production</option>
+              <option>Music Course</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Message</label>
+            <textarea rows="4" placeholder="Tell us about your project"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary full">Send Enquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
 
-        <!-- Studio Showcase -->
-        <section class="studio" id="studio">
-            <div class="container">
-                <header class="section-header">
-                    <h2 class="section-title">The Space</h2>
-                    <p class="section-subtitle">Premium textures. Underground roots.</p>
-                </header>
-                <div class="collage-container">
-                    <div class="collage-item collage-video">
-                        <video class="collage-media" autoplay loop muted playsinline>
-                           <img src="setup1.png" alt="Description" />
-                        </video>
-                    </div>
-                    <div class="collage-item collage-img-1">
-                         <div class="slide active" style="background-image: url('https://lh3.googleusercontent.com/d/16wildrlQxD9pmGyp-8PcYiMC_aQR4NE8');"></div>
-                    </div>
-                    <div class="collage-item collage-img-2">
-                        <img src="/MIC.png" class="collage-media" alt="Microphone" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio Carousel -->
-        <section class="portfolio" id="portfolio">
-            <header class="section-header">
-                <h2 class="section-title">Sonic Archive</h2>
-                <p class="section-subtitle">Click to experience the sound. Swipe to browse.</p>
-            </header>
-            
-            <div class="portfolio-carousel-wrapper" id="portfolio-wrapper">
-                <div class="portfolio-track" id="portfolio-track">
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">O Piyaa</h3>
-                        <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Concrete Textures</h3>
-                        <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto=format&fit=crop" alt="Global" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Silk & Sitar</h3>
-                        <p class="portfolio-item__artist">Global Fusion EP</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1520872024865-3ff2805d8bb3?q=80&w=600&auto=format&fit=crop" alt="Midnight" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Midnight Run</h3>
-                        <p class="portfolio-item__artist">Underground Collective</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Analog" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Analog Dreams</h3>
-                        <p class="portfolio-item__artist">Synthwave Cuts</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1601312378427-822b2b41da35?q=80&w=600&auto=format&fit=crop" alt="Vocal" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Raw Takes</h3>
-                        <p class="portfolio-item__artist">Studio Sessions</p>
-                    </article>
-
-                    <!-- Duplicated Items for seamless scrolling loop -->
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/science_fiction/scifi_engine_startup.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" alt="O Piyaa" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">O Piyaa</h3>
-                        <p class="portfolio-item__artist">Masky Feat. Wenon Bont</p>
-                    </article>
-
-                    <article class="portfolio-item" data-audio-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
-                        <div class="portfolio-item__image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Concrete" class="portfolio-item__image" loading="lazy" />
-                            <div class="portfolio-item__overlay"><div class="play-indicator"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-                        </div>
-                        <h3 class="portfolio-item__title">Concrete Textures</h3>
-                        <p class="portfolio-item__artist">Boom Bap Instrumentals</p>
-                    </article>
-                </div>
-            </div>
-
-            <!-- Manual Slider Controls -->
-            <div class="portfolio-controls">
-                <button class="carousel-btn" id="prev-btn" aria-label="Previous Slide">
-                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                <button class="carousel-btn" id="next-btn" aria-label="Next Slide">
-                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-            </div>
-        </section>
-
-       <!-- INTERACTIVE HUB (Zero-Overlap UI) -->
-        <section class="interactive-section" id="interactive-hub">
-            <div class="container text-center">
-                <header class="section-header">
-                    <h2 class="section-title">The Vault</h2>
-                    <p class="section-subtitle">What else do we do?</p>
-                </header>
-                
-                <div class="magic-hub-wrapper">
-                    <div class="magic-hub" id="magic-hub">
-                        <!-- Main Trigger Button -->
-                        <button id="magic-btn" class="btn--minimal massive-btn sfx-hover" aria-expanded="false">
-                            <span class="btn-text">Don&#39;t Touch It</span>
-                        </button>
-                        
-                        <!-- Floating Glass Nodes -->
-                        <div class="sub-nodes" id="sub-nodes-container">
-                            <div class="sub-node glass-panel node-1"><i data-lucide="mic"></i> Recording</div>
-                            <div class="sub-node glass-panel node-2"><i data-lucide="sliders"></i> Mixing & Mastering</div>
-                            <div class="sub-node glass-panel node-3"><i data-lucide="drum"></i> Beat Production</div>
-                            <div class="sub-node glass-panel node-4"><i data-lucide="briefcase"></i> Music Business</div>
-                            <div class="sub-node glass-panel node-5"><i data-lucide="users"></i> Artist Mgmt</div>
-                            <div class="sub-node glass-panel node-6"><i data-lucide="video"></i> Video Production</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Reviews & Video Feedback -->
-        <section class="reviews-section" id="reviews">
-            <div class="container">
-                <header class="section-header">
-                    <h2 class="section-title">Word on the Street</h2>
-                    <p class="section-subtitle">Real artists. Real sound.</p>
-                </header>
-
-                <div class="video-feedback-grid">
-                    <div class="video-card">
-                        <video autoplay loop muted playsinline class="bg-video">
-                            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                        </video>
-                        <div class="video-overlay">
-                            <h4>"Best mix I&#39;ve ever had."</h4>
-                            <p>@young_craze</p>
-                        </div>
-                    </div>
-                    <div class="video-card">
-                        <video autoplay loop muted playsinline class="bg-video">
-                            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                        </video>
-                        <div class="video-overlay">
-                            <h4>"The vibe is unmatched."</h4>
-                            <p>@sarah_sings</p>
-                        </div>
-                    </div>
-                    <div class="video-card">
-                        <video autoplay loop muted playsinline class="bg-video">
-                            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                        </video>
-                        <div class="video-overlay">
-                            <h4>"Industry standard quality."</h4>
-                            <p>@producer_mike</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Apple Matte Glass Google Maps Marquee -->
-            <div class="marquee-container">
-                <div class="marquee-track">
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Crazy energy in the booth. Bunny knows exactly how to push your vocals and get the best take out of you." <span>- Amit K.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Best studio in Delhi hands down. The mixes are industry standard and the equipment is top tier." <span>- Rahul T.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Pulled up to record a drill track. The type beats they had ready were absolute fire. One stop solution." <span>- Sneha V.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Professional, clean, and massive sound. They even helped me shoot content for the release." <span>- Divya S.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Affordable rates but extremely premium quality. MCM is going to take over the local scene." <span>- Karan M.</span></p>
-                    </div>
-                    
-                    <!-- Exact Duplicate Set for Infinite Loop -->
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Crazy energy in the booth. Bunny knows exactly how to push your vocals and get the best take out of you." <span>- Amit K.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Best studio in Delhi hands down. The mixes are industry standard and the equipment is top tier." <span>- Rahul T.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Pulled up to record a drill track. The type beats they had ready were absolute fire. One stop solution." <span>- Sneha V.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Professional, clean, and massive sound. They even helped me shoot content for the release." <span>- Divya S.</span></p>
-                    </div>
-                    <div class="review-pill">
-                        <div class="stars">★★★★★</div>
-                        <p>"Affordable rates but extremely premium quality. MCM is going to take over the local scene." <span>- Karan M.</span></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Form -->
-        <section class="contact" id="contact">
-            <div class="container">
-                <div class="contact__grid">
-                    <div class="contact__info">
-                        <h2 class="section-title">Lock In Your Sound.</h2>
-                        <p class="contact__desc">Ready to craft premium sonic architecture? Drop your details below and we will route your request directly to our WhatsApp.</p>
-                    </div>
-                    <div class="contact__form-wrapper">
-                        <form id="booking-form" class="minimal-form">
-                            <div class="form-row"><input type="text" id="name" class="minimal-input" placeholder="Your Name" required /></div>
-                            <div class="form-row"><input type="tel" id="phone" class="minimal-input" placeholder="Phone Number" required /></div>
-                            <div class="form-row"><input type="text" id="ig" class="minimal-input" placeholder="Instagram Handle" required /></div>
-                            <div class="form-row"><textarea id="query" class="minimal-input minimal-textarea" rows="4" placeholder="Briefly describe your project..." required></textarea></div>
-                            <button type="submit" class="btn btn--whatsapp btn--full">Send via WhatsApp</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container text-center">
-            <div class="footer__map-container">
-                <a href="https://maps.app.goo.gl/fvCJ7kYtDuzFVWzVA?g_st=ac" target="_blank" rel="noopener noreferrer" class="btn btn--minimal footer__map-btn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    Open Studio Location Map
-                </a>
-            </div>
-
-            <div class="footer__socials">
-                <a href="mailto:inquiries@middleclassmusicians.in" class="footer__social-link" aria-label="Email Us via Gmail">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <span>Gmail</span>
-                </a>
-                <a href="https://www.instagram.com/middleclassmusicians/" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Follow us on Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                    <span>Instagram</span>
-                </a>
-            </div>
-
-            <span class="footer__logo">Middle Class Musicians</span>
-            <p class="footer__copy">&copy; 2026. Premium sounds, grounded roots.</p>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-mark">M</span>
+        <div>
+          <strong>Middle Class Musicians</strong>
+          <span>Delhi · India</span>
         </div>
-    </footer>
+      </div>
+      <div class="footer-links">
+        <a href="#studio">Studio</a>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#portfolio">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> Middle Class Musicians. All rights reserved.</div>
+    </div>
+  </footer>
 
-    <!-- External JS -->
-    <script src="script.js"></script>
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/919999999999?text=Hi%20MCM%21" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3.5A11.5 11.5 0 0 0 3.5 19.7L2 22.5l2.9-1.5A11.5 11.5 0 1 0 20 3.5Zm-8 19a9.4 9.4 0 0 1-4.8-1.3l-.3-.2-2.9.8.8-2.8-.2-.3A9.4 9.4 0 1 1 12 22.5Zm5.3-7c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a7.8 7.8 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.3 0-.4.1-.5l.4-.5a2 2 0 0 0 .3-.4.4.4 0 0 0 0-.4l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.4 3.4 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.7 13.7 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2-1.5 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.4Z"/></svg>
+  </a>
 
-    <!-- Tawk.to AI Chatbot Script -->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/69f75bc4986f9c1c33e84e97/1jnn3sv1r';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
