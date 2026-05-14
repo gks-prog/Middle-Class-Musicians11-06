@@ -5,10 +5,8 @@
 (() => {
   'use strict';
 
-  /* FORCE SCROLL TO TOP */
   window.scrollTo(0, 0);
 
-  /* PRELOADER */
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pl = document.getElementById('preloader');
@@ -16,23 +14,22 @@
     }, 1200); 
   });
 
-  /* YEAR */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* VANILLA JS BACKGROUND NOTES (FIXED Z-INDEX VISIBILITY) */
+  /* VANILLA JS BACKGROUND NOTES (LINKED TO SCROLL) */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
   if (notesContainer) {
     const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 25; i++) {
       const span = document.createElement('span');
       span.className = 'music-note';
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       const left = Math.random() * 100;
       const size = Math.random() * 2 + 1;
-      const opacity = Math.random() * 0.15 + 0.05;
-      const speed = Math.random() * 0.5 + 0.2;
+      const opacity = Math.random() * 0.15 + 0.1; // Increased for visibility
+      const speed = Math.random() * 0.6 + 0.2;
       const baseY = Math.random() * 100;
       span.style.left = `${left}%`;
       span.style.top = `${baseY}%`;
@@ -43,100 +40,71 @@
     }
   }
 
-  /* CUSTOM CURSOR */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
   const hasCursor = cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches;
-  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, cx = mouseX, cy = mouseY, currentScrollY = window.scrollY;
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, cx = mouseX, cy = mouseY;
+  let currentScrollY = window.scrollY;
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .port-item, .price-card, .channel, .btn-solution, .solution-card, .curved-loop-jacket').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .port-item, .price-card, .btn-solution, .solution-card, .curved-loop-jacket').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
   }
 
-  /* VANILLA CURVED INTERACTIVE LOOP (Ported from React Component) */
+  /* CURVED TAPE LOGIC */
   const curveJacket = document.getElementById('curvedLoopJacket');
   const measureText = document.getElementById('measureText');
   const curvedTextPath = document.getElementById('curvedTextPath');
-  
-  let curveOffset = 0;
-  let curveSpeed = 1.5; 
-  let curveDirection = 'left';
-  let isDraggingCurve = false;
-  let lastCurveX = 0;
-  let curveVelocity = 0;
-  let curveSpacing = 0;
+  let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
-  // Wait for font to load before calculating mathematical spacing
   document.fonts.ready.then(() => {
     if (curveJacket && measureText && curvedTextPath) {
-      const baseText = measureText.textContent.trim() + '\u00A0\u00A0';
+      const baseText = measureText.textContent.trim() + ' ✦ ';
       curveSpacing = measureText.getComputedTextLength();
-      
       if (curveSpacing > 0) {
-        // Multiply text enough times to fill the 1800px curve path width
-        const repetitions = Math.ceil(1800 / curveSpacing) + 2;
+        const repetitions = Math.ceil(2400 / curveSpacing) + 2;
         curvedTextPath.textContent = Array(repetitions).fill(baseText).join('');
         curveOffset = -curveSpacing;
-        curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
 
-        // Pointer Events for Interaction
         curveJacket.addEventListener('pointerdown', (e) => {
-          isDraggingCurve = true;
-          lastCurveX = e.clientX;
-          curveVelocity = 0;
+          isDraggingCurve = true; lastCurveX = e.clientX; curveVelocity = 0;
           curveJacket.setPointerCapture(e.pointerId);
           curveJacket.style.cursor = 'grabbing';
         });
-
         curveJacket.addEventListener('pointermove', (e) => {
           if (!isDraggingCurve) return;
-          const dx = e.clientX - lastCurveX;
-          lastCurveX = e.clientX;
-          curveVelocity = dx;
-          
+          const dx = e.clientX - lastCurveX; lastCurveX = e.clientX; curveVelocity = dx;
           curveOffset += dx;
           if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
           if (curveOffset > 0) curveOffset -= curveSpacing;
-          
           curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
         });
-
-        const endDrag = () => {
-          isDraggingCurve = false;
-          curveDirection = curveVelocity > 0 ? 'right' : 'left';
-          curveJacket.style.cursor = 'grab';
-        };
-
+        const endDrag = () => { isDraggingCurve = false; curveDirection = curveVelocity > 0 ? 'right' : 'left'; curveJacket.style.cursor = 'grab'; };
         curveJacket.addEventListener('pointerup', endDrag);
         curveJacket.addEventListener('pointercancel', endDrag);
       }
     }
   });
 
-
-  /* UNIFIED RAF LOOP */
   const animate = () => {
-    // 1. Cursor Physics
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // 2. Notes Scroll Physics
+    // Notes Scroll Rendering
+    currentScrollY += (window.scrollY - currentScrollY) * 0.15; // Smooth scroll damping
     if (bgNotes.length > 0) {
-      currentScrollY += (window.scrollY - currentScrollY) * 0.2; 
       for (let i = 0; i < bgNotes.length; i++) {
         const yPos = -(currentScrollY * bgNotes[i].speed);
         bgNotes[i].el.style.transform = `translate3d(0, ${yPos}px, 0)`;
       }
     }
 
-    // 3. Curved Loop Physics
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -144,103 +112,49 @@
       if (curveOffset > 0) curveOffset -= curveSpacing;
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
-
     requestAnimationFrame(animate);
   };
   requestAnimationFrame(animate);
 
-  /* NAV SCROLL */
   const nav = document.getElementById('nav');
-  let isNavScrolled = false;
-  const onScroll = () => {
-    const shouldScroll = window.scrollY > 60;
-    if (shouldScroll !== isNavScrolled) {
-      isNavScrolled = shouldScroll;
-      nav.classList.toggle('scrolled', isNavScrolled);
-    }
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
 
-  /* MOBILE MENU */
   const toggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   if (toggle && mobileMenu) {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        toggle.classList.remove('active');
-        mobileMenu.classList.remove('open');
-      });
-    });
+    toggle.addEventListener('click', () => { toggle.classList.toggle('active'); mobileMenu.classList.toggle('open'); });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { toggle.classList.remove('active'); mobileMenu.classList.remove('open'); }));
   }
 
-  /* REVEAL ON SCROLL */
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } });
+  }, { threshold: 0.12 });
   reveals.forEach(r => io.observe(r));
 
-  /* ANIMATED STATS COUNTER */
+  /* SCROLL-LINKED STATS COUNTER */
   const statNumbers = document.querySelectorAll('.stat-number');
   const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const target = +entry.target.getAttribute('data-count');
-        let count = 0;
-        const speed = target / 60; // Approximate 60 frames to complete
-        
+        let count = 0; const increment = target / 50; 
         const updateCount = () => {
-          count += speed;
-          if (count < target) {
-            entry.target.innerText = Math.ceil(count);
-            requestAnimationFrame(updateCount);
-          } else {
-            entry.target.innerText = target;
-          }
+          count += increment;
+          if (count < target) { entry.target.innerText = Math.ceil(count); requestAnimationFrame(updateCount); } 
+          else { entry.target.innerText = target; }
         };
         updateCount();
         statsObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.7 });
   statNumbers.forEach(num => statsObserver.observe(num));
 
-  /* TILT EFFECT */
-  document.querySelectorAll('[data-tilt]').forEach(card => {
-    let raf;
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        card.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateZ(0)`;
-      });
-    }, { passive: true });
-    card.addEventListener('mouseleave', () => { cancelAnimationFrame(raf); card.style.transform = ''; });
-  });
-
-  /* ONE STOP SOLUTION ACCORDION LOGIC */
   const solBtn = document.getElementById('solutionToggleBtn');
   const solAccordion = document.getElementById('solutionAccordion');
-  if (solBtn && solAccordion) {
-    solBtn.addEventListener('click', () => {
-      solBtn.classList.toggle('active');
-      solAccordion.classList.toggle('open');
-    });
-  }
+  if (solBtn && solAccordion) { solBtn.addEventListener('click', () => { solBtn.classList.toggle('active'); solAccordion.classList.toggle('open'); }); }
 
-  /* SMOOTH SCROLL OFFSET */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       const id = link.getAttribute('href');
@@ -248,25 +162,12 @@
         const target = document.querySelector(id);
         if (target) {
           e.preventDefault();
-          const top = target.getBoundingClientRect().top + window.scrollY - 60;
-          window.scrollTo({ top, behavior: 'smooth' });
-          history.pushState(null, null, id);
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
         }
       }
     });
   });
 
-  /* PARALLAX ORBS */
-  const orbs = document.querySelectorAll('.hero-orb');
-  window.addEventListener('mousemove', (e) => {
-    if (window.scrollY > 700) return;
-    const x = (e.clientX / window.innerWidth - 0.5) * 30, y = (e.clientY / window.innerHeight - 0.5) * 30;
-    requestAnimationFrame(() => {
-      orbs.forEach((o, i) => { const factor = (i + 1) * 0.5; o.style.transform = `translate(${x * factor}px, ${y * factor}px)`; });
-    });
-  }, { passive: true });
-
-  /* YOUTUBE MARQUEE TOGGLE */
   const mToggleBtn = document.getElementById('marqueeToggle');
   const mTrack = document.getElementById('marqueeTrack');
   const mToggleText = document.getElementById('marqueeToggleText');
@@ -280,7 +181,6 @@
   }
 })();
 
-/* CONTACT FORM */
 function handleContact(e) {
   e.preventDefault();
   const form = e.target, btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
