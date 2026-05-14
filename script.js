@@ -18,8 +18,7 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* =========================================================
-     NEW: WEB AUDIO API & HAPTIC ENGINE
-     Synthesizes a premium electric piano/rhodes click
+     WEB AUDIO API & HAPTIC ENGINE
   ========================================================= */
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   
@@ -27,31 +26,83 @@
     if (navigator.vibrate) navigator.vibrate(15);
   }
 
-  function playPluck() {
+  function playSound(type) {
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
-    osc.type = 'sine'; // Smooth tone
-    osc.frequency.setValueAtTime(440 + Math.random() * 220, audioCtx.currentTime); 
-    
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+    if (type === 'hover') {
+      osc.type = 'sine'; 
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+    } 
+    else if (type === 'type') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(300 + Math.random() * 50, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+    else if (type === 'theme') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }
+    else if (type === 'send') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); // C#
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); // E
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.6);
+    }
+    else {
+      // Default Click
+      osc.type = 'sine'; 
+      osc.frequency.setValueAtTime(440 + Math.random() * 220, audioCtx.currentTime); 
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    }
     
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.4);
   }
 
-  // Bind SFX and Haptics to all interactive elements
-  document.querySelectorAll('a, button, .studio-card, .solution-card, .marquee-tile, .testi-card').forEach(el => {
-    el.addEventListener('pointerdown', () => {
-      triggerHaptic();
-      playPluck();
-    });
+  // Bind SFX to elements
+  document.querySelectorAll('[data-sound="hover"]').forEach(el => {
+    el.addEventListener('mouseenter', () => playSound('hover'));
+    el.addEventListener('pointerdown', () => { triggerHaptic(); playSound('click'); });
   });
+
+  document.querySelectorAll('[data-sound="click"]').forEach(el => {
+    el.addEventListener('pointerdown', () => { triggerHaptic(); playSound('click'); });
+  });
+
+  document.querySelectorAll('.haptic-input').forEach(el => {
+    el.addEventListener('input', () => { playSound('type'); });
+  });
+
+  document.getElementById('submitBtn')?.addEventListener('pointerdown', () => {
+    triggerHaptic(); playSound('send');
+  });
+
 
   /* THEME TOGGLE ENGINE */
   const themeBtn = document.getElementById('themeToggle');
@@ -60,6 +111,7 @@
 
   if (themeBtn) {
     themeBtn.addEventListener('click', () => {
+      playSound('theme');
       document.body.classList.remove(themes[currentThemeIndex]);
       currentThemeIndex = (currentThemeIndex + 1) % themes.length;
       document.body.classList.add(themes[currentThemeIndex]);
@@ -67,11 +119,10 @@
   }
 
   /* =========================================================
-     FIX: PREMIUM VANILLA JS NOTES (Anti-Lag + Drift Math)
+     PREMIUM VANILLA JS NOTES (Anti-Lag + Drift Math)
   ========================================================= */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
-  // Cache window height to prevent expensive DOM reads in RAF loop
   let winHeight = window.innerHeight;
   let winWidth = window.innerWidth;
   
@@ -82,7 +133,7 @@
 
   if (notesContainer) {
     const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-    for (let i = 0; i < 30; i++) { // Reduced count slightly for performance overhead
+    for (let i = 0; i < 30; i++) { 
       const span = document.createElement('span');
       span.className = 'music-note';
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -91,7 +142,6 @@
       span.style.left = `${left}vw`;
       span.style.fontSize = `${Math.random() * 2 + 1}rem`;
       
-      // Setup physics variables
       const speed = Math.random() * 0.4 + 0.1;
       const initialY = Math.random() * (winHeight * 1.5); 
       const driftSpeed = Math.random() * 0.02 + 0.005;
@@ -151,7 +201,7 @@
     }
   });
 
-  /* 3D PARABOLIC YOUTUBE SLIDER (Enhanced Touch/Swipe) */
+  /* 3D PARABOLIC YOUTUBE SLIDER */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
@@ -184,11 +234,10 @@
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
-    // Click router
     tiles.forEach(tile => {
       tile.addEventListener('pointerup', (e) => {
-        if (!mDidDrag && tile.dataset.url) {
-          window.open(tile.dataset.url, '_blank');
+        if (!mDidDrag && tile.dataset.href) {
+          window.open(tile.dataset.href, '_blank');
         }
       });
     });
@@ -240,14 +289,12 @@
   const animate = () => {
     animationTime += 1;
 
-    // 1. Cursor
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // 2. Parallax Notes (With Anti-Lag Math & Sinusoidal Drift)
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = winHeight * 1.5;
@@ -258,14 +305,12 @@
         let loopedY = ((currentY % wrapHeight) + wrapHeight) % wrapHeight;
         loopedY -= winHeight * 0.25; 
         
-        // Horizontal drift calculation
         let driftX = Math.sin((animationTime * note.driftSpeed) + note.offsetPhase) * 20;
         
         note.el.style.transform = `translate3d(${driftX}px, ${loopedY - note.initialY}px, 0)`;
       }
     }
 
-    // 3. Curved Hero Text
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -274,7 +319,6 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    // 4. Parabolic 3D Video Slider
     if (mTrack && halfTrackWidth > 0) {
       if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
       
@@ -288,7 +332,7 @@
       
       mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
 
-      const containerWidth = mContainer.offsetWidth; // Use local width instead of heavy BoundingRect
+      const containerWidth = mContainer.offsetWidth; 
       const centerX = containerWidth / 2;
       
       for (let i = 0; i < tiles.length; i++) {
