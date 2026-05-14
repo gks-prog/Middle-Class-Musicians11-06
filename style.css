@@ -224,7 +224,88 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .mobile-menu a:hover { 
   color: #fff; 
 }
+/* ============================================================
+   MOBILE-FIRST UX OPTIMIZATIONS (Apple/Editorial Standards)
+   ============================================================ */
 
+/* 1. Neutralize Default Mobile Browser Behavior */
+html, body {
+  /* Prevent 'rubber-band' scroll revealing white backgrounds on iOS */
+  overscroll-behavior-y: none; 
+  /* Prevent horizontal swipe navigation from breaking layout */
+  overscroll-behavior-x: none;
+}
+
+* {
+  /* Remove the cheap blue flash when tapping links/buttons on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 2. Optimize Floating Elements for Modern Phone Hardware (Safe Areas) */
+.float-wa {
+  /* Push WhatsApp button up so it doesn't overlap iOS home swipe bar */
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  /* Ensure minimum touch target size */
+  min-width: 60px;
+  min-height: 60px;
+}
+
+/* 3. Mobile Typography & Spacing Overrides */
+@media (max-width: 600px) {
+  /* Tighten section padding for screen economy but respect notches */
+  section {
+    padding: 80px 0 calc(80px + env(safe-area-inset-bottom));
+  }
+  
+  /* Give the content breathing room from the screen edges */
+  .container {
+    padding: 0 24px;
+  }
+
+  /* Scale hero text down so long words don't break the layout */
+  .hero-title {
+    font-size: clamp(48px, 15vw, 80px);
+    margin-bottom: 24px;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    padding: 0 16px;
+  }
+
+  /* Make pricing cards more editorial and less boxed-in on mobile */
+  .price-card {
+    padding: 32px 24px;
+    border-radius: 16px;
+  }
+  
+  .price-figure .amount {
+    font-size: 56px; /* Slightly smaller to prevent wrapping */
+  }
+
+  /* Ensure touch targets in the footer are comfortably clickable */
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .footer-links a {
+    padding: 8px; /* Invisible padding to increase touch area */
+  }
+
+  /* Form adjustments for thumb-reachability */
+  .field input, .field select, .field textarea {
+    padding: 16px;
+    font-size: 16px; /* Prevents auto-zoom on iOS Safari when tapping inputs */
+  }
+
+  .contact-inner {
+    padding: 40px 24px;
+    border-radius: 16px;
+  }
+}
 /* Refined CTA Button */
 .mobile-cta {
   padding: 16px 36px;
