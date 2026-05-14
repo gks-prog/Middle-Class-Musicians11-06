@@ -5,48 +5,93 @@
 (() => {
   'use strict';
 
+  /* ----- FORCE SCROLL TO TOP ON REFRESH ----- */
+  window.scrollTo(0, 0);
+
   /* ----- PRELOADER ----- */
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pl = document.getElementById('preloader');
       if (pl) pl.classList.add('done');
-    }, 900);
+    }, 1200); // Slightly longer to appreciate the waveform
   });
 
   /* ----- YEAR ----- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ----- CUSTOM CURSOR (Unified rAF loop for zero stutter) ----- */
+  /* ----- VANILLA JS BACKGROUND NOTES ----- */
+  // Ported your React component directly into vanilla JS for performance
+  const notesContainer = document.getElementById('bg-notes');
+  const bgNotes = [];
+  if (notesContainer) {
+    const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
+    for (let i = 0; i < 20; i++) {
+      const span = document.createElement('span');
+      span.className = 'music-note';
+      span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      
+      const left = Math.random() * 100;
+      const size = Math.random() * 2 + 1;
+      const opacity = Math.random() * 0.15 + 0.05;
+      const speed = Math.random() * 0.5 + 0.2;
+      const baseY = Math.random() * 100;
+
+      span.style.left = `${left}%`;
+      span.style.top = `${baseY}%`;
+      span.style.fontSize = `${size}rem`;
+      span.style.opacity = opacity;
+
+      notesContainer.appendChild(span);
+      bgNotes.push({ el: span, speed: speed });
+    }
+  }
+
+  /* ----- CUSTOM CURSOR & MAIN RAF LOOP ----- */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
-  if (cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches) {
-    let mouseX = window.innerWidth / 2; 
-    let mouseY = window.innerHeight / 2; 
-    let cx = mouseX, cy = mouseY;
+  const hasCursor = cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches;
+  
+  let mouseX = window.innerWidth / 2; 
+  let mouseY = window.innerHeight / 2; 
+  let cx = mouseX, cy = mouseY;
+  let currentScrollY = window.scrollY;
 
+  if (hasCursor) {
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX; 
       mouseY = e.clientY;
     }, { passive: true });
-
-    const animate = () => {
-      // Sync dot exactly to mouse
-      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-      // Lerp outer ring
-      cx += (mouseX - cx) * 0.18;
-      cy += (mouseY - cy) * 0.18;
-      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      
-      requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
 
     document.querySelectorAll('a, button, .studio-card, .port-item, .service-row, .price-card, .channel').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
   }
+
+  // Unified RequestAnimationFrame Loop
+  const animate = () => {
+    // 1. Update Cursor
+    if (hasCursor) {
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+      cx += (mouseX - cx) * 0.18;
+      cy += (mouseY - cy) * 0.18;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    }
+
+    // 2. Update Background Notes
+    if (bgNotes.length > 0) {
+      // Calculate scroll delta to avoid jitter
+      currentScrollY += (window.scrollY - currentScrollY) * 0.2; 
+      for (let i = 0; i < bgNotes.length; i++) {
+        const yPos = -(currentScrollY * bgNotes[i].speed);
+        bgNotes[i].el.style.transform = `translate3d(0, ${yPos}px, 0)`;
+      }
+    }
+
+    requestAnimationFrame(animate);
+  };
+  requestAnimationFrame(animate);
 
   /* ----- NAV SCROLL ----- */
   const nav = document.getElementById('nav');
@@ -147,7 +192,6 @@
           e.preventDefault();
           const top = target.getBoundingClientRect().top + window.scrollY - 60;
           window.scrollTo({ top, behavior: 'smooth' });
-          // Update URL without jump
           history.pushState(null, null, id);
         }
       }
@@ -168,6 +212,22 @@
       });
     });
   }, { passive: true });
+
+  /* ----- YOUTUBE MARQUEE TOGGLE ----- */
+  const mToggleBtn = document.getElementById('marqueeToggle');
+  const mTrack = document.getElementById('marqueeTrack');
+  const mToggleText = document.getElementById('marqueeToggleText');
+  const mToggleIcon = document.getElementById('marqueeIcon');
+
+  if (mToggleBtn && mTrack) {
+    mToggleBtn.addEventListener('click', () => {
+      const isPaused = mTrack.classList.toggle('paused');
+      mToggleText.textContent = isPaused ? 'Play' : 'Pause';
+      mToggleIcon.innerHTML = isPaused 
+        ? '<path d="M8 5v14l11-7z"/>'
+        : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+    });
+  }
 
 })();
 
@@ -192,20 +252,4 @@ function handleContact(e) {
     }, 3200);
   }, 1100);
   return false;
-/* ----- YOUTUBE MARQUEE TOGGLE ----- */
-  const mToggleBtn = document.getElementById('marqueeToggle');
-  const mTrack = document.getElementById('marqueeTrack');
-  const mToggleText = document.getElementById('marqueeToggleText');
-  const mToggleIcon = document.getElementById('marqueeIcon');
-
-  if (mToggleBtn && mTrack) {
-    mToggleBtn.addEventListener('click', () => {
-      const isPaused = mTrack.classList.toggle('paused');
-      mToggleText.textContent = isPaused ? 'Play' : 'Pause';
-      // Switch SVG paths based on state
-      mToggleIcon.innerHTML = isPaused 
-        ? '<path d="M8 5v14l11-7z"/>'  // Play Icon
-        : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>'; // Pause Icon
-    });
-  }
 }
