@@ -1,24 +1,34 @@
 /* ===========================================================
-   MIDDLE CLASS MUSICIANS — Interactivity & Animations (Optimized)
+   MIDDLE CLASS MUSICIANS — Interactivity & Themes
    =========================================================== */
 
 (() => {
   'use strict';
 
-  /* FORCE SCROLL TO TOP */
   window.scrollTo(0, 0);
 
-  /* FIX: DECOUPLED PRELOADER 
-     This guarantees the preloader fades out after 1.5 seconds, 
-     preventing it from getting stuck waiting for iframes/maps to load. 
-  */
-  setTimeout(() => {
-    const pl = document.getElementById('preloader');
-    if (pl) pl.classList.add('done');
-  }, 1500); 
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const pl = document.getElementById('preloader');
+      if (pl) pl.classList.add('done');
+    }, 1500); 
+  });
 
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* THEME TOGGLE ENGINE */
+  const themeBtn = document.getElementById('themeToggle');
+  const themes = ['theme-night', 'theme-day', 'theme-realm'];
+  let currentThemeIndex = 0;
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.remove(themes[currentThemeIndex]);
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      document.body.classList.add(themes[currentThemeIndex]);
+    });
+  }
 
   /* BACKGROUND NOTES */
   const notesContainer = document.getElementById('bg-notes');
@@ -31,10 +41,8 @@
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       span.style.left = `${Math.random() * 100}vw`;
       span.style.fontSize = `${Math.random() * 2 + 1}rem`;
-      
       const speed = Math.random() * 0.4 + 0.1;
       const initialY = Math.random() * (window.innerHeight * 1.5); 
-      
       notesContainer.appendChild(span);
       bgNotes.push({ el: span, speed: speed, initialY: initialY });
     }
@@ -48,26 +56,19 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container, .rainbow-loop-jacket').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
   }
 
-  /* CURVED TAPE LOGIC (HERO) */
+  /* CURVED TAPE LOGIC */
   const curveJacket = document.getElementById('curvedLoopJacket');
   const measureText = document.getElementById('measureText');
   const curvedTextPath = document.getElementById('curvedTextPath');
   let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
-  /* RAINBOW TAPE LOGIC (TESTIMONIALS) */
-  const rainbowJacket = document.getElementById('rainbowLoopJacket');
-  const reviewMeasureText = document.getElementById('reviewMeasureText');
-  const reviewTextPath = document.getElementById('reviewTextPath');
-  let rainbowOffset = 0, rainbowSpeed = 0.8, rainbowDirection = 'left', isDraggingRainbow = false, lastRainbowX = 0, rainbowVelocity = 0, rainbowSpacing = 0;
-
   document.fonts.ready.then(() => {
-    // Setup Hero Curve
     if (curveJacket && measureText && curvedTextPath) {
       const baseText = measureText.textContent.trim() + ' ✦ ';
       curveSpacing = measureText.getComputedTextLength();
@@ -94,41 +95,16 @@
         curveJacket.addEventListener('pointercancel', endDrag);
       }
     }
-
-    // Setup Rainbow Testimonial Curve
-    if (rainbowJacket && reviewMeasureText && reviewTextPath) {
-      const baseReviewText = reviewMeasureText.textContent.trim() + ' ';
-      rainbowSpacing = reviewMeasureText.getComputedTextLength();
-      if (rainbowSpacing > 0) {
-        const reps = Math.ceil(2400 / rainbowSpacing) + 2;
-        reviewTextPath.textContent = Array(reps).fill(baseReviewText).join('');
-        rainbowOffset = -rainbowSpacing;
-
-        rainbowJacket.addEventListener('pointerdown', (e) => {
-          isDraggingRainbow = true; lastRainbowX = e.clientX; rainbowVelocity = 0;
-          rainbowJacket.setPointerCapture(e.pointerId);
-          rainbowJacket.style.cursor = 'grabbing';
-        });
-        rainbowJacket.addEventListener('pointermove', (e) => {
-          if (!isDraggingRainbow) return;
-          const dx = e.clientX - lastRainbowX; lastRainbowX = e.clientX; rainbowVelocity = dx;
-          rainbowOffset += dx;
-          if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
-          if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
-          reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
-        });
-        const endRainbowDrag = () => { isDraggingRainbow = false; rainbowDirection = rainbowVelocity > 0 ? 'right' : 'left'; rainbowJacket.style.cursor = 'grab'; };
-        rainbowJacket.addEventListener('pointerup', endRainbowDrag);
-        rainbowJacket.addEventListener('pointercancel', endRainbowDrag);
-      }
-    }
   });
 
-  /* 3D PARABOLIC YOUTUBE SLIDER + DEEP CLICK INTERCEPTOR */
+  /* 3D PARABOLIC YOUTUBE SLIDER (Enhanced Touch/Swipe) */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
   const mNextBtn = document.getElementById('marqueeNext');
+  const mToggleBtn = document.getElementById('marqueeToggle');
+  const mToggleText = document.getElementById('marqueeToggleText');
+  const mToggleIcon = document.getElementById('marqueeIcon');
   
   let mTargetOffset = 0;
   let mCurrentOffset = 0;
@@ -167,6 +143,7 @@
       tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
+    // Using pointer events handles both Mouse and Touch naturally
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
@@ -177,34 +154,27 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 5) mDidDrag = true; 
+      if (Math.abs(dx) > 3) mDidDrag = true; // Lowered threshold for mobile sensitivity
       mStartX = e.clientX;
-      mTargetOffset += dx;
+      mTargetOffset += dx * 1.5; // Multiplier for faster swipe feel
     });
 
-    const endMDrag = () => { 
-      isMDragging = false; 
-      resetAutoPlay();
-    };
-    
+    const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    mContainer.addEventListener('mouseenter', () => {
-      mIsPaused = true;
-      clearTimeout(mInteractionTimeout);
-    });
-    
-    mContainer.addEventListener('mouseleave', () => {
-      if (!isMDragging) resetAutoPlay();
-    });
+    mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
+    mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
 
-    mContainer.addEventListener('click', (e) => {
-      if (mDidDrag) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, true); 
+    mContainer.addEventListener('click', (e) => { if (mDidDrag) { e.preventDefault(); e.stopPropagation(); } }, true); 
+
+    if(mToggleBtn) {
+      mToggleBtn.addEventListener('click', () => {
+        mIsPaused = !mIsPaused;
+        mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
+        mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+      });
+    }
 
     if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
     if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
@@ -238,25 +208,15 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    if (!isDraggingRainbow && rainbowSpacing > 0) {
-      const rDelta = rainbowDirection === 'right' ? rainbowSpeed : -rainbowSpeed;
-      rainbowOffset += rDelta;
-      if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
-      if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
-      reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
-    }
-
     if (mTrack && halfTrackWidth > 0) {
       if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
       
       mCurrentOffset += (mTargetOffset - mCurrentOffset) * 0.1;
       
       if (mCurrentOffset <= -halfTrackWidth) {
-        mCurrentOffset += halfTrackWidth;
-        mTargetOffset += halfTrackWidth;
+        mCurrentOffset += halfTrackWidth; mTargetOffset += halfTrackWidth;
       } else if (mCurrentOffset > 0) {
-        mCurrentOffset -= halfTrackWidth;
-        mTargetOffset -= halfTrackWidth;
+        mCurrentOffset -= halfTrackWidth; mTargetOffset -= halfTrackWidth;
       }
       
       mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
@@ -335,10 +295,7 @@
 
 function handleContact(e) {
   e.preventDefault();
-  
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  const orig = btn.innerHTML;
+  const form = e.target, btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
   
   const inputs = form.querySelectorAll('input, select, textarea');
   const name = inputs[0].value.trim();
@@ -369,13 +326,7 @@ function handleContact(e) {
     window.open(waURL, '_blank');
 
     form.reset();
-    setTimeout(() => { 
-      btn.innerHTML = orig; 
-      btn.style.background = ''; 
-      btn.style.color = ''; 
-      btn.disabled = false; 
-    }, 3200);
-
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; btn.disabled = false; }, 3200);
   }, 800);
 
   return false;
