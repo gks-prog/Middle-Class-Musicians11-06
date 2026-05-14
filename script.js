@@ -192,4 +192,20 @@ function handleContact(e) {
     }, 3200);
   }, 1100);
   return false;
+/* ----- YOUTUBE MARQUEE TOGGLE ----- */
+  const mToggleBtn = document.getElementById('marqueeToggle');
+  const mTrack = document.getElementById('marqueeTrack');
+  const mToggleText = document.getElementById('marqueeToggleText');
+  const mToggleIcon = document.getElementById('marqueeIcon');
+
+  if (mToggleBtn && mTrack) {
+    mToggleBtn.addEventListener('click', () => {
+      const isPaused = mTrack.classList.toggle('paused');
+      mToggleText.textContent = isPaused ? 'Play' : 'Pause';
+      // Switch SVG paths based on state
+      mToggleIcon.innerHTML = isPaused 
+        ? '<path d="M8 5v14l11-7z"/>'  // Play Icon
+        : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>'; // Pause Icon
+    });
+  }
 }
