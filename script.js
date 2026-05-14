@@ -86,14 +86,11 @@
     }
   });
 
-  /* 3D PARABOLIC YOUTUBE SLIDER + FIX: CLICK/DRAG INTERCEPTOR */
+  /* 3D PARABOLIC YOUTUBE SLIDER + DEEP CLICK INTERCEPTOR */
   const mTrack = document.getElementById('marqueeTrack');
-  const mContainer = document.querySelector('.marquee-container');
-  const mToggleBtn = document.getElementById('marqueeToggle');
+  const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
   const mNextBtn = document.getElementById('marqueeNext');
-  const mToggleText = document.getElementById('marqueeToggleText');
-  const mToggleIcon = document.getElementById('marqueeIcon');
   
   let mTargetOffset = 0;
   let mCurrentOffset = 0;
@@ -105,10 +102,28 @@
   let tileWidth = 0;
   let halfTrackWidth = 0;
   let tiles = [];
+  let mInteractionTimeout;
+
+  const resetAutoPlay = () => {
+    clearTimeout(mInteractionTimeout);
+    mIsPaused = true;
+    mInteractionTimeout = setTimeout(() => {
+      if (!isMDragging) mIsPaused = false;
+    }, 2000); // Wait 2s to resume
+  };
 
   if (mTrack && mContainer) {
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
+
+    // FIX: Manual Click handling on Data-Href
+    tiles.forEach(tile => {
+      tile.addEventListener('pointerup', (e) => {
+        if (!mDidDrag && tile.dataset.href) {
+          window.open(tile.dataset.href, '_blank');
+        }
+      });
+    });
 
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
@@ -118,21 +133,36 @@
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
+      clearTimeout(mInteractionTimeout);
+      mIsPaused = true;
     });
     
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 5) mDidDrag = true; // Drag threshold
+      if (Math.abs(dx) > 5) mDidDrag = true; 
       mStartX = e.clientX;
       mTargetOffset += dx;
     });
 
-    const endMDrag = () => { isMDragging = false; };
+    const endMDrag = () => { 
+      isMDragging = false; 
+      resetAutoPlay();
+    };
+    
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    // FIX: Deep click interceptor logic
+    mContainer.addEventListener('mouseenter', () => {
+      mIsPaused = true;
+      clearTimeout(mInteractionTimeout);
+    });
+    
+    mContainer.addEventListener('mouseleave', () => {
+      if (!isMDragging) resetAutoPlay();
+    });
+
+    // Deep Click Intercept
     mContainer.addEventListener('click', (e) => {
       if (mDidDrag) {
         e.preventDefault();
@@ -140,29 +170,19 @@
       }
     }, true); 
 
-    if(mToggleBtn) {
-      mToggleBtn.addEventListener('click', () => {
-        mIsPaused = !mIsPaused;
-        mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
-        mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
-      });
-    }
-
-    // FIX: Button Offset math adjusted to match exact tile width
-    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); });
-    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); });
+    // FIX: Precise left/right math based on actual tile width
+    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
+    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
   }
 
   /* UNIFIED RENDER LOOP */
   const animate = () => {
-    // 1. Cursor
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // 2. Parallax Notes
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = window.innerHeight * 1.5;
@@ -175,7 +195,6 @@
       }
     }
 
-    // 3. Curved Hero Text
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -184,7 +203,6 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    // 4. Parabolic 3D Video Slider
     if (mTrack && halfTrackWidth > 0) {
       if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
       
