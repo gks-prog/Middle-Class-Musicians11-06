@@ -51,7 +51,6 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    // Updated selectors to include .btn-solution and .solution-card
     document.querySelectorAll('a, button, .studio-card, .port-item, .price-card, .channel, .btn-solution, .solution-card').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -95,13 +94,12 @@
     toggle.addEventListener('click', () => {
       toggle.classList.toggle('active');
       mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      // Fix: Never lock body overflow aggressively, just disable pointer-events beneath if needed.
     });
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         toggle.classList.remove('active');
         mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
       });
     });
   }
