@@ -1,5 +1,5 @@
 /* ===========================================================
-   MIDDLE CLASS MUSICIANS — Interactivity & Animations
+   MIDDLE CLASS MUSICIANS — Interactivity & Animations (Optimized)
    =========================================================== */
 
 (() => {
@@ -17,23 +17,32 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ----- CUSTOM CURSOR ----- */
+  /* ----- CUSTOM CURSOR (Unified rAF loop for zero stutter) ----- */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
   if (cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches) {
-    let mouseX = 0, mouseY = 0, cx = 0, cy = 0;
+    let mouseX = window.innerWidth / 2; 
+    let mouseY = window.innerHeight / 2; 
+    let cx = mouseX, cy = mouseY;
+
     document.addEventListener('mousemove', e => {
-      mouseX = e.clientX; mouseY = e.clientY;
-      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-    });
+      mouseX = e.clientX; 
+      mouseY = e.clientY;
+    }, { passive: true });
+
     const animate = () => {
+      // Sync dot exactly to mouse
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+      // Lerp outer ring
       cx += (mouseX - cx) * 0.18;
       cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      
       requestAnimationFrame(animate);
     };
-    animate();
-    document.querySelectorAll('a, button, .studio-card, .port-item, .service-row, .price-card').forEach(el => {
+    requestAnimationFrame(animate);
+
+    document.querySelectorAll('a, button, .studio-card, .port-item, .service-row, .price-card, .channel').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
@@ -41,9 +50,14 @@
 
   /* ----- NAV SCROLL ----- */
   const nav = document.getElementById('nav');
+  let isNavScrolled = false;
+  
   const onScroll = () => {
-    if (window.scrollY > 60) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
+    const shouldScroll = window.scrollY > 60;
+    if (shouldScroll !== isNavScrolled) {
+      isNavScrolled = shouldScroll;
+      nav.classList.toggle('scrolled', isNavScrolled);
+    }
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -89,8 +103,9 @@
       raf = requestAnimationFrame(() => {
         card.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateZ(0)`;
       });
-    });
+    }, { passive: true });
     card.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(raf);
       card.style.transform = '';
     });
   });
@@ -132,6 +147,8 @@
           e.preventDefault();
           const top = target.getBoundingClientRect().top + window.scrollY - 60;
           window.scrollTo({ top, behavior: 'smooth' });
+          // Update URL without jump
+          history.pushState(null, null, id);
         }
       }
     });
@@ -143,11 +160,14 @@
     if (window.scrollY > 700) return;
     const x = (e.clientX / window.innerWidth - 0.5) * 30;
     const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    orbs.forEach((o, i) => {
-      const factor = (i + 1) * 0.5;
-      o.style.translate = `${x * factor}px ${y * factor}px`;
+    
+    requestAnimationFrame(() => {
+      orbs.forEach((o, i) => {
+        const factor = (i + 1) * 0.5;
+        o.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+      });
     });
-  });
+  }, { passive: true });
 
 })();
 
