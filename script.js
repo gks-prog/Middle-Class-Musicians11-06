@@ -1,5 +1,5 @@
 /* ===========================================================
-   MIDDLE CLASS MUSICIANS — Interactivity & Themes
+   MIDDLE CLASS MUSICIANS — SFX, Haptics & Anti-Lag Logic
    =========================================================== */
 
 (() => {
@@ -17,6 +17,42 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* =========================================================
+     NEW: WEB AUDIO API & HAPTIC ENGINE
+     Synthesizes a premium electric piano/rhodes click
+  ========================================================= */
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function triggerHaptic() {
+    if (navigator.vibrate) navigator.vibrate(15);
+  }
+
+  function playPluck() {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'sine'; // Smooth tone
+    osc.frequency.setValueAtTime(440 + Math.random() * 220, audioCtx.currentTime); 
+    
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.4);
+  }
+
+  // Bind SFX and Haptics to all interactive elements
+  document.querySelectorAll('a, button, .studio-card, .solution-card, .marquee-tile, .testi-card').forEach(el => {
+    el.addEventListener('pointerdown', () => {
+      triggerHaptic();
+      playPluck();
+    });
+  });
+
   /* THEME TOGGLE ENGINE */
   const themeBtn = document.getElementById('themeToggle');
   const themes = ['theme-night', 'theme-day', 'theme-realm'];
@@ -30,28 +66,46 @@
     });
   }
 
-  /* BACKGROUND NOTES */
+  /* =========================================================
+     FIX: PREMIUM VANILLA JS NOTES (Anti-Lag + Drift Math)
+  ========================================================= */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
+  // Cache window height to prevent expensive DOM reads in RAF loop
+  let winHeight = window.innerHeight;
+  let winWidth = window.innerWidth;
+  
+  window.addEventListener('resize', () => {
+    winHeight = window.innerHeight;
+    winWidth = window.innerWidth;
+  }, { passive: true });
+
   if (notesContainer) {
     const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 30; i++) { // Reduced count slightly for performance overhead
       const span = document.createElement('span');
       span.className = 'music-note';
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      span.style.left = `${Math.random() * 100}vw`;
+      
+      const left = Math.random() * 100;
+      span.style.left = `${left}vw`;
       span.style.fontSize = `${Math.random() * 2 + 1}rem`;
+      
+      // Setup physics variables
       const speed = Math.random() * 0.4 + 0.1;
-      const initialY = Math.random() * (window.innerHeight * 1.5); 
+      const initialY = Math.random() * (winHeight * 1.5); 
+      const driftSpeed = Math.random() * 0.02 + 0.005;
+      const offsetPhase = Math.random() * Math.PI * 2;
+      
       notesContainer.appendChild(span);
-      bgNotes.push({ el: span, speed: speed, initialY: initialY });
+      bgNotes.push({ el: span, speed, initialY, driftSpeed, offsetPhase });
     }
   }
 
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
   const hasCursor = cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches;
-  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, cx = mouseX, cy = mouseY;
+  let mouseX = winWidth / 2, mouseY = winHeight / 2, cx = mouseX, cy = mouseY;
   let currentScrollY = window.scrollY;
 
   if (hasCursor) {
@@ -97,7 +151,7 @@
     }
   });
 
-  /* FIX: FLAWLESS MOBILE & DESKTOP SLIDER CLICK ROUTER */
+  /* 3D PARABOLIC YOUTUBE SLIDER (Enhanced Touch/Swipe) */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
@@ -130,14 +184,23 @@
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
+    // Click router
+    tiles.forEach(tile => {
+      tile.addEventListener('pointerup', (e) => {
+        if (!mDidDrag && tile.dataset.url) {
+          window.open(tile.dataset.url, '_blank');
+        }
+      });
+    });
+
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
       tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
-    // Using unified pointer events for touch & mouse
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
+      mContainer.setPointerCapture(e.pointerId);
       clearTimeout(mInteractionTimeout);
       mIsPaused = true;
     });
@@ -145,37 +208,19 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 5) mDidDrag = true; // 5px threshold confirms it's a drag
+      if (Math.abs(dx) > 3) mDidDrag = true; 
       mStartX = e.clientX;
       mTargetOffset += dx * 1.5; 
     });
 
-    const endMDrag = (e) => { 
-      if(!isMDragging) return;
-      isMDragging = false; 
-      resetAutoPlay(); 
-    };
-    
+    const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    // The Magic Click Interceptor
-    // Listens for clicks on the container, blocks them if dragging, executes them if tapping
-    mContainer.addEventListener('click', (e) => {
-      if (mDidDrag) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      // If we didn't drag, find the closest data-url and open it
-      const tile = e.target.closest('.marquee-tile');
-      if (tile && tile.dataset.url) {
-        window.open(tile.dataset.url, '_blank');
-      }
-    }, true); 
-
     mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
     mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
+
+    mContainer.addEventListener('click', (e) => { if (mDidDrag) { e.preventDefault(); e.stopPropagation(); } }, true); 
 
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
@@ -184,30 +229,43 @@
         mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
       });
     }
+
     if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
     if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
   }
 
   /* UNIFIED RENDER LOOP */
+  let animationTime = 0;
+
   const animate = () => {
+    animationTime += 1;
+
+    // 1. Cursor
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
+    // 2. Parallax Notes (With Anti-Lag Math & Sinusoidal Drift)
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
-      const wrapHeight = window.innerHeight * 1.5;
+      const wrapHeight = winHeight * 1.5;
+      
       for (let i = 0; i < bgNotes.length; i++) {
         let note = bgNotes[i];
         let currentY = note.initialY - (currentScrollY * note.speed);
         let loopedY = ((currentY % wrapHeight) + wrapHeight) % wrapHeight;
-        loopedY -= window.innerHeight * 0.25; 
-        note.el.style.transform = `translate3d(0, ${loopedY - note.initialY}px, 0)`;
+        loopedY -= winHeight * 0.25; 
+        
+        // Horizontal drift calculation
+        let driftX = Math.sin((animationTime * note.driftSpeed) + note.offsetPhase) * 20;
+        
+        note.el.style.transform = `translate3d(${driftX}px, ${loopedY - note.initialY}px, 0)`;
       }
     }
 
+    // 3. Curved Hero Text
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -216,6 +274,7 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
+    // 4. Parabolic 3D Video Slider
     if (mTrack && halfTrackWidth > 0) {
       if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
       
@@ -229,8 +288,8 @@
       
       mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
 
-      const containerRect = mContainer.getBoundingClientRect();
-      const centerX = containerRect.width / 2;
+      const containerWidth = mContainer.offsetWidth; // Use local width instead of heavy BoundingRect
+      const centerX = containerWidth / 2;
       
       for (let i = 0; i < tiles.length; i++) {
         let absolutePos = mCurrentOffset + (i * tileWidth);
