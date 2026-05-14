@@ -43,20 +43,43 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 .container{max-width:var(--container);margin:0 auto;padding:0 32px;width:100%}
 
-/* ---------- BACKGROUND NOTES (Vanilla JS Replacement) ---------- */
+/* ---------- BACKGROUND NOTES ---------- */
 #bg-notes {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1; /* Pushed above background gradients */
   overflow: hidden;
 }
 .music-note {
   position: absolute;
   color: #ffffff;
+  text-shadow: 0 0 15px rgba(212, 168, 87, 0.4); /* Cinematic glow */
   will-change: transform;
 }
-
+.hero-content{
+  position:relative;
+  z-index:5; /* Protects content from being hidden by notes */
+  max-width:1100px;
+}
+.hero-bg{
+  position:absolute;
+  inset:0;
+  z-index:0; /* Keeps gradients at the very back */
+  overflow:hidden;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(64px,12vw,180px);
+  line-height: 1.05; /* Increased from 0.95 to give the text breathing room */
+  letter-spacing:-.04em;font-weight:700;
+  margin-bottom:32px;
+}
+.hero-title .line{
+  display:block;
+  overflow:hidden;
+  padding:0 0 0.1em; /* Increased bottom padding to prevent cutoffs on italic tails */
+}
 /* ---------- CURSOR (Hardware Accelerated) ---------- */
 .cursor,.cursor-dot{
   position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
