@@ -86,9 +86,9 @@
     }
   });
 
-  /* FIX: 3D PARABOLIC YOUTUBE SLIDER WITH CLICK/DRAG LOGIC */
+  /* 3D PARABOLIC YOUTUBE SLIDER + FIX: CLICK/DRAG INTERCEPTOR */
   const mTrack = document.getElementById('marqueeTrack');
-  const mContainer = document.getElementById('marqueeContainer');
+  const mContainer = document.querySelector('.marquee-container');
   const mToggleBtn = document.getElementById('marqueeToggle');
   const mPrevBtn = document.getElementById('marqueePrev');
   const mNextBtn = document.getElementById('marqueeNext');
@@ -107,22 +107,12 @@
   let tiles = [];
 
   if (mTrack && mContainer) {
-    // Clone tiles for infinite math
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
-    
-    // Add Click listener to each tile (intercepts if dragged)
-    tiles.forEach(tile => {
-      tile.addEventListener('pointerup', (e) => {
-        if (!mDidDrag && tile.dataset.href) {
-          window.open(tile.dataset.href, '_blank');
-        }
-      });
-    });
 
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
-      tileWidth = tiles[0].getBoundingClientRect().width + 24; // Width + Margin
+      tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
@@ -142,7 +132,14 @@
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    // Toggle Buttons
+    // FIX: Deep click interceptor logic
+    mContainer.addEventListener('click', (e) => {
+      if (mDidDrag) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true); 
+
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
         mIsPaused = !mIsPaused;
@@ -150,8 +147,10 @@
         mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
       });
     }
-    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += 400; mIsPaused = true; mToggleText.textContent = 'Play'; mToggleIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';});
-    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= 400; mIsPaused = true; mToggleText.textContent = 'Play'; mToggleIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';});
+
+    // FIX: Button Offset math adjusted to match exact tile width
+    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); });
+    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); });
   }
 
   /* UNIFIED RENDER LOOP */
@@ -189,10 +188,8 @@
     if (mTrack && halfTrackWidth > 0) {
       if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
       
-      // Smooth Lerp
       mCurrentOffset += (mTargetOffset - mCurrentOffset) * 0.1;
       
-      // Infinite Wrap Logic
       if (mCurrentOffset <= -halfTrackWidth) {
         mCurrentOffset += halfTrackWidth;
         mTargetOffset += halfTrackWidth;
@@ -203,7 +200,6 @@
       
       mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
 
-      // Apply Parabolic "Smile" Math to each tile
       const containerRect = mContainer.getBoundingClientRect();
       const centerX = containerRect.width / 2;
       
@@ -212,7 +208,6 @@
         let tileCenter = absolutePos + (tileWidth / 2);
         let distFromCenter = tileCenter - centerX;
         
-        // Push Y down based on distance from center (Parabola equation: y = x^2)
         let yOffset = Math.pow(distFromCenter * 0.002, 2) * 15; 
         let scale = Math.max(0.85, 1 - Math.abs(distFromCenter) * 0.00015);
         
