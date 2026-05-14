@@ -20,7 +20,7 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* VANILLA JS BACKGROUND NOTES */
+  /* VANILLA JS BACKGROUND NOTES (FIXED VISIBILITY) */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
   if (notesContainer) {
@@ -58,11 +58,14 @@
   }
 
   const animate = () => {
+    // Cursor Physics
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
+    
+    // Notes Scroll Physics
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.2; 
       for (let i = 0; i < bgNotes.length; i++) {
@@ -94,7 +97,6 @@
     toggle.addEventListener('click', () => {
       toggle.classList.toggle('active');
       mobileMenu.classList.toggle('open');
-      // Fix: Never lock body overflow aggressively, just disable pointer-events beneath if needed.
     });
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
@@ -115,6 +117,31 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   reveals.forEach(r => io.observe(r));
+
+  /* ANIMATED STATS COUNTER */
+  const statNumbers = document.querySelectorAll('.stat-number');
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = +entry.target.getAttribute('data-count');
+        let count = 0;
+        const speed = target / 60; // 60 frames approx completion
+        
+        const updateCount = () => {
+          count += speed;
+          if (count < target) {
+            entry.target.innerText = Math.ceil(count);
+            requestAnimationFrame(updateCount);
+          } else {
+            entry.target.innerText = target;
+          }
+        };
+        updateCount();
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNumbers.forEach(num => statsObserver.observe(num));
 
   /* TILT EFFECT */
   document.querySelectorAll('[data-tilt]').forEach(card => {
