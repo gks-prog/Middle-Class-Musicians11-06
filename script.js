@@ -1,5 +1,6 @@
 /* ===========================================================
    MIDDLE CLASS MUSICIANS — SFX, Haptics & Anti-Lag Logic
+   (Deployment & Minifier Safe Version)
    =========================================================== */
 
 (() => {
@@ -10,24 +11,33 @@
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pl = document.getElementById('preloader');
-      if (pl) pl.classList.add('done');
+      if (pl) {
+        pl.classList.add('done');
+      }
     }, 1500); 
   });
 
   const yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 
   /* =========================================================
      WEB AUDIO API & HAPTIC ENGINE
   ========================================================= */
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContextClass();
   
   function triggerHaptic() {
-    if (navigator.vibrate) navigator.vibrate(15);
+    if (navigator.vibrate) {
+      navigator.vibrate(15);
+    }
   }
 
   function playSound(type) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
@@ -87,7 +97,7 @@
 
   // Bind SFX to elements
   document.querySelectorAll('[data-sound="hover"]').forEach(el => {
-    el.addEventListener('mouseenter', () => playSound('hover'));
+    el.addEventListener('mouseenter', () => { playSound('hover'); });
     el.addEventListener('pointerdown', () => { triggerHaptic(); playSound('click'); });
   });
 
@@ -99,10 +109,14 @@
     el.addEventListener('input', () => { playSound('type'); });
   });
 
-  document.getElementById('submitBtn')?.addEventListener('pointerdown', () => {
-    triggerHaptic(); playSound('send');
-  });
-
+  // FIX: Safe element checking (No Optional Chaining)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.addEventListener('pointerdown', () => {
+      triggerHaptic(); 
+      playSound('send');
+    });
+  }
 
   /* THEME TOGGLE ENGINE */
   const themeBtn = document.getElementById('themeToggle');
@@ -148,7 +162,7 @@
       const offsetPhase = Math.random() * Math.PI * 2;
       
       notesContainer.appendChild(span);
-      bgNotes.push({ el: span, speed, initialY, driftSpeed, offsetPhase });
+      bgNotes.push({ el: span, speed: speed, initialY: initialY, driftSpeed: driftSpeed, offsetPhase: offsetPhase });
     }
   }
 
@@ -159,7 +173,11 @@
   let currentScrollY = window.scrollY;
 
   if (hasCursor) {
-    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
+    document.addEventListener('mousemove', e => { 
+      mouseX = e.clientX; 
+      mouseY = e.clientY; 
+    }, { passive: true });
+    
     document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -172,34 +190,40 @@
   const curvedTextPath = document.getElementById('curvedTextPath');
   let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
-  document.fonts.ready.then(() => {
-    if (curveJacket && measureText && curvedTextPath) {
-      const baseText = measureText.textContent.trim() + ' ✦ ';
-      curveSpacing = measureText.getComputedTextLength();
-      if (curveSpacing > 0) {
-        const repetitions = Math.ceil(2400 / curveSpacing) + 2;
-        curvedTextPath.textContent = Array(repetitions).fill(baseText).join('');
-        curveOffset = -curveSpacing;
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      if (curveJacket && measureText && curvedTextPath) {
+        const baseText = measureText.textContent.trim() + ' ✦ ';
+        curveSpacing = measureText.getComputedTextLength();
+        if (curveSpacing > 0) {
+          const repetitions = Math.ceil(2400 / curveSpacing) + 2;
+          curvedTextPath.textContent = Array(repetitions).fill(baseText).join('');
+          curveOffset = -curveSpacing;
 
-        curveJacket.addEventListener('pointerdown', (e) => {
-          isDraggingCurve = true; lastCurveX = e.clientX; curveVelocity = 0;
-          curveJacket.setPointerCapture(e.pointerId);
-          curveJacket.style.cursor = 'grabbing';
-        });
-        curveJacket.addEventListener('pointermove', (e) => {
-          if (!isDraggingCurve) return;
-          const dx = e.clientX - lastCurveX; lastCurveX = e.clientX; curveVelocity = dx;
-          curveOffset += dx;
-          if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
-          if (curveOffset > 0) curveOffset -= curveSpacing;
-          curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
-        });
-        const endDrag = () => { isDraggingCurve = false; curveDirection = curveVelocity > 0 ? 'right' : 'left'; curveJacket.style.cursor = 'grab'; };
-        curveJacket.addEventListener('pointerup', endDrag);
-        curveJacket.addEventListener('pointercancel', endDrag);
+          curveJacket.addEventListener('pointerdown', (e) => {
+            isDraggingCurve = true; lastCurveX = e.clientX; curveVelocity = 0;
+            curveJacket.setPointerCapture(e.pointerId);
+            curveJacket.style.cursor = 'grabbing';
+          });
+          curveJacket.addEventListener('pointermove', (e) => {
+            if (!isDraggingCurve) return;
+            const dx = e.clientX - lastCurveX; lastCurveX = e.clientX; curveVelocity = dx;
+            curveOffset += dx;
+            if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
+            if (curveOffset > 0) curveOffset -= curveSpacing;
+            curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+          });
+          const endDrag = () => { 
+            isDraggingCurve = false; 
+            curveDirection = curveVelocity > 0 ? 'right' : 'left'; 
+            curveJacket.style.cursor = 'grab'; 
+          };
+          curveJacket.addEventListener('pointerup', endDrag);
+          curveJacket.addEventListener('pointercancel', endDrag);
+        }
       }
-    }
-  });
+    });
+  }
 
   /* 3D PARABOLIC YOUTUBE SLIDER */
   const mTrack = document.getElementById('marqueeTrack');
@@ -226,7 +250,9 @@
     clearTimeout(mInteractionTimeout);
     mIsPaused = true;
     mInteractionTimeout = setTimeout(() => {
-      if (!isMDragging) mIsPaused = false;
+      if (!isMDragging) {
+        mIsPaused = false;
+      }
     }, 2000); 
   };
 
@@ -236,15 +262,17 @@
 
     tiles.forEach(tile => {
       tile.addEventListener('pointerup', (e) => {
-        if (!mDidDrag && tile.dataset.href) {
-          window.open(tile.dataset.href, '_blank');
+        if (!mDidDrag && tile.dataset.url) {
+          window.open(tile.dataset.url, '_blank');
         }
       });
     });
 
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
-      tileWidth = tiles[0].getBoundingClientRect().width + 24; 
+      if (tiles.length > 0) {
+        tileWidth = tiles[0].getBoundingClientRect().width + 24; 
+      }
     }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
@@ -257,7 +285,9 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 3) mDidDrag = true; 
+      if (Math.abs(dx) > 3) {
+        mDidDrag = true; 
+      }
       mStartX = e.clientX;
       mTargetOffset += dx * 1.5; 
     });
@@ -269,18 +299,31 @@
     mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
     mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
 
-    mContainer.addEventListener('click', (e) => { if (mDidDrag) { e.preventDefault(); e.stopPropagation(); } }, true); 
+    mContainer.addEventListener('click', (e) => { 
+      if (mDidDrag) { 
+        e.preventDefault(); 
+        e.stopPropagation(); 
+      } 
+    }, true); 
 
-    if(mToggleBtn) {
+    if (mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
         mIsPaused = !mIsPaused;
-        mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
-        mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+        if (mToggleText) {
+          mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
+        }
+        if (mToggleIcon) {
+          mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+        }
       });
     }
 
-    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
-    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
+    if (mPrevBtn) {
+      mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
+    }
+    if (mNextBtn) {
+      mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
+    }
   }
 
   /* UNIFIED RENDER LOOP */
@@ -289,9 +332,10 @@
   const animate = () => {
     animationTime += 1;
 
-    if (hasCursor) {
+    if (hasCursor && cursorDot && cursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-      cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
+      cx += (mouseX - cx) * 0.18; 
+      cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
@@ -311,7 +355,7 @@
       }
     }
 
-    if (!isDraggingCurve && curveSpacing > 0) {
+    if (!isDraggingCurve && curveSpacing > 0 && curvedTextPath) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
       if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
@@ -319,15 +363,19 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    if (mTrack && halfTrackWidth > 0) {
-      if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
+    if (mTrack && halfTrackWidth > 0 && mContainer) {
+      if (!isMDragging && !mIsPaused) { 
+        mTargetOffset -= mAutoVelocity; 
+      }
       
       mCurrentOffset += (mTargetOffset - mCurrentOffset) * 0.1;
       
       if (mCurrentOffset <= -halfTrackWidth) {
-        mCurrentOffset += halfTrackWidth; mTargetOffset += halfTrackWidth;
+        mCurrentOffset += halfTrackWidth; 
+        mTargetOffset += halfTrackWidth;
       } else if (mCurrentOffset > 0) {
-        mCurrentOffset -= halfTrackWidth; mTargetOffset -= halfTrackWidth;
+        mCurrentOffset -= halfTrackWidth; 
+        mTargetOffset -= halfTrackWidth;
       }
       
       mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
@@ -349,49 +397,86 @@
 
     requestAnimationFrame(animate);
   };
+  
   requestAnimationFrame(animate);
 
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+  if (nav) {
+    window.addEventListener('scroll', () => { 
+      nav.classList.toggle('scrolled', window.scrollY > 60); 
+    }, { passive: true });
+  }
 
   const toggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   if (toggle && mobileMenu) {
-    toggle.addEventListener('click', () => { toggle.classList.toggle('active'); mobileMenu.classList.toggle('open'); });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { toggle.classList.remove('active'); mobileMenu.classList.remove('open'); }));
+    toggle.addEventListener('click', () => { 
+      toggle.classList.toggle('active'); 
+      mobileMenu.classList.toggle('open'); 
+    });
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    for (let i = 0; i < mobileLinks.length; i++) {
+      mobileLinks[i].addEventListener('click', () => { 
+        toggle.classList.remove('active'); 
+        mobileMenu.classList.remove('open'); 
+      });
+    }
   }
 
   const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => io.observe(r));
+  if (window.IntersectionObserver) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { 
+        if (entry.isIntersecting) { 
+          entry.target.classList.add('visible'); 
+          io.unobserve(entry.target); 
+        } 
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => io.observe(r));
+  } else {
+    // Fallback for extremely old browsers
+    reveals.forEach(r => r.classList.add('visible'));
+  }
 
   const statNumbers = document.querySelectorAll('.stat-number');
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const target = +entry.target.getAttribute('data-count');
-        let count = 0; const increment = target / 50; 
-        const updateCount = () => {
-          count += increment;
-          if (count < target) { entry.target.innerText = Math.ceil(count); requestAnimationFrame(updateCount); } 
-          else { entry.target.innerText = target; }
-        };
-        updateCount();
-        statsObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.7 });
-  statNumbers.forEach(num => statsObserver.observe(num));
+  if (window.IntersectionObserver) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = +entry.target.getAttribute('data-count');
+          let count = 0; 
+          const increment = target / 50; 
+          const updateCount = () => {
+            count += increment;
+            if (count < target) { 
+              entry.target.innerText = Math.ceil(count); 
+              requestAnimationFrame(updateCount); 
+            } else { 
+              entry.target.innerText = target; 
+            }
+          };
+          updateCount();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.7 });
+    statNumbers.forEach(num => statsObserver.observe(num));
+  }
 
   const solBtn = document.getElementById('solutionToggleBtn');
   const solAccordion = document.getElementById('solutionAccordion');
-  if (solBtn && solAccordion) { solBtn.addEventListener('click', () => { solBtn.classList.toggle('active'); solAccordion.classList.toggle('open'); }); }
+  if (solBtn && solAccordion) { 
+    solBtn.addEventListener('click', () => { 
+      solBtn.classList.toggle('active'); 
+      solAccordion.classList.toggle('open'); 
+    }); 
+  }
 
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const id = link.getAttribute('href');
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  for (let i = 0; i < anchorLinks.length; i++) {
+    anchorLinks[i].addEventListener('click', (e) => {
+      const id = anchorLinks[i].getAttribute('href');
       if (id.length > 1) {
         const target = document.querySelector(id);
         if (target) {
@@ -400,24 +485,34 @@
         }
       }
     });
-  });
+  }
 
 })();
 
-function handleContact(e) {
+// Global function for the form
+window.handleContact = function(e) {
   e.preventDefault();
-  const form = e.target, btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  if (!btn) return false;
   
+  const orig = btn.innerHTML;
   const inputs = form.querySelectorAll('input, select, textarea');
+  
+  if (inputs.length < 4) return false;
+
   const name = inputs[0].value.trim();
   const contact = inputs[1].value.trim();
   const service = inputs[2].value;
   const message = inputs[3].value.trim();
 
-  if(!name || !contact) {
+  if (!name || !contact) {
     btn.innerHTML = 'Please fill required fields';
     btn.style.background = '#ea4335';
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+    setTimeout(() => { 
+      btn.innerHTML = orig; 
+      btn.style.background = ''; 
+    }, 2000);
     return false;
   }
 
@@ -425,10 +520,10 @@ function handleContact(e) {
   btn.disabled = true;
 
   setTimeout(() => {
-    const waText = `*New Studio Enquiry*\n\n*Name:* ${name}\n*Contact:* ${contact}\n*Service Required:* ${service || 'Not Specified'}\n*Message:* ${message || 'No additional details provided.'}`;
+    const waText = '*New Studio Enquiry*\n\n*Name:* ' + name + '\n*Contact:* ' + contact + '\n*Service Required:* ' + (service || 'Not Specified') + '\n*Message:* ' + (message || 'No additional details provided.');
     const encodedText = encodeURIComponent(waText);
     const mcmPhone = "919315778147"; 
-    const waURL = `https://wa.me/${mcmPhone}?text=${encodedText}`;
+    const waURL = 'https://wa.me/' + mcmPhone + '?text=' + encodedText;
 
     btn.innerHTML = '✓ Redirecting...';
     btn.style.background = '#25d366'; 
@@ -437,8 +532,13 @@ function handleContact(e) {
     window.open(waURL, '_blank');
 
     form.reset();
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; btn.disabled = false; }, 3200);
+    setTimeout(() => { 
+      btn.innerHTML = orig; 
+      btn.style.background = ''; 
+      btn.style.color = ''; 
+      btn.disabled = false; 
+    }, 3200);
   }, 800);
 
   return false;
-}
+};
