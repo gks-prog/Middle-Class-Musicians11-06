@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 
+// Bypassing React render cycles for scroll events is crucial for 60fps
 const generateNotes = (count: number) => {
   return Array.from({ length: count }).map((_, i) => ({
     id: i,
@@ -13,17 +14,26 @@ const generateNotes = (count: number) => {
 };
 
 export default function BackgroundNotes() {
-  const [scrollY, setScrollY] = useState(0);
-  const [notes, setNotes] = useState<{id: number, left: number, size: number, opacity: number, speed: number, symbol: string, baseY: number}[]>([]);
+  const notes = useMemo(() => generateNotes(20), []);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setNotes(generateNotes(20));
-
     let ticking = false;
+    
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
+          if (!containerRef.current) return;
+          const scrollY = window.scrollY;
+          
+          // Direct DOM mutation bypassing React diffing overhead
+          const spans = containerRef.current.children;
+          for (let i = 0; i < spans.length; i++) {
+            const span = spans[i] as HTMLElement;
+            const speed = notes[i].speed;
+            const yPos = -(scrollY * speed); // Note: Removed baseY calculation here, CSS handles base position via 'top'
+            span.style.transform = `translate3d(0, ${yPos}px, 0)`;
+          }
           ticking = false;
         });
         ticking = true;
@@ -32,10 +42,11 @@ export default function BackgroundNotes() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [notes]);
 
   return (
     <div 
+      ref={containerRef}
       style={{
         position: 'fixed',
         inset: 0,
@@ -45,28 +56,23 @@ export default function BackgroundNotes() {
       }}
       aria-hidden="true"
     >
-      {notes.map((note) => {
-        const yPos = note.baseY - (scrollY * note.speed);
-
-        return (
-          <span
-            key={note.id}
-            style={{
-              position: 'absolute',
-              left: `${note.left}%`,
-              top: `${note.baseY}%`,
-              fontSize: `${note.size}rem`,
-              color: '#ffffff',
-              opacity: note.opacity,
-              transform: `translate3d(0, ${yPos}px, 0)`,
-              willChange: 'transform',
-              transition: 'transform 0.1s linear', 
-            }}
-          >
-            {note.symbol}
-          </span>
-        );
-      })}
+      {notes.map((note) => (
+        <span
+          key={note.id}
+          style={{
+            position: 'absolute',
+            left: `${note.left}%`,
+            top: `${note.baseY}%`, // Anchor point handled in pure CSS
+            fontSize: `${note.size}rem`,
+            color: '#ffffff',
+            opacity: note.opacity,
+            willChange: 'transform' // Let browser know this element moves constantly
+            // Removed transition: 'transform 0.1s linear' -> Transition interpolates between rAF frames, causing jitter.
+          }}
+        >
+          {note.symbol}
+        </span>
+      ))}
     </div>
   );
 }
