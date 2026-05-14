@@ -97,7 +97,7 @@
     }
   });
 
-  /* 3D PARABOLIC YOUTUBE SLIDER (Enhanced Touch/Swipe) */
+  /* 3D PARABOLIC YOUTUBE SLIDER (Native Links + Event Interception) */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
@@ -130,20 +130,12 @@
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
-    tiles.forEach(tile => {
-      tile.addEventListener('pointerup', (e) => {
-        if (!mDidDrag && tile.dataset.href) {
-          window.open(tile.dataset.href, '_blank');
-        }
-      });
-    });
-
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
       tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
-    // Using pointer events handles both Mouse and Touch naturally
+    // Pointer down starts the logic
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
@@ -154,9 +146,9 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 3) mDidDrag = true; // Lowered threshold for mobile sensitivity
+      if (Math.abs(dx) > 3) mDidDrag = true; // Drag threshold
       mStartX = e.clientX;
-      mTargetOffset += dx * 1.5; // Multiplier for faster swipe feel
+      mTargetOffset += dx * 1.5; // Multiplier for swipe speed
     });
 
     const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
@@ -166,7 +158,13 @@
     mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
     mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
 
-    mContainer.addEventListener('click', (e) => { if (mDidDrag) { e.preventDefault(); e.stopPropagation(); } }, true); 
+    // FIX: Catch the click event during the capturing phase and kill it if we dragged
+    mContainer.addEventListener('click', (e) => {
+      if (mDidDrag) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true); 
 
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
