@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi. Record. Create. Perform. Starting ₹350/hr." />
   <title>Middle Class Musicians — Record. Create. Perform.</title>
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -10,24 +10,39 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // Force scroll to top on refresh before browser paints
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
 </head>
 <body>
+
+  <div id="bg-notes" aria-hidden="true"></div>
 
   <div class="cursor" id="cursor"></div>
   <div class="cursor-dot" id="cursorDot"></div>
 
   <div class="preloader" id="preloader">
     <div class="preloader-content">
-      <div class="preloader-logo">MCM</div>
-      <div class="preloader-bar"><span></span></div>
-      <div class="preloader-text">LOADING THE EXPERIENCE</div>
+      <div class="waveform">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div class="preloader-text">TUNING THE STUDIO</div>
     </div>
   </div>
 
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a href="#home" class="nav-logo">
-        <span class="logo-mark">M</span>
+        <img src="favicon.png" alt="MCM Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <span class="logo-mark fallback" style="display:none;">M</span>
         <span class="logo-text">Middle Class Musicians</span>
       </a>
       <ul class="nav-links">
@@ -307,7 +322,6 @@
         <button class="filter-btn" data-filter="record">Recording</button>
         <button class="filter-btn" data-filter="mix">Mix &amp; Master</button>
         <button class="filter-btn" data-filter="beat">Beats</button>
-        <button class="filter-btn" data-filter="visual">Visuals</button>
       </div>
 
       <div class="portfolio-grid">
@@ -353,98 +367,74 @@
         <a href="https://youtu.be/Lh67UKKh8FU" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/Lh67UKKh8FU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/Lh67UKKh8FU/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/07D7VGtHLOc" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/07D7VGtHLOc/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/07D7VGtHLOc/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/FEgOKqd_7W8" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/FEgOKqd_7W8/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/FEgOKqd_7W8/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/3kgBkBZhZMQ" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/3kgBkBZhZMQ/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/3kgBkBZhZMQ/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/7NwQMtNU37c" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/7NwQMtNU37c/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/7NwQMtNU37c/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/6dia6UNFkXU" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/6dia6UNFkXU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/6dia6UNFkXU/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
 
         <a href="https://youtu.be/Lh67UKKh8FU" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/Lh67UKKh8FU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/Lh67UKKh8FU/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/07D7VGtHLOc" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/07D7VGtHLOc/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/07D7VGtHLOc/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/FEgOKqd_7W8" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/FEgOKqd_7W8/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/FEgOKqd_7W8/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/3kgBkBZhZMQ" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/3kgBkBZhZMQ/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/3kgBkBZhZMQ/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/7NwQMtNU37c" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/7NwQMtNU37c/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/7NwQMtNU37c/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
         <a href="https://youtu.be/6dia6UNFkXU" target="_blank" rel="noopener" class="marquee-tile">
           <img src="https://img.youtube.com/vi/6dia6UNFkXU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/6dia6UNFkXU/hqdefault.jpg';" alt="YouTube Release" />
           <div class="marquee-overlay">
-            <div class="marquee-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
+            <div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
         </a>
       </div>
@@ -554,7 +544,8 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <span class="logo-mark">M</span>
+        <img src="favicon.png" alt="MCM Logo" class="logo-img" style="width: 28px; height: 28px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <span class="logo-mark fallback" style="display:none; width: 28px; height: 28px; font-size: 14px;">M</span>
         <div>
           <strong>Middle Class Musicians</strong>
           <span>Delhi · India</span>
