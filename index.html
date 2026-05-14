@@ -91,15 +91,18 @@
       <span class="scroll-text">Scroll</span><span class="scroll-line"></span>
     </a>
 
-    <div class="hero-tape">
-      <div class="tape-track">
-        <div class="tape-content">
-          <span>Recording</span><span>·</span><span>Mixing</span><span>·</span><span>Mastering</span><span>·</span><span>Beat Production</span><span>·</span><span>Music Courses</span><span>·</span>
-        </div>
-        <div class="tape-content">
-          <span>Recording</span><span>·</span><span>Mixing</span><span>·</span><span>Mastering</span><span>·</span><span>Beat Production</span><span>·</span><span>Music Courses</span><span>·</span>
-        </div>
-      </div>
+    <div class="curved-loop-jacket" id="curvedLoopJacket">
+      <svg class="curved-loop-svg" viewBox="0 0 1440 120">
+        <text id="measureText" xml:space="preserve" style="visibility: hidden; opacity: 0; pointer-events: none;">
+          Recording ✦ Mixing ✦ Mastering ✦ Beat Production ✦ Music Courses ✦&nbsp;
+        </text>
+        <defs>
+          <path id="curvePath" d="M-100,40 Q500,440 1540,40" fill="none" stroke="transparent" />
+        </defs>
+        <text font-weight="bold" xml:space="preserve" class="tape-text-content">
+          <textPath id="curvedTextPath" href="#curvePath" startOffset="0px" xml:space="preserve"></textPath>
+        </text>
+      </svg>
     </div>
   </section>
 
@@ -368,7 +371,7 @@
             <select required>
               <option value="">Select a service</option>
               <option>Recording</option>
-              <option>Mixing &amp; Mastering</option>
+              <option>Mixing & Mastering</option>
               <option>Beat Production</option>
               <option>Video Production</option>
               <option>Artist Management</option>
@@ -402,7 +405,7 @@
       </div>
       
       <div class="footer-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83923192776!2d77.06889754725782!3d28.52728034389636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14006.183182512684!2d77.20015509999999!3d28.6433556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <a href="https://share.google/l2IhNVf4Vns576pDP" target="_blank" rel="noopener" class="map-link">Open in Google Maps ↗</a>
       </div>
     </div>
