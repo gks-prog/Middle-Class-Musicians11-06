@@ -105,17 +105,23 @@
 
   <section class="stats-bar" id="stats">
     <div class="container">
-      <div class="stats-grid reveal">
-        <div class="stat-item">
-          <h2 class="stat-number">450+</h2>
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <h2 class="stat-number" data-count="450">0</h2><span class="stat-symbol">+</span>
+          </div>
           <p class="stat-label">Happy Clients</p>
         </div>
-        <div class="stat-item">
-          <h2 class="stat-number">7+</h2>
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <h2 class="stat-number" data-count="7">0</h2><span class="stat-symbol">+</span>
+          </div>
           <p class="stat-label">Years in Market</p>
         </div>
-        <div class="stat-item">
-          <h2 class="stat-number">24/7</h2>
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <h2 class="stat-number" data-count="24">0</h2><span class="stat-symbol">/7</span>
+          </div>
           <p class="stat-label">Helping Artists</p>
         </div>
       </div>
@@ -380,18 +386,25 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div class="footer-brand">
-        <img src="favicon.png" alt="MCM Logo" class="logo-img" style="width: 28px; height: 28px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <span class="logo-mark fallback" style="display:none; width: 28px; height: 28px; font-size: 14px;">M</span>
-        <div><strong>Middle Class Musicians</strong><span>Delhi · India</span></div>
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img src="favicon.png" alt="MCM Logo" class="logo-img" style="width: 28px; height: 28px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <span class="logo-mark fallback" style="display:none; width: 28px; height: 28px; font-size: 14px;">M</span>
+          <div><strong>Middle Class Musicians</strong><span>Delhi · India</span></div>
+        </div>
+        <div class="footer-links">
+          <a href="#studio">Studio</a>
+          <a href="#solution">Solutions</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-copy">© <span id="year"></span> Middle Class Musicians. All rights reserved.</div>
       </div>
-      <div class="footer-links">
-        <a href="#studio">Studio</a>
-        <a href="#solution">Solutions</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#contact">Contact</a>
+      
+      <div class="footer-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83923192776!2d77.06889754725782!3d28.52728034389636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a href="https://share.google/l2IhNVf4Vns576pDP" target="_blank" rel="noopener" class="map-link">Open in Google Maps ↗</a>
       </div>
-      <div class="footer-copy">© <span id="year"></span> Middle Class Musicians. All rights reserved.</div>
     </div>
   </footer>
 
