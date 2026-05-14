@@ -5,14 +5,17 @@
 (() => {
   'use strict';
 
+  /* FORCE SCROLL TO TOP */
   window.scrollTo(0, 0);
 
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const pl = document.getElementById('preloader');
-      if (pl) pl.classList.add('done');
-    }, 1500); 
-  });
+  /* FIX: DECOUPLED PRELOADER 
+     This guarantees the preloader fades out after 1.5 seconds, 
+     preventing it from getting stuck waiting for iframes/maps to load. 
+  */
+  setTimeout(() => {
+    const pl = document.getElementById('preloader');
+    if (pl) pl.classList.add('done');
+  }, 1500); 
 
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -45,7 +48,7 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container, .rainbow-loop-jacket').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
@@ -57,7 +60,14 @@
   const curvedTextPath = document.getElementById('curvedTextPath');
   let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
+  /* RAINBOW TAPE LOGIC (TESTIMONIALS) */
+  const rainbowJacket = document.getElementById('rainbowLoopJacket');
+  const reviewMeasureText = document.getElementById('reviewMeasureText');
+  const reviewTextPath = document.getElementById('reviewTextPath');
+  let rainbowOffset = 0, rainbowSpeed = 0.8, rainbowDirection = 'left', isDraggingRainbow = false, lastRainbowX = 0, rainbowVelocity = 0, rainbowSpacing = 0;
+
   document.fonts.ready.then(() => {
+    // Setup Hero Curve
     if (curveJacket && measureText && curvedTextPath) {
       const baseText = measureText.textContent.trim() + ' ✦ ';
       curveSpacing = measureText.getComputedTextLength();
@@ -82,6 +92,34 @@
         const endDrag = () => { isDraggingCurve = false; curveDirection = curveVelocity > 0 ? 'right' : 'left'; curveJacket.style.cursor = 'grab'; };
         curveJacket.addEventListener('pointerup', endDrag);
         curveJacket.addEventListener('pointercancel', endDrag);
+      }
+    }
+
+    // Setup Rainbow Testimonial Curve
+    if (rainbowJacket && reviewMeasureText && reviewTextPath) {
+      const baseReviewText = reviewMeasureText.textContent.trim() + ' ';
+      rainbowSpacing = reviewMeasureText.getComputedTextLength();
+      if (rainbowSpacing > 0) {
+        const reps = Math.ceil(2400 / rainbowSpacing) + 2;
+        reviewTextPath.textContent = Array(reps).fill(baseReviewText).join('');
+        rainbowOffset = -rainbowSpacing;
+
+        rainbowJacket.addEventListener('pointerdown', (e) => {
+          isDraggingRainbow = true; lastRainbowX = e.clientX; rainbowVelocity = 0;
+          rainbowJacket.setPointerCapture(e.pointerId);
+          rainbowJacket.style.cursor = 'grabbing';
+        });
+        rainbowJacket.addEventListener('pointermove', (e) => {
+          if (!isDraggingRainbow) return;
+          const dx = e.clientX - lastRainbowX; lastRainbowX = e.clientX; rainbowVelocity = dx;
+          rainbowOffset += dx;
+          if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
+          if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
+          reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
+        });
+        const endRainbowDrag = () => { isDraggingRainbow = false; rainbowDirection = rainbowVelocity > 0 ? 'right' : 'left'; rainbowJacket.style.cursor = 'grab'; };
+        rainbowJacket.addEventListener('pointerup', endRainbowDrag);
+        rainbowJacket.addEventListener('pointercancel', endRainbowDrag);
       }
     }
   });
@@ -109,14 +147,13 @@
     mIsPaused = true;
     mInteractionTimeout = setTimeout(() => {
       if (!isMDragging) mIsPaused = false;
-    }, 2000); // Wait 2s to resume
+    }, 2000); 
   };
 
   if (mTrack && mContainer) {
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
-    // FIX: Manual Click handling on Data-Href
     tiles.forEach(tile => {
       tile.addEventListener('pointerup', (e) => {
         if (!mDidDrag && tile.dataset.href) {
@@ -162,7 +199,6 @@
       if (!isMDragging) resetAutoPlay();
     });
 
-    // Deep Click Intercept
     mContainer.addEventListener('click', (e) => {
       if (mDidDrag) {
         e.preventDefault();
@@ -170,7 +206,6 @@
       }
     }, true); 
 
-    // FIX: Precise left/right math based on actual tile width
     if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
     if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
   }
@@ -201,6 +236,14 @@
       if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
       if (curveOffset > 0) curveOffset -= curveSpacing;
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+    }
+
+    if (!isDraggingRainbow && rainbowSpacing > 0) {
+      const rDelta = rainbowDirection === 'right' ? rainbowSpeed : -rainbowSpeed;
+      rainbowOffset += rDelta;
+      if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
+      if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
+      reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
     }
 
     if (mTrack && halfTrackWidth > 0) {
@@ -290,10 +333,6 @@
 
 })();
 
-/* ===========================================================
-   FIX: TRUE WHATSAPP ROUTING CONTACT FORM
-   =========================================================== */
-
 function handleContact(e) {
   e.preventDefault();
   
@@ -301,52 +340,34 @@ function handleContact(e) {
   const btn = form.querySelector('button[type="submit"]');
   const orig = btn.innerHTML;
   
-  // 1. Extract the data from the form fields
   const inputs = form.querySelectorAll('input, select, textarea');
   const name = inputs[0].value.trim();
   const contact = inputs[1].value.trim();
   const service = inputs[2].value;
   const message = inputs[3].value.trim();
 
-  // 2. Validate that the essential fields are filled
   if(!name || !contact) {
     btn.innerHTML = 'Please fill required fields';
-    btn.style.background = '#ea4335'; // Red error state
+    btn.style.background = '#ea4335';
     setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
     return false;
   }
 
-  // 3. UX Animation (Simulating Processing)
   btn.innerHTML = 'Opening WhatsApp…'; 
   btn.disabled = true;
 
-  // 4. Construct the WhatsApp Payload
   setTimeout(() => {
-    // Format the message cleanly
-    const waText = `*New Studio Enquiry*\n\n` +
-                   `*Name:* ${name}\n` +
-                   `*Contact:* ${contact}\n` +
-                   `*Service Required:* ${service || 'Not Specified'}\n` +
-                   `*Message:* ${message || 'No additional details provided.'}`;
-    
-    // URL Encode the text to handle spaces and line breaks safely
+    const waText = `*New Studio Enquiry*\n\n*Name:* ${name}\n*Contact:* ${contact}\n*Service Required:* ${service || 'Not Specified'}\n*Message:* ${message || 'No additional details provided.'}`;
     const encodedText = encodeURIComponent(waText);
-    
-    // The official MCM WhatsApp Number (Ensure country code is correct, e.g., 91 for India)
     const mcmPhone = "919315778147"; 
-    
-    // Construct the final URL
     const waURL = `https://wa.me/${mcmPhone}?text=${encodedText}`;
 
-    // Update UX Success State
     btn.innerHTML = '✓ Redirecting...';
     btn.style.background = '#25d366'; 
     btn.style.color = '#fff';
 
-    // 5. Fire the redirect
     window.open(waURL, '_blank');
 
-    // 6. Reset the form
     form.reset();
     setTimeout(() => { 
       btn.innerHTML = orig; 
@@ -358,5 +379,4 @@ function handleContact(e) {
   }, 800);
 
   return false;
-}
 }
