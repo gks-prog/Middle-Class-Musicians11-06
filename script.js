@@ -62,7 +62,7 @@
     });
   }
 
-  /* CURVED TAPE LOGIC */
+  /* CURVED TAPE LOGIC (HERO) */
   const curveJacket = document.getElementById('curvedLoopJacket');
   const measureText = document.getElementById('measureText');
   const curvedTextPath = document.getElementById('curvedTextPath');
@@ -97,7 +97,7 @@
     }
   });
 
-  /* 3D PARABOLIC YOUTUBE SLIDER (Native Links + Event Interception) */
+  /* FIX: FLAWLESS MOBILE & DESKTOP SLIDER CLICK ROUTER */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
@@ -135,10 +135,9 @@
       tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
-    // Pointer down starts the logic
+    // Using unified pointer events for touch & mouse
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
-      mContainer.setPointerCapture(e.pointerId);
       clearTimeout(mInteractionTimeout);
       mIsPaused = true;
     });
@@ -146,25 +145,37 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 3) mDidDrag = true; // Drag threshold
+      if (Math.abs(dx) > 5) mDidDrag = true; // 5px threshold confirms it's a drag
       mStartX = e.clientX;
-      mTargetOffset += dx * 1.5; // Multiplier for swipe speed
+      mTargetOffset += dx * 1.5; 
     });
 
-    const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
+    const endMDrag = (e) => { 
+      if(!isMDragging) return;
+      isMDragging = false; 
+      resetAutoPlay(); 
+    };
+    
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
-    mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
-
-    // FIX: Catch the click event during the capturing phase and kill it if we dragged
+    // The Magic Click Interceptor
+    // Listens for clicks on the container, blocks them if dragging, executes them if tapping
     mContainer.addEventListener('click', (e) => {
       if (mDidDrag) {
         e.preventDefault();
         e.stopPropagation();
+        return;
+      }
+      // If we didn't drag, find the closest data-url and open it
+      const tile = e.target.closest('.marquee-tile');
+      if (tile && tile.dataset.url) {
+        window.open(tile.dataset.url, '_blank');
       }
     }, true); 
+
+    mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
+    mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
 
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
@@ -173,7 +184,6 @@
         mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
       });
     }
-
     if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
     if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= (tileWidth || 384); resetAutoPlay(); });
   }
