@@ -45,7 +45,7 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container, .rainbow-loop-jacket').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
@@ -57,14 +57,7 @@
   const curvedTextPath = document.getElementById('curvedTextPath');
   let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
-  /* NEW: RAINBOW TAPE LOGIC (TESTIMONIALS) */
-  const rainbowJacket = document.getElementById('rainbowLoopJacket');
-  const reviewMeasureText = document.getElementById('reviewMeasureText');
-  const reviewTextPath = document.getElementById('reviewTextPath');
-  let rainbowOffset = 0, rainbowSpeed = 0.8, rainbowDirection = 'left', isDraggingRainbow = false, lastRainbowX = 0, rainbowVelocity = 0, rainbowSpacing = 0;
-
   document.fonts.ready.then(() => {
-    // Setup Hero Curve
     if (curveJacket && measureText && curvedTextPath) {
       const baseText = measureText.textContent.trim() + ' ✦ ';
       curveSpacing = measureText.getComputedTextLength();
@@ -91,100 +84,86 @@
         curveJacket.addEventListener('pointercancel', endDrag);
       }
     }
-
-    // Setup Rainbow Testimonial Curve
-    if (rainbowJacket && reviewMeasureText && reviewTextPath) {
-      const baseReviewText = reviewMeasureText.textContent.trim() + ' ';
-      rainbowSpacing = reviewMeasureText.getComputedTextLength();
-      if (rainbowSpacing > 0) {
-        const reps = Math.ceil(2400 / rainbowSpacing) + 2;
-        reviewTextPath.textContent = Array(reps).fill(baseReviewText).join('');
-        rainbowOffset = -rainbowSpacing;
-
-        rainbowJacket.addEventListener('pointerdown', (e) => {
-          isDraggingRainbow = true; lastRainbowX = e.clientX; rainbowVelocity = 0;
-          rainbowJacket.setPointerCapture(e.pointerId);
-          rainbowJacket.style.cursor = 'grabbing';
-        });
-        rainbowJacket.addEventListener('pointermove', (e) => {
-          if (!isDraggingRainbow) return;
-          const dx = e.clientX - lastRainbowX; lastRainbowX = e.clientX; rainbowVelocity = dx;
-          rainbowOffset += dx;
-          if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
-          if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
-          reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
-        });
-        const endRainbowDrag = () => { isDraggingRainbow = false; rainbowDirection = rainbowVelocity > 0 ? 'right' : 'left'; rainbowJacket.style.cursor = 'grab'; };
-        rainbowJacket.addEventListener('pointerup', endRainbowDrag);
-        rainbowJacket.addEventListener('pointercancel', endRainbowDrag);
-      }
-    }
   });
 
-  /* FIX: DRAGGABLE YOUTUBE MARQUEE + CLICK INTERCEPTOR */
+  /* FIX: 3D PARABOLIC YOUTUBE SLIDER WITH CLICK/DRAG LOGIC */
   const mTrack = document.getElementById('marqueeTrack');
-  const mContainer = document.querySelector('.marquee-container');
+  const mContainer = document.getElementById('marqueeContainer');
   const mToggleBtn = document.getElementById('marqueeToggle');
+  const mPrevBtn = document.getElementById('marqueePrev');
+  const mNextBtn = document.getElementById('marqueeNext');
   const mToggleText = document.getElementById('marqueeToggleText');
   const mToggleIcon = document.getElementById('marqueeIcon');
   
-  let mOffset = 0;
+  let mTargetOffset = 0;
+  let mCurrentOffset = 0;
   let isMDragging = false;
-  let mDidDrag = false; // Tracks if a drag actually occurred to block click
+  let mDidDrag = false;
   let mStartX = 0;
-  let mAutoVelocity = 0.8;
-  let mCurrentVelocity = mAutoVelocity;
+  let mAutoVelocity = 1;
   let mIsPaused = false;
+  let tileWidth = 0;
   let halfTrackWidth = 0;
+  let tiles = [];
 
   if (mTrack && mContainer) {
-    mTrack.innerHTML += mTrack.innerHTML; // Clone
-    setTimeout(() => { halfTrackWidth = mTrack.scrollWidth / 2; }, 500);
+    // Clone tiles for infinite math
+    mTrack.innerHTML += mTrack.innerHTML;
+    tiles = Array.from(mTrack.children);
+    
+    // Add Click listener to each tile (intercepts if dragged)
+    tiles.forEach(tile => {
+      tile.addEventListener('pointerup', (e) => {
+        if (!mDidDrag && tile.dataset.href) {
+          window.open(tile.dataset.href, '_blank');
+        }
+      });
+    });
+
+    setTimeout(() => { 
+      halfTrackWidth = mTrack.scrollWidth / 2; 
+      tileWidth = tiles[0].getBoundingClientRect().width + 24; // Width + Margin
+    }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
-      mCurrentVelocity = 0; 
     });
     
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 5) mDidDrag = true; // threshold to differentiate click vs drag
+      if (Math.abs(dx) > 5) mDidDrag = true; // Drag threshold
       mStartX = e.clientX;
-      mOffset += dx;
+      mTargetOffset += dx;
     });
 
-    const endMDrag = () => { isMDragging = false; mCurrentVelocity = mIsPaused ? 0 : mAutoVelocity; };
+    const endMDrag = () => { isMDragging = false; };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    // Prevent link opening if user was dragging
-    mContainer.addEventListener('click', (e) => {
-      if (mDidDrag) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, { capture: true });
-
+    // Toggle Buttons
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
         mIsPaused = !mIsPaused;
-        mCurrentVelocity = mIsPaused ? 0 : mAutoVelocity;
         mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
         mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
       });
     }
+    if(mPrevBtn) mPrevBtn.addEventListener('click', () => { mTargetOffset += 400; mIsPaused = true; mToggleText.textContent = 'Play'; mToggleIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';});
+    if(mNextBtn) mNextBtn.addEventListener('click', () => { mTargetOffset -= 400; mIsPaused = true; mToggleText.textContent = 'Play'; mToggleIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';});
   }
 
   /* UNIFIED RENDER LOOP */
   const animate = () => {
+    // 1. Cursor
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
+    // 2. Parallax Notes
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = window.innerHeight * 1.5;
@@ -197,6 +176,7 @@
       }
     }
 
+    // 3. Curved Hero Text
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -205,19 +185,39 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    if (!isDraggingRainbow && rainbowSpacing > 0) {
-      const rDelta = rainbowDirection === 'right' ? rainbowSpeed : -rainbowSpeed;
-      rainbowOffset += rDelta;
-      if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
-      if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
-      reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
-    }
-
+    // 4. Parabolic 3D Video Slider
     if (mTrack && halfTrackWidth > 0) {
-      if (!isMDragging) { mOffset -= mCurrentVelocity; }
-      if (mOffset <= -halfTrackWidth) mOffset += halfTrackWidth;
-      if (mOffset > 0) mOffset -= halfTrackWidth;
-      mTrack.style.transform = `translate3d(${mOffset}px, 0, 0)`;
+      if (!isMDragging && !mIsPaused) { mTargetOffset -= mAutoVelocity; }
+      
+      // Smooth Lerp
+      mCurrentOffset += (mTargetOffset - mCurrentOffset) * 0.1;
+      
+      // Infinite Wrap Logic
+      if (mCurrentOffset <= -halfTrackWidth) {
+        mCurrentOffset += halfTrackWidth;
+        mTargetOffset += halfTrackWidth;
+      } else if (mCurrentOffset > 0) {
+        mCurrentOffset -= halfTrackWidth;
+        mTargetOffset -= halfTrackWidth;
+      }
+      
+      mTrack.style.transform = `translate3d(${mCurrentOffset}px, 0, 0)`;
+
+      // Apply Parabolic "Smile" Math to each tile
+      const containerRect = mContainer.getBoundingClientRect();
+      const centerX = containerRect.width / 2;
+      
+      for (let i = 0; i < tiles.length; i++) {
+        let absolutePos = mCurrentOffset + (i * tileWidth);
+        let tileCenter = absolutePos + (tileWidth / 2);
+        let distFromCenter = tileCenter - centerX;
+        
+        // Push Y down based on distance from center (Parabola equation: y = x^2)
+        let yOffset = Math.pow(distFromCenter * 0.002, 2) * 15; 
+        let scale = Math.max(0.85, 1 - Math.abs(distFromCenter) * 0.00015);
+        
+        tiles[i].style.transform = `translateY(${yOffset}px) scale(${scale})`;
+      }
     }
 
     requestAnimationFrame(animate);
