@@ -7,18 +7,17 @@
 
   window.scrollTo(0, 0);
 
-  /* FIX: ENHANCED PRELOADER TIMING */
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pl = document.getElementById('preloader');
       if (pl) pl.classList.add('done');
-    }, 1500); // Extended slightly so you can see the new Soundwave animation
+    }, 1500); 
   });
 
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* FIX: WRAPPING BACKGROUND NOTES */
+  /* BACKGROUND NOTES */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
   if (notesContainer) {
@@ -46,19 +45,26 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .btn-solution, .solution-card, .curved-loop-jacket, .marquee-container, .rainbow-loop-jacket').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
   }
 
-  /* CURVED TAPE LOGIC */
+  /* CURVED TAPE LOGIC (HERO) */
   const curveJacket = document.getElementById('curvedLoopJacket');
   const measureText = document.getElementById('measureText');
   const curvedTextPath = document.getElementById('curvedTextPath');
   let curveOffset = 0, curveSpeed = 1.2, curveDirection = 'left', isDraggingCurve = false, lastCurveX = 0, curveVelocity = 0, curveSpacing = 0;
 
+  /* NEW: RAINBOW TAPE LOGIC (TESTIMONIALS) */
+  const rainbowJacket = document.getElementById('rainbowLoopJacket');
+  const reviewMeasureText = document.getElementById('reviewMeasureText');
+  const reviewTextPath = document.getElementById('reviewTextPath');
+  let rainbowOffset = 0, rainbowSpeed = 0.8, rainbowDirection = 'left', isDraggingRainbow = false, lastRainbowX = 0, rainbowVelocity = 0, rainbowSpacing = 0;
+
   document.fonts.ready.then(() => {
+    // Setup Hero Curve
     if (curveJacket && measureText && curvedTextPath) {
       const baseText = measureText.textContent.trim() + ' ✦ ';
       curveSpacing = measureText.getComputedTextLength();
@@ -85,9 +91,37 @@
         curveJacket.addEventListener('pointercancel', endDrag);
       }
     }
+
+    // Setup Rainbow Testimonial Curve
+    if (rainbowJacket && reviewMeasureText && reviewTextPath) {
+      const baseReviewText = reviewMeasureText.textContent.trim() + ' ';
+      rainbowSpacing = reviewMeasureText.getComputedTextLength();
+      if (rainbowSpacing > 0) {
+        const reps = Math.ceil(2400 / rainbowSpacing) + 2;
+        reviewTextPath.textContent = Array(reps).fill(baseReviewText).join('');
+        rainbowOffset = -rainbowSpacing;
+
+        rainbowJacket.addEventListener('pointerdown', (e) => {
+          isDraggingRainbow = true; lastRainbowX = e.clientX; rainbowVelocity = 0;
+          rainbowJacket.setPointerCapture(e.pointerId);
+          rainbowJacket.style.cursor = 'grabbing';
+        });
+        rainbowJacket.addEventListener('pointermove', (e) => {
+          if (!isDraggingRainbow) return;
+          const dx = e.clientX - lastRainbowX; lastRainbowX = e.clientX; rainbowVelocity = dx;
+          rainbowOffset += dx;
+          if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
+          if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
+          reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
+        });
+        const endRainbowDrag = () => { isDraggingRainbow = false; rainbowDirection = rainbowVelocity > 0 ? 'right' : 'left'; rainbowJacket.style.cursor = 'grab'; };
+        rainbowJacket.addEventListener('pointerup', endRainbowDrag);
+        rainbowJacket.addEventListener('pointercancel', endRainbowDrag);
+      }
+    }
   });
 
-  /* DRAGGABLE YOUTUBE MARQUEE JS PHYSICS */
+  /* FIX: DRAGGABLE YOUTUBE MARQUEE + CLICK INTERCEPTOR */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.querySelector('.marquee-container');
   const mToggleBtn = document.getElementById('marqueeToggle');
@@ -96,6 +130,7 @@
   
   let mOffset = 0;
   let isMDragging = false;
+  let mDidDrag = false; // Tracks if a drag actually occurred to block click
   let mStartX = 0;
   let mAutoVelocity = 0.8;
   let mCurrentVelocity = mAutoVelocity;
@@ -103,25 +138,34 @@
   let halfTrackWidth = 0;
 
   if (mTrack && mContainer) {
-    mTrack.innerHTML += mTrack.innerHTML;
-    
+    mTrack.innerHTML += mTrack.innerHTML; // Clone
     setTimeout(() => { halfTrackWidth = mTrack.scrollWidth / 2; }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
-      isMDragging = true; mStartX = e.clientX;
+      isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
       mCurrentVelocity = 0; 
     });
     
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
-      const dx = e.clientX - mStartX; mStartX = e.clientX;
+      const dx = e.clientX - mStartX; 
+      if (Math.abs(dx) > 5) mDidDrag = true; // threshold to differentiate click vs drag
+      mStartX = e.clientX;
       mOffset += dx;
     });
 
     const endMDrag = () => { isMDragging = false; mCurrentVelocity = mIsPaused ? 0 : mAutoVelocity; };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
+
+    // Prevent link opening if user was dragging
+    mContainer.addEventListener('click', (e) => {
+      if (mDidDrag) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, { capture: true });
 
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
@@ -144,13 +188,11 @@
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = window.innerHeight * 1.5;
-      
       for (let i = 0; i < bgNotes.length; i++) {
         let note = bgNotes[i];
         let currentY = note.initialY - (currentScrollY * note.speed);
         let loopedY = ((currentY % wrapHeight) + wrapHeight) % wrapHeight;
         loopedY -= window.innerHeight * 0.25; 
-        
         note.el.style.transform = `translate3d(0, ${loopedY - note.initialY}px, 0)`;
       }
     }
@@ -161,6 +203,14 @@
       if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
       if (curveOffset > 0) curveOffset -= curveSpacing;
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+    }
+
+    if (!isDraggingRainbow && rainbowSpacing > 0) {
+      const rDelta = rainbowDirection === 'right' ? rainbowSpeed : -rainbowSpeed;
+      rainbowOffset += rDelta;
+      if (rainbowOffset <= -rainbowSpacing) rainbowOffset += rainbowSpacing;
+      if (rainbowOffset > 0) rainbowOffset -= rainbowSpacing;
+      reviewTextPath.setAttribute('startOffset', rainbowOffset + 'px');
     }
 
     if (mTrack && halfTrackWidth > 0) {
