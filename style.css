@@ -34,10 +34,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 h1, h2, h3, h4, h5 { font-family: var(--font-head); letter-spacing: 0.05em; text-transform: uppercase; }
 .accent-text { color: var(--gold-soft); font-style: normal; }
 
-/* FIXED BACKGROUND NOTES (Ensuring Visibility and Pointer Passthrough) */
 #bg-notes { 
   position: fixed; inset: 0; pointer-events: none; 
-  z-index: 1; /* Between background and content */
+  z-index: 1; 
   overflow: hidden; 
 }
 .music-note { position: absolute; color: rgba(255,255,255,0.4); will-change: transform; z-index: 1; }
@@ -92,10 +91,10 @@ h1, h2, h3, h4, h5 { font-family: var(--font-head); letter-spacing: 0.05em; text
 .hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
 .hero-gradient{ position:absolute;inset:0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,87,.12), transparent 60%), radial-gradient(ellipse 60% 50% at 20% 80%, rgba(180,140,255,.08), transparent 60%), radial-gradient(ellipse 60% 50% at 80% 90%, rgba(87,212,168,.06), transparent 60%), linear-gradient(180deg,#07070a 0%,#0a0a10 60%,#07070a 100%); }
 
-/* FIXED CSS ERROR: Fully URL-Encoded SVG for build compatibility */
+/* BASE64 ENCODED SVG - 100% DEPLOYMENT SAFE */
 .hero-grain{ 
   position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay; 
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E"); 
+  background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjkiIG51bU9jdGF2ZXM9IjIiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9Ii42Ii8+PC9zdmc+"); 
 }
 
 .hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:float 14s ease-in-out infinite;will-change:transform}
