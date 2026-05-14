@@ -20,7 +20,7 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* VANILLA JS BACKGROUND NOTES (FIXED VISIBILITY) */
+  /* VANILLA JS BACKGROUND NOTES (FIXED Z-INDEX VISIBILITY) */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
   if (notesContainer) {
@@ -43,7 +43,7 @@
     }
   }
 
-  /* CUSTOM CURSOR & RAF LOOP */
+  /* CUSTOM CURSOR */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
   const hasCursor = cursor && cursorDot && window.matchMedia('(min-width: 900px)').matches;
@@ -51,21 +51,83 @@
 
   if (hasCursor) {
     document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-    document.querySelectorAll('a, button, .studio-card, .port-item, .price-card, .channel, .btn-solution, .solution-card').forEach(el => {
+    document.querySelectorAll('a, button, .studio-card, .port-item, .price-card, .channel, .btn-solution, .solution-card, .curved-loop-jacket').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
   }
 
+  /* VANILLA CURVED INTERACTIVE LOOP (Ported from React Component) */
+  const curveJacket = document.getElementById('curvedLoopJacket');
+  const measureText = document.getElementById('measureText');
+  const curvedTextPath = document.getElementById('curvedTextPath');
+  
+  let curveOffset = 0;
+  let curveSpeed = 1.5; 
+  let curveDirection = 'left';
+  let isDraggingCurve = false;
+  let lastCurveX = 0;
+  let curveVelocity = 0;
+  let curveSpacing = 0;
+
+  // Wait for font to load before calculating mathematical spacing
+  document.fonts.ready.then(() => {
+    if (curveJacket && measureText && curvedTextPath) {
+      const baseText = measureText.textContent.trim() + '\u00A0\u00A0';
+      curveSpacing = measureText.getComputedTextLength();
+      
+      if (curveSpacing > 0) {
+        // Multiply text enough times to fill the 1800px curve path width
+        const repetitions = Math.ceil(1800 / curveSpacing) + 2;
+        curvedTextPath.textContent = Array(repetitions).fill(baseText).join('');
+        curveOffset = -curveSpacing;
+        curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+
+        // Pointer Events for Interaction
+        curveJacket.addEventListener('pointerdown', (e) => {
+          isDraggingCurve = true;
+          lastCurveX = e.clientX;
+          curveVelocity = 0;
+          curveJacket.setPointerCapture(e.pointerId);
+          curveJacket.style.cursor = 'grabbing';
+        });
+
+        curveJacket.addEventListener('pointermove', (e) => {
+          if (!isDraggingCurve) return;
+          const dx = e.clientX - lastCurveX;
+          lastCurveX = e.clientX;
+          curveVelocity = dx;
+          
+          curveOffset += dx;
+          if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
+          if (curveOffset > 0) curveOffset -= curveSpacing;
+          
+          curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+        });
+
+        const endDrag = () => {
+          isDraggingCurve = false;
+          curveDirection = curveVelocity > 0 ? 'right' : 'left';
+          curveJacket.style.cursor = 'grab';
+        };
+
+        curveJacket.addEventListener('pointerup', endDrag);
+        curveJacket.addEventListener('pointercancel', endDrag);
+      }
+    }
+  });
+
+
+  /* UNIFIED RAF LOOP */
   const animate = () => {
-    // Cursor Physics
+    // 1. Cursor Physics
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // Notes Scroll Physics
+    // 2. Notes Scroll Physics
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.2; 
       for (let i = 0; i < bgNotes.length; i++) {
@@ -73,6 +135,16 @@
         bgNotes[i].el.style.transform = `translate3d(0, ${yPos}px, 0)`;
       }
     }
+
+    // 3. Curved Loop Physics
+    if (!isDraggingCurve && curveSpacing > 0) {
+      const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
+      curveOffset += delta;
+      if (curveOffset <= -curveSpacing) curveOffset += curveSpacing;
+      if (curveOffset > 0) curveOffset -= curveSpacing;
+      curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
+    }
+
     requestAnimationFrame(animate);
   };
   requestAnimationFrame(animate);
@@ -125,7 +197,7 @@
       if (entry.isIntersecting) {
         const target = +entry.target.getAttribute('data-count');
         let count = 0;
-        const speed = target / 60; // 60 frames approx completion
+        const speed = target / 60; // Approximate 60 frames to complete
         
         const updateCount = () => {
           count += speed;
