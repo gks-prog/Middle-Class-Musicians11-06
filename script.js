@@ -7,11 +7,12 @@
 
   window.scrollTo(0, 0);
 
+  /* FIX: ENHANCED PRELOADER TIMING */
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pl = document.getElementById('preloader');
       if (pl) pl.classList.add('done');
-    }, 1200); 
+    }, 1500); // Extended slightly so you can see the new Soundwave animation
   });
 
   const yearEl = document.getElementById('year');
@@ -22,7 +23,7 @@
   const bgNotes = [];
   if (notesContainer) {
     const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-    for (let i = 0; i < 40; i++) { // Increased count
+    for (let i = 0; i < 40; i++) {
       const span = document.createElement('span');
       span.className = 'music-note';
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -30,7 +31,7 @@
       span.style.fontSize = `${Math.random() * 2 + 1}rem`;
       
       const speed = Math.random() * 0.4 + 0.1;
-      const initialY = Math.random() * (window.innerHeight * 1.5); // Spread over 1.5 screens
+      const initialY = Math.random() * (window.innerHeight * 1.5); 
       
       notesContainer.appendChild(span);
       bgNotes.push({ el: span, speed: speed, initialY: initialY });
@@ -86,7 +87,7 @@
     }
   });
 
-  /* FIX: DRAGGABLE YOUTUBE MARQUEE JS PHYSICS */
+  /* DRAGGABLE YOUTUBE MARQUEE JS PHYSICS */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.querySelector('.marquee-container');
   const mToggleBtn = document.getElementById('marqueeToggle');
@@ -102,37 +103,26 @@
   let halfTrackWidth = 0;
 
   if (mTrack && mContainer) {
-    // Clone tiles purely in JS so we have infinite scroll width
     mTrack.innerHTML += mTrack.innerHTML;
     
-    // Calculate width after images render
-    setTimeout(() => {
-      halfTrackWidth = mTrack.scrollWidth / 2;
-    }, 500);
+    setTimeout(() => { halfTrackWidth = mTrack.scrollWidth / 2; }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
-      isMDragging = true;
-      mStartX = e.clientX;
+      isMDragging = true; mStartX = e.clientX;
       mContainer.setPointerCapture(e.pointerId);
-      mCurrentVelocity = 0; // Stop auto-scroll during drag
+      mCurrentVelocity = 0; 
     });
     
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
-      const dx = e.clientX - mStartX;
-      mStartX = e.clientX;
+      const dx = e.clientX - mStartX; mStartX = e.clientX;
       mOffset += dx;
     });
 
-    const endMDrag = () => {
-      isMDragging = false;
-      mCurrentVelocity = mIsPaused ? 0 : mAutoVelocity;
-    };
-
+    const endMDrag = () => { isMDragging = false; mCurrentVelocity = mIsPaused ? 0 : mAutoVelocity; };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
 
-    // Toggle Button Logic
     if(mToggleBtn) {
       mToggleBtn.addEventListener('click', () => {
         mIsPaused = !mIsPaused;
@@ -145,14 +135,12 @@
 
   /* UNIFIED RENDER LOOP */
   const animate = () => {
-    // 1. Cursor Physics
     if (hasCursor) {
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       cx += (mouseX - cx) * 0.18; cy += (mouseY - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // 2. Wrap-Around Notes Physics
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = window.innerHeight * 1.5;
@@ -160,16 +148,13 @@
       for (let i = 0; i < bgNotes.length; i++) {
         let note = bgNotes[i];
         let currentY = note.initialY - (currentScrollY * note.speed);
-        
-        // Modulo math to perfectly loop notes top to bottom
         let loopedY = ((currentY % wrapHeight) + wrapHeight) % wrapHeight;
-        loopedY -= window.innerHeight * 0.25; // Offset so they spawn off-screen
+        loopedY -= window.innerHeight * 0.25; 
         
         note.el.style.transform = `translate3d(0, ${loopedY - note.initialY}px, 0)`;
       }
     }
 
-    // 3. Curved Loop Physics
     if (!isDraggingCurve && curveSpacing > 0) {
       const delta = curveDirection === 'right' ? curveSpeed : -curveSpeed;
       curveOffset += delta;
@@ -178,15 +163,10 @@
       curvedTextPath.setAttribute('startOffset', curveOffset + 'px');
     }
 
-    // 4. Horizontal Marquee Physics
     if (mTrack && halfTrackWidth > 0) {
-      if (!isMDragging) {
-        mOffset -= mCurrentVelocity;
-      }
-      // Wrap logic
+      if (!isMDragging) { mOffset -= mCurrentVelocity; }
       if (mOffset <= -halfTrackWidth) mOffset += halfTrackWidth;
       if (mOffset > 0) mOffset -= halfTrackWidth;
-      
       mTrack.style.transform = `translate3d(${mOffset}px, 0, 0)`;
     }
 
@@ -210,7 +190,6 @@
   }, { threshold: 0.12 });
   reveals.forEach(r => io.observe(r));
 
-  /* SCROLL-LINKED STATS COUNTER */
   const statNumbers = document.querySelectorAll('.stat-number');
   const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
