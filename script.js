@@ -1,46 +1,55 @@
 /* ===========================================================
-   MIDDLE CLASS MUSICIANS — Interactivity & Animations (Optimized)
+   MIDDLE CLASS MUSICIANS — Interactivity & Animations (V3)
    =========================================================== */
 
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   /* ----- FORCE SCROLL TO TOP ON REFRESH ----- */
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
   window.scrollTo(0, 0);
 
   /* ----- PRELOADER ----- */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const pl = document.getElementById('preloader');
-      if (pl) pl.classList.add('done');
-    }, 1200); // Slightly longer to appreciate the waveform
-  });
+  setTimeout(() => {
+    const pl = document.getElementById('preloader');
+    if (pl) pl.classList.add('done');
+  }, 1200);
 
   /* ----- YEAR ----- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ----- VANILLA JS BACKGROUND NOTES ----- */
-  // Ported your React component directly into vanilla JS for performance
+  /* ----- VANILLA JS BACKGROUND NOTES (WITH DEPTH OF FIELD) ----- */
   const notesContainer = document.getElementById('bg-notes');
   const bgNotes = [];
+  
   if (notesContainer) {
     const symbols = ['♪', '♫', '♩', '♬', '♭', '♮'];
-    for (let i = 0; i < 20; i++) {
+    const numNotes = window.innerWidth < 768 ? 10 : 25; // Less notes on mobile
+
+    for (let i = 0; i < numNotes; i++) {
       const span = document.createElement('span');
       span.className = 'music-note';
       span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       
       const left = Math.random() * 100;
-      const size = Math.random() * 2 + 1;
-      const opacity = Math.random() * 0.15 + 0.05;
-      const speed = Math.random() * 0.5 + 0.2;
+      const size = Math.random() * 2.5 + 0.5; // Size between 0.5rem and 3rem
+      const opacity = Math.random() * 0.15 + 0.03;
+      const speed = size * 0.2; // Parallax: larger notes move faster
       const baseY = Math.random() * 100;
+
+      // Depth of Field calculation
+      let blurAmount = '0px';
+      if (size > 2.2) blurAmount = '3px'; // Foreground out of focus
+      else if (size < 1) blurAmount = '1.5px'; // Background slightly out of focus
 
       span.style.left = `${left}%`;
       span.style.top = `${baseY}%`;
       span.style.fontSize = `${size}rem`;
       span.style.opacity = opacity;
+      span.style.filter = `blur(${blurAmount})`;
 
       notesContainer.appendChild(span);
       bgNotes.push({ el: span, speed: speed });
@@ -69,7 +78,6 @@
     });
   }
 
-  // Unified RequestAnimationFrame Loop
   const animate = () => {
     // 1. Update Cursor
     if (hasCursor) {
@@ -81,7 +89,6 @@
 
     // 2. Update Background Notes
     if (bgNotes.length > 0) {
-      // Calculate scroll delta to avoid jitter
       currentScrollY += (window.scrollY - currentScrollY) * 0.2; 
       for (let i = 0; i < bgNotes.length; i++) {
         const yPos = -(currentScrollY * bgNotes[i].speed);
@@ -155,64 +162,6 @@
     });
   });
 
-  /* ----- PORTFOLIO FILTER ----- */
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portItems = document.querySelectorAll('.port-item');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      portItems.forEach(item => {
-        const show = filter === 'all' || item.dataset.cat === filter;
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          if (show) {
-            item.classList.remove('hidden');
-            requestAnimationFrame(() => {
-              item.style.opacity = '1';
-              item.style.transform = 'translateY(0)';
-            });
-          } else {
-            item.classList.add('hidden');
-          }
-        }, 200);
-      });
-    });
-  });
-
-  /* ----- SMOOTH SCROLL OFFSET ----- */
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const id = link.getAttribute('href');
-      if (id.length > 1) {
-        const target = document.querySelector(id);
-        if (target) {
-          e.preventDefault();
-          const top = target.getBoundingClientRect().top + window.scrollY - 60;
-          window.scrollTo({ top, behavior: 'smooth' });
-          history.pushState(null, null, id);
-        }
-      }
-    });
-  });
-
-  /* ----- PARALLAX ORBS ----- */
-  const orbs = document.querySelectorAll('.hero-orb');
-  window.addEventListener('mousemove', (e) => {
-    if (window.scrollY > 700) return;
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    
-    requestAnimationFrame(() => {
-      orbs.forEach((o, i) => {
-        const factor = (i + 1) * 0.5;
-        o.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
-      });
-    });
-  }, { passive: true });
-
   /* ----- YOUTUBE MARQUEE TOGGLE ----- */
   const mToggleBtn = document.getElementById('marqueeToggle');
   const mTrack = document.getElementById('marqueeTrack');
@@ -228,8 +177,7 @@
         : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
     });
   }
-
-})();
+});
 
 /* ----- CONTACT FORM (exposed) ----- */
 function handleContact(e) {
