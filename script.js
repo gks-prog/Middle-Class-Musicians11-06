@@ -290,15 +290,73 @@
 
 })();
 
+/* ===========================================================
+   FIX: TRUE WHATSAPP ROUTING CONTACT FORM
+   =========================================================== */
+
 function handleContact(e) {
   e.preventDefault();
-  const form = e.target, btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
-  btn.innerHTML = 'Sending…'; btn.disabled = true;
+  
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const orig = btn.innerHTML;
+  
+  // 1. Extract the data from the form fields
+  const inputs = form.querySelectorAll('input, select, textarea');
+  const name = inputs[0].value.trim();
+  const contact = inputs[1].value.trim();
+  const service = inputs[2].value;
+  const message = inputs[3].value.trim();
+
+  // 2. Validate that the essential fields are filled
+  if(!name || !contact) {
+    btn.innerHTML = 'Please fill required fields';
+    btn.style.background = '#ea4335'; // Red error state
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+    return false;
+  }
+
+  // 3. UX Animation (Simulating Processing)
+  btn.innerHTML = 'Opening WhatsApp…'; 
+  btn.disabled = true;
+
+  // 4. Construct the WhatsApp Payload
   setTimeout(() => {
-    btn.innerHTML = '✓ Sent — We\'ll reply on WhatsApp';
-    btn.style.background = '#25d366'; btn.style.color = '#fff';
+    // Format the message cleanly
+    const waText = `*New Studio Enquiry*\n\n` +
+                   `*Name:* ${name}\n` +
+                   `*Contact:* ${contact}\n` +
+                   `*Service Required:* ${service || 'Not Specified'}\n` +
+                   `*Message:* ${message || 'No additional details provided.'}`;
+    
+    // URL Encode the text to handle spaces and line breaks safely
+    const encodedText = encodeURIComponent(waText);
+    
+    // The official MCM WhatsApp Number (Ensure country code is correct, e.g., 91 for India)
+    const mcmPhone = "919315778147"; 
+    
+    // Construct the final URL
+    const waURL = `https://wa.me/${mcmPhone}?text=${encodedText}`;
+
+    // Update UX Success State
+    btn.innerHTML = '✓ Redirecting...';
+    btn.style.background = '#25d366'; 
+    btn.style.color = '#fff';
+
+    // 5. Fire the redirect
+    window.open(waURL, '_blank');
+
+    // 6. Reset the form
     form.reset();
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; btn.disabled = false; }, 3200);
-  }, 1100);
+    setTimeout(() => { 
+      btn.innerHTML = orig; 
+      btn.style.background = ''; 
+      btn.style.color = ''; 
+      btn.disabled = false; 
+    }, 3200);
+
+  }, 800);
+
   return false;
+}
 }
