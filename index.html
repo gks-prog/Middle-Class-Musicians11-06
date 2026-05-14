@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=10.0" />
+  <link rel="stylesheet" href="style.css?v=11.0" />
   <script>
     if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
     window.scrollTo(0, 0);
@@ -43,8 +43,8 @@
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="nav-cta">Book Session</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="nav-cta" data-sound="hover">Book Session</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" data-sound="click">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -52,12 +52,12 @@
 
   <div class="mobile-menu" id="mobileMenu">
     <ul>
-      <li><a href="#studio">Studio</a></li>
-      <li><a href="#solution">Solutions</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#studio" data-sound="click">Studio</a></li>
+      <li><a href="#solution" data-sound="click">Solutions</a></li>
+      <li><a href="#portfolio" data-sound="click">Portfolio</a></li>
+      <li><a href="#contact" data-sound="click">Contact</a></li>
     </ul>
-    <a href="https://wa.me/919315778147" target="_blank" rel="noopener" class="mobile-cta">Book on WhatsApp</a>
+    <a href="https://wa.me/919315778147" target="_blank" rel="noopener" class="mobile-cta" data-sound="click">Book on WhatsApp</a>
   </div>
 
   <section class="hero" id="home">
@@ -74,17 +74,17 @@
       </h1>
       <p class="hero-sub">Professional Recording Studio in Delhi</p>
       <div class="hero-cta">
-        <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="btn btn-primary">
+        <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="btn btn-primary" data-sound="click">
           <span>Book Now</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="#studio" class="btn btn-ghost">
+        <a href="#studio" class="btn btn-ghost" data-sound="click">
           <span>View Studio</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
         </a>
       </div>
     </div>
-    <a href="#stats" class="scroll-indicator" aria-label="Scroll">
+    <a href="#stats" class="scroll-indicator" aria-label="Scroll" data-sound="click">
       <span class="scroll-text">Scroll</span><span class="scroll-line"></span>
     </a>
     <div class="curved-loop-jacket" id="curvedLoopJacket">
@@ -129,19 +129,19 @@
         <p class="section-sub">A space engineered with acoustic precision and cinematic ambience — where ideas become records.</p>
       </div>
       <div class="studio-grid">
-        <div class="studio-card large reveal" data-tilt>
+        <div class="studio-card large reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('setup1.jpg')"></div>
           <div class="studio-overlay"><span class="studio-tag">Live Room</span><h3>The Control Hub</h3><p>Full analog & digital console with monitor-grade acoustics.</p></div>
         </div>
-        <div class="studio-card reveal" data-tilt>
+        <div class="studio-card reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('SETUP 2.jpg')"></div>
           <div class="studio-overlay"><span class="studio-tag">Vocal Booth</span><h3>Isolation Chamber</h3><p>Treated for warmth and clarity.</p></div>
         </div>
-        <div class="studio-card reveal" data-tilt>
+        <div class="studio-card reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('MIC.png');background-size:contain;background-color:#0d0d0d;"></div>
           <div class="studio-overlay"><span class="studio-tag">Signal Chain</span><h3>Premium Mic</h3><p>Rode NT1-A.</p></div>
         </div>
-        <div class="studio-card wide reveal" data-tilt>
+        <div class="studio-card wide reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('KEY1.jpg')"></div>
           <div class="studio-overlay"><span class="studio-tag">Production Suite</span><h3>Keys & Synthesis</h3><p>MIDI controllers, vintage keys, modern plugins.</p></div>
         </div>
@@ -157,33 +157,33 @@
         <p class="section-sub">From the first chord to the final cut. An entire industry, under one roof.</p>
       </div>
       <div class="solution-wrapper reveal">
-        <button class="btn-solution" id="solutionToggleBtn">
+        <button class="btn-solution" id="solutionToggleBtn" data-sound="click">
           <span>One Stop Solution for Artists</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="solution-accordion" id="solutionAccordion">
           <div class="solution-grid">
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Recording." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Recording." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/><line x1="8" x2="16" y1="22" y2="22"/></svg></span>
               <h4>Recording</h4>
             </a>
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Mixing%20%26%20Mastering." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Mixing%20%26%20Mastering." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
               <h4>Mixing & Mastering</h4>
             </a>
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Beat%20Production." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Beat%20Production." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/><circle cx="12" cy="12" r="2"/></svg></span>
               <h4>Beat Production</h4>
             </a>
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Video%20Production." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Video%20Production." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" x2="7" y1="2" y2="22"/><line x1="17" x2="17" y1="2" y2="22"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="2" x2="7" y1="7" y2="7"/><line x1="2" x2="7" y1="17" y2="17"/><line x1="17" x2="22" y1="17" y2="17"/><line x1="17" x2="22" y1="7" y2="7"/></svg></span>
               <h4>Video Production</h4>
             </a>
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Artist%20Management." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Artist%20Management." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
               <h4>Artist Management</h4>
             </a>
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Music%20Prod.%20Courses." target="_blank" rel="noopener" class="solution-card">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Music%20Prod.%20Courses." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
               <h4>Music Courses</h4>
             </a>
@@ -200,12 +200,12 @@
         <h2 class="section-title" style="margin-bottom: 0;">Latest <em class="accent-text">Visuals</em>.</h2>
       </div>
       <div class="marquee-controls">
-        <button id="marqueePrev" class="btn btn-ghost" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button id="marqueeToggle" class="btn btn-ghost" style="padding: 10px 20px;">
+        <button id="marqueePrev" class="btn btn-ghost" aria-label="Previous" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button id="marqueeToggle" class="btn btn-ghost" style="padding: 10px 20px;" data-sound="click">
           <span id="marqueeToggleText">Pause</span>
           <svg id="marqueeIcon" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
         </button>
-        <button id="marqueeNext" class="btn btn-ghost" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        <button id="marqueeNext" class="btn btn-ghost" aria-label="Next" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
     </div>
 
@@ -216,42 +216,60 @@
             <img src="https://img.youtube.com/vi/Lh67UKKh8FU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/Lh67UKKh8FU/hqdefault.jpg';" alt="4AM" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">4AM</h4><p class="artist-name">DBRAVE</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">4AM</h4>
+            <p class="artist-name">DBRAVE</p>
+          </div>
         </div>
         <div class="marquee-tile" data-url="https://youtu.be/07D7VGtHLOc">
           <div class="tile-img-wrapper">
             <img src="https://img.youtube.com/vi/07D7VGtHLOc/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/07D7VGtHLOc/hqdefault.jpg';" alt="Controversy" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">Controversy</h4><p class="artist-name">Vakta</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">Controversy</h4>
+            <p class="artist-name">Vakta</p>
+          </div>
         </div>
         <div class="marquee-tile" data-url="https://youtu.be/FEgOKqd_7W8">
           <div class="tile-img-wrapper">
             <img src="https://img.youtube.com/vi/FEgOKqd_7W8/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/FEgOKqd_7W8/hqdefault.jpg';" alt="MATTHA KHARAB" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">MATTHA KHARAB</h4><p class="artist-name">MC DAITYA</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">MATTHA KHARAB</h4>
+            <p class="artist-name">MC DAITYA</p>
+          </div>
         </div>
         <div class="marquee-tile" data-url="https://youtu.be/3kgBkBZhZMQ">
           <div class="tile-img-wrapper">
             <img src="https://img.youtube.com/vi/3kgBkBZhZMQ/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/3kgBkBZhZMQ/hqdefault.jpg';" alt="PYAASI KALAM" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">PYAASI KALAM</h4><p class="artist-name">MC DAITYA</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">PYAASI KALAM</h4>
+            <p class="artist-name">MC DAITYA</p>
+          </div>
         </div>
         <div class="marquee-tile" data-url="https://youtu.be/7NwQMtNU37c">
           <div class="tile-img-wrapper">
             <img src="https://img.youtube.com/vi/7NwQMtNU37c/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/7NwQMtNU37c/hqdefault.jpg';" alt="O Piya" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">O Piya</h4><p class="artist-name">Masky Feat. Wenon</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">O Piya</h4>
+            <p class="artist-name">Masky Feat. Wenon</p>
+          </div>
         </div>
         <div class="marquee-tile" data-url="https://youtu.be/6dia6UNFkXU">
           <div class="tile-img-wrapper">
             <img src="https://img.youtube.com/vi/6dia6UNFkXU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/6dia6UNFkXU/hqdefault.jpg';" alt="SADA" draggable="false" />
             <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
           </div>
-          <div class="tile-meta"><h4 class="track-name">SADA</h4><p class="artist-name">DEEP</p></div>
+          <div class="tile-meta">
+            <h4 class="track-name">SADA</h4>
+            <p class="artist-name">DEEP</p>
+          </div>
         </div>
       </div>
     </div>
@@ -268,7 +286,7 @@
     <div class="testi-marquee-wrapper">
       <div class="testi-marquee-track">
         <div class="testi-marquee-group">
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -276,7 +294,7 @@
             <div class="quote">“The cleanest sound I've recorded in Delhi. The room itself made my vocals sit better.”</div>
             <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#d4a857,#7a5a1f)">A</div><div><strong>Aarav K.</strong><span>Google Review</span></div></div>
           </div>
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -284,7 +302,7 @@
             <div class="quote">“Affordable, professional, and creative. They treat your project like their own.”</div>
             <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#9aa5b8,#2e3a52)">R</div><div><strong>Riya M.</strong><span>Google Review</span></div></div>
           </div>
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -294,7 +312,7 @@
           </div>
         </div>
         <div class="testi-marquee-group">
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -302,7 +320,7 @@
             <div class="quote">“The cleanest sound I've recorded in Delhi. The room itself made my vocals sit better.”</div>
             <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#d4a857,#7a5a1f)">A</div><div><strong>Aarav K.</strong><span>Google Review</span></div></div>
           </div>
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -310,7 +328,7 @@
             <div class="quote">“Affordable, professional, and creative. They treat your project like their own.”</div>
             <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#9aa5b8,#2e3a52)">R</div><div><strong>Riya M.</strong><span>Google Review</span></div></div>
           </div>
-          <div class="testi-card">
+          <div class="testi-card" data-sound="hover">
             <div class="google-badge">
               <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               <span class="stars">★★★★★</span>
@@ -332,15 +350,15 @@
           <p class="contact-sub">Reach out on WhatsApp for the fastest reply — or send us a note via email.</p>
 
           <div class="contact-channels">
-            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="channel">
+            <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27d%20like%20to%20book%20a%20session." target="_blank" rel="noopener" class="channel" data-sound="hover">
               <span class="ch-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3.5A11.5 11.5 0 0 0 3.5 19.7L2 22.5l2.9-1.5A11.5 11.5 0 1 0 20 3.5Zm-8 19a9.4 9.4 0 0 1-4.8-1.3l-.3-.2-2.9.8.8-2.8-.2-.3A9.4 9.4 0 1 1 12 22.5Zm5.3-7c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a7.8 7.8 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.3 0-.4.1-.5l.4-.5a2 2 0 0 0 .3-.4.4.4 0 0 0 0-.4l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.4 3.4 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.7 13.7 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2-1.5 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.4Z"/></svg></span>
               <div><strong>WhatsApp</strong><span>+91 93157 78147</span></div>
             </a>
-            <a href="https://instagram.com/middleclassmusicians" target="_blank" rel="noopener" class="channel">
+            <a href="https://instagram.com/middleclassmusicians" target="_blank" rel="noopener" class="channel" data-sound="hover">
               <span class="ch-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>
               <div><strong>Instagram</strong><span>@middleclassmusicians</span></div>
             </a>
-            <a href="mailto:inquiries@middleclassmusicians.in" class="channel">
+            <a href="mailto:inquiries@middleclassmusicians.in" class="channel" data-sound="hover">
               <span class="ch-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
               <div><strong>Email</strong><span>inquiries@middleclassmusicians.in</span></div>
             </a>
@@ -348,11 +366,11 @@
         </div>
 
         <form class="contact-form" onsubmit="return handleContact(event)">
-          <div class="field"><label>Name</label><input type="text" required placeholder="Your name" /></div>
-          <div class="field"><label>Email / Phone</label><input type="text" required placeholder="How we reach you" /></div>
+          <div class="field"><label>Name</label><input type="text" required placeholder="Your name" class="haptic-input" /></div>
+          <div class="field"><label>Email / Phone</label><input type="text" required placeholder="How we reach you" class="haptic-input" /></div>
           <div class="field">
             <label>Service</label>
-            <select required>
+            <select required class="haptic-input">
               <option value="">Select a service</option>
               <option>Recording</option>
               <option>Mixing & Mastering</option>
@@ -364,8 +382,8 @@
               <option>Experimental</option>
             </select>
           </div>
-          <div class="field"><label>Message</label><textarea rows="4" placeholder="Tell us about your project"></textarea></div>
-          <button type="submit" class="btn btn-primary full">Send Enquiry</button>
+          <div class="field"><label>Message</label><textarea rows="4" placeholder="Tell us about your project" class="haptic-input"></textarea></div>
+          <button type="submit" class="btn btn-primary full" id="submitBtn">Send Enquiry</button>
         </form>
       </div>
     </div>
@@ -380,17 +398,17 @@
           <div><strong>Middle Class Musicians</strong><span>Delhi · India</span></div>
         </div>
         <div class="footer-links">
-          <a href="#studio">Studio</a>
-          <a href="#solution">Solutions</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#contact">Contact</a>
+          <a href="#studio" data-sound="click">Studio</a>
+          <a href="#solution" data-sound="click">Solutions</a>
+          <a href="#portfolio" data-sound="click">Portfolio</a>
+          <a href="#contact" data-sound="click">Contact</a>
         </div>
         <div class="footer-copy">© <span id="year"></span> Middle Class Musicians. All rights reserved.</div>
       </div>
       
       <div class="footer-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224095.34005085373!2d76.95317924505051!3d28.644287352327702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi%2C%20India!5e0!3m2!1sen!2sus!4v1715696541676!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <a href="https://maps.google.com/?q=Delhi" target="_blank" rel="noopener" class="map-link">Open in Google Maps ↗</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224098.81604169542!2d76.9531792!3d28.6469655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a href="https://maps.app.goo.gl/Delhi" target="_blank" rel="noopener" class="map-link" data-sound="click">Open in Google Maps ↗</a>
       </div>
     </div>
   </footer>
@@ -401,10 +419,10 @@
     <svg class="icon-realm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
   </button>
 
-  <a href="https://wa.me/919315778147?text=Hi%20MCM%21" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp">
+  <a href="https://wa.me/919315778147?text=Hi%20MCM%21" target="_blank" rel="noopener" class="float-wa" aria-label="WhatsApp" data-sound="hover">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3.5A11.5 11.5 0 0 0 3.5 19.7L2 22.5l2.9-1.5A11.5 11.5 0 1 0 20 3.5Zm-8 19a9.4 9.4 0 0 1-4.8-1.3l-.3-.2-2.9.8.8-2.8-.2-.3A9.4 9.4 0 1 1 12 22.5Zm5.3-7c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a7.8 7.8 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.3 0-.4.1-.5l.4-.5a2 2 0 0 0 .3-.4.4.4 0 0 0 0-.4l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.4 3.4 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.7 13.7 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2-1.5 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.4Z"/></svg>
   </a>
 
-  <script src="script.js?v=10.0"></script>
+  <script src="script.js?v=11.0"></script>
 </body>
 </html>
