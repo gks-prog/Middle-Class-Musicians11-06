@@ -59,6 +59,15 @@
       osc.start();
       osc.stop(audioCtx.currentTime + 0.05);
     }
+    else if (type === 'tick') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.02, audioCtx.currentTime + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.03);
+    }
     else if (type === 'theme') {
       osc.type = 'square';
       osc.frequency.setValueAtTime(220, audioCtx.currentTime);
@@ -109,7 +118,6 @@
     el.addEventListener('input', () => { playSound('type'); });
   });
 
-  // FIX: Safe element checking (No Optional Chaining)
   const submitBtn = document.getElementById('submitBtn');
   if (submitBtn) {
     submitBtn.addEventListener('pointerdown', () => {
@@ -225,24 +233,17 @@
     });
   }
 
-  /* 3D PARABOLIC YOUTUBE SLIDER */
+  /* 3D PARABOLIC YOUTUBE SLIDER (FIXED) */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
   const mNextBtn = document.getElementById('marqueeNext');
-  const mToggleBtn = document.getElementById('marqueeToggle');
-  const mToggleText = document.getElementById('marqueeToggleText');
-  const mToggleIcon = document.getElementById('marqueeIcon');
   
-  let mTargetOffset = 0;
-  let mCurrentOffset = 0;
-  let isMDragging = false;
-  let mDidDrag = false;
-  let mStartX = 0;
+  let mTargetOffset = 0, mCurrentOffset = 0;
+  let isMDragging = false, mDidDrag = false, mStartX = 0;
   let mAutoVelocity = 1;
   let mIsPaused = false;
-  let tileWidth = 0;
-  let halfTrackWidth = 0;
+  let tileWidth = 0, halfTrackWidth = 0;
   let tiles = [];
   let mInteractionTimeout;
 
@@ -250,32 +251,30 @@
     clearTimeout(mInteractionTimeout);
     mIsPaused = true;
     mInteractionTimeout = setTimeout(() => {
-      if (!isMDragging) {
-        mIsPaused = false;
-      }
-    }, 2000); 
+      if (!isMDragging) mIsPaused = false;
+    }, 1000); 
   };
 
   if (mTrack && mContainer) {
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
+    // FIX: Only prevent native <a> routing if the user dragged
     tiles.forEach(tile => {
-      tile.addEventListener('pointerup', (e) => {
-        if (!mDidDrag && tile.dataset.url) {
-          window.open(tile.dataset.url, '_blank');
+      tile.addEventListener('click', (e) => {
+        if (mDidDrag) {
+          e.preventDefault();
         }
       });
     });
 
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
-      if (tiles.length > 0) {
-        tileWidth = tiles[0].getBoundingClientRect().width + 24; 
-      }
+      if (tiles.length > 0) tileWidth = tiles[0].getBoundingClientRect().width + 24; 
     }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
+      if(e.target.closest('.side-control')) return; 
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       mContainer.setPointerCapture(e.pointerId);
       clearTimeout(mInteractionTimeout);
@@ -285,9 +284,7 @@
     mContainer.addEventListener('pointermove', (e) => {
       if (!isMDragging) return;
       const dx = e.clientX - mStartX; 
-      if (Math.abs(dx) > 3) {
-        mDidDrag = true; 
-      }
+      if (Math.abs(dx) > 3) mDidDrag = true; 
       mStartX = e.clientX;
       mTargetOffset += dx * 1.5; 
     });
@@ -298,25 +295,6 @@
 
     mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
     mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
-
-    mContainer.addEventListener('click', (e) => { 
-      if (mDidDrag) { 
-        e.preventDefault(); 
-        e.stopPropagation(); 
-      } 
-    }, true); 
-
-    if (mToggleBtn) {
-      mToggleBtn.addEventListener('click', () => {
-        mIsPaused = !mIsPaused;
-        if (mToggleText) {
-          mToggleText.textContent = mIsPaused ? 'Play' : 'Pause';
-        }
-        if (mToggleIcon) {
-          mToggleIcon.innerHTML = mIsPaused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
-        }
-      });
-    }
 
     if (mPrevBtn) {
       mPrevBtn.addEventListener('click', () => { mTargetOffset += (tileWidth || 384); resetAutoPlay(); });
@@ -435,10 +413,10 @@
     }, { threshold: 0.12 });
     reveals.forEach(r => io.observe(r));
   } else {
-    // Fallback for extremely old browsers
     reveals.forEach(r => r.classList.add('visible'));
   }
 
+  // FIX: AUDIO THROTTLED STATS OBSERVER
   const statNumbers = document.querySelectorAll('.stat-number');
   if (window.IntersectionObserver) {
     const statsObserver = new IntersectionObserver((entries) => {
@@ -447,13 +425,22 @@
           const target = +entry.target.getAttribute('data-count');
           let count = 0; 
           const increment = target / 50; 
+          let lastTick = 0; 
+
           const updateCount = () => {
             count += increment;
+            
+            if (audioCtx.state === 'running' && audioCtx.currentTime - lastTick > 0.04) {
+                playSound('tick');
+                lastTick = audioCtx.currentTime;
+            }
+
             if (count < target) { 
               entry.target.innerText = Math.ceil(count); 
               requestAnimationFrame(updateCount); 
             } else { 
               entry.target.innerText = target; 
+              setTimeout(() => playSound('send'), 100); 
             }
           };
           updateCount();
