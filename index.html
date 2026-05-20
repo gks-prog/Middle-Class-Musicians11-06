@@ -199,86 +199,21 @@
         <span class="section-tag" style="margin-bottom: 12px;">03 / Portfolio</span>
         <h2 class="section-title" style="margin-bottom: 0;">Latest <em class="accent-text">Visuals</em>.</h2>
       </div>
-      <div class="marquee-controls">
-        <button id="marqueePrev" class="btn btn-ghost" aria-label="Previous" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button id="marqueeToggle" class="btn btn-ghost" style="padding: 10px 20px;" data-sound="click">
-          <span id="marqueeToggleText">Pause</span>
-          <svg id="marqueeIcon" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
-        </button>
-        <button id="marqueeNext" class="btn btn-ghost" aria-label="Next" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
     </div>
 
+    <!-- Container is now relative for absolute button positioning -->
     <div class="marquee-container" id="marqueeContainer">
+      
+      <!-- New Side Controls -->
+      <button id="marqueePrev" class="side-control left" aria-label="Previous" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      
       <div class="marquee-track" id="marqueeTrack">
-        
-        <a href="https://youtu.be/Lh67UKKh8FU" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/Lh67UKKh8FU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/Lh67UKKh8FU/hqdefault.jpg';" alt="4AM" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">4AM</h4>
-            <p class="artist-name">DBRAVE</p>
-          </div>
-        </a>
-
-        <a href="https://youtu.be/07D7VGtHLOc" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/07D7VGtHLOc/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/07D7VGtHLOc/hqdefault.jpg';" alt="Controversy" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">Controversy</h4>
-            <p class="artist-name">Vakta</p>
-          </div>
-        </a>
-
-        <a href="https://youtu.be/FEgOKqd_7W8" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/FEgOKqd_7W8/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/FEgOKqd_7W8/hqdefault.jpg';" alt="MATTHA KHARAB" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">MATTHA KHARAB</h4>
-            <p class="artist-name">MC DAITYA</p>
-          </div>
-        </a>
-
-        <a href="https://youtu.be/3kgBkBZhZMQ" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/3kgBkBZhZMQ/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/3kgBkBZhZMQ/hqdefault.jpg';" alt="PYAASI KALAM" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">PYAASI KALAM</h4>
-            <p class="artist-name">MC DAITYA</p>
-          </div>
-        </a>
-
-        <a href="https://youtu.be/7NwQMtNU37c" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/7NwQMtNU37c/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/7NwQMtNU37c/hqdefault.jpg';" alt="O Piya" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">O Piya</h4>
-            <p class="artist-name">Masky Feat. Wenon</p>
-          </div>
-        </a>
-
-        <a href="https://youtu.be/6dia6UNFkXU" target="_blank" rel="noopener noreferrer" class="marquee-tile">
-          <div class="tile-img-wrapper">
-            <img src="https://img.youtube.com/vi/6dia6UNFkXU/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/6dia6UNFkXU/hqdefault.jpg';" alt="SADA" draggable="false" />
-            <div class="marquee-overlay"><div class="marquee-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-          </div>
-          <div class="tile-meta">
-            <h4 class="track-name">SADA</h4>
-            <p class="artist-name">DEEP</p>
-          </div>
-        </a>
-
+        <!-- YOUR <a> TAGS GO HERE (KEEP THEM EXACTLY AS THEY WERE) -->
       </div>
+      
+      <!-- New Side Controls -->
+      <button id="marqueeNext" class="side-control right" aria-label="Next" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+    
     </div>
   </section>
 
