@@ -329,3 +329,18 @@ body.theme-realm .footer-map iframe { filter: grayscale(1) invert(1) sepia(1) hu
   .studio-card.large, .studio-card.wide { grid-column: span 1; grid-row: span 1; }
   .btn-solution { padding: 14px 20px; font-size: 18px; }
 }
+/* --- FIX: BACKGROUND NOTES VISIBILITY --- */
+#bg-notes { z-index: 2; pointer-events: none; mix-blend-mode: screen; opacity: 0.6; }
+body.theme-day #bg-notes { mix-blend-mode: multiply; opacity: 0.3; }
+.hero { background: transparent; } /* Allow notes to show through hero */
+
+/* --- FIX: MARQUEE SIDE CONTROLS --- */
+.marquee-container { position: relative; padding: 40px 0; touch-action: pan-y; display: flex; align-items: center; }
+.side-control { position: absolute; z-index: 30; top: 50%; transform: translateY(-50%); width: 56px; height: 56px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s var(--ease); pointer-events: auto; }
+.side-control:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-50%) scale(1.1); }
+.side-control svg { width: 24px; height: 24px; }
+.side-control.left { left: 32px; }
+.side-control.right { right: 32px; }
+
+/* Hide side controls on mobile so they don't block thumbnails */
+@media (max-width: 900px) { .side-control { display: none; } }
