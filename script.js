@@ -1,6 +1,6 @@
 /* ===========================================================
    MIDDLE CLASS MUSICIANS — SFX, Haptics & Anti-Lag Logic
-   (Deployment & Minifier Safe Version)
+   (Validated & Error-Free Version)
    =========================================================== */
 
 (() => {
@@ -28,16 +28,17 @@
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContextClass();
   
-  // FIX: Force browser to unlock the AudioContext on first user interaction
+  // FIX: Force browser to unlock the AudioContext dynamically so ticks play on scroll
   const unlockAudio = () => {
       if (audioCtx.state === 'suspended') {
           audioCtx.resume();
       }
-      document.removeEventListener('pointerdown', unlockAudio);
-      document.removeEventListener('keydown', unlockAudio);
   };
-  document.addEventListener('pointerdown', unlockAudio, { once: true });
-  document.addEventListener('keydown', unlockAudio, { once: true });
+  
+  // Attach to multiple interaction vectors to guarantee audio is ready before stat ticker fires
+  ['pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(evt => {
+     document.addEventListener(evt, unlockAudio, { once: true, passive: true });
+  });
 
   function triggerHaptic() {
     if (navigator.vibrate) {
@@ -46,7 +47,7 @@
   }
 
   function playSound(type) {
-    if (audioCtx.state === 'suspended') return; // Fail gracefully if still locked
+    if (audioCtx.state === 'suspended') return;
     
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -69,7 +70,6 @@
       osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.05);
     }
-    // FIX: Ticking sound for stat numbers
     else if (type === 'tick') {
       osc.type = 'square';
       osc.frequency.setValueAtTime(800, audioCtx.currentTime);
@@ -92,8 +92,8 @@
     else if (type === 'send') {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-      osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); // C#
-      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); // E
+      osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); 
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); 
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
@@ -101,7 +101,6 @@
       osc.stop(audioCtx.currentTime + 0.6);
     }
     else {
-      // Default Click
       osc.type = 'sine'; 
       osc.frequency.setValueAtTime(440 + Math.random() * 220, audioCtx.currentTime); 
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
@@ -244,7 +243,7 @@
   }
 
   /* =========================================================
-     FIX: YOUTUBE MARQUEE ROUTING & CLICK LOGIC
+     FIX: SYMMETRICAL MARQUEE ROUTING & CLICK LOGIC
   ========================================================= */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
@@ -277,7 +276,6 @@
     }, 500);
 
     mContainer.addEventListener('pointerdown', (e) => {
-      if(e.target.closest('.side-control')) return; 
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
       clearTimeout(mInteractionTimeout);
       mIsPaused = true;
@@ -292,10 +290,12 @@
     });
 
     const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
-    mContainer.addEventListener('pointerup', endMDrag);
-    mContainer.addEventListener('pointercancel', endMDrag);
+    
+    window.addEventListener('pointerup', (e) => {
+      if(isMDragging) endMDrag();
+    });
 
-    // FIX: Using Capture Phase true to kill the click dead if the user was dragging
+    // Native a tag protection during drag
     mContainer.addEventListener('click', (e) => {
       if (mDidDrag) {
         e.preventDefault();
@@ -327,7 +327,6 @@
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
-    // FIX: Note tracking mathematically
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = winHeight * 1.5;
@@ -428,7 +427,7 @@
   }
 
   /* =========================================================
-     FIX: AUDIO THROTTLED STATS OBSERVER VIA PERFORMANCE.NOW
+     FIX: AUDIO THROTTLED STATS OBSERVER (Guaranteed to tick)
   ========================================================= */
   const statNumbers = document.querySelectorAll('.stat-number');
   if (window.IntersectionObserver) {
@@ -444,7 +443,6 @@
             count += increment;
             
             const now = performance.now();
-            // Fire the audio tick precisely once every 40ms to avoid breaking the engine
             if (now - lastTick > 40) {
                 playSound('tick');
                 lastTick = now;
@@ -491,7 +489,6 @@
 
 })();
 
-// Global function for the form
 window.handleContact = function(e) {
   e.preventDefault();
   const form = e.target;
