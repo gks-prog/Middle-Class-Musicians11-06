@@ -28,6 +28,17 @@
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContextClass();
   
+  // FIX: Force browser to unlock the AudioContext on first user interaction
+  const unlockAudio = () => {
+      if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+      }
+      document.removeEventListener('pointerdown', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+  };
+  document.addEventListener('pointerdown', unlockAudio, { once: true });
+  document.addEventListener('keydown', unlockAudio, { once: true });
+
   function triggerHaptic() {
     if (navigator.vibrate) {
       navigator.vibrate(15);
@@ -35,9 +46,8 @@
   }
 
   function playSound(type) {
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    if (audioCtx.state === 'suspended') return; // Fail gracefully if still locked
+    
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
@@ -47,7 +57,7 @@
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-      osc.start();
+      osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.1);
     } 
     else if (type === 'type') {
@@ -56,17 +66,18 @@
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-      osc.start();
+      osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.05);
     }
+    // FIX: Ticking sound for stat numbers
     else if (type === 'tick') {
       osc.type = 'square';
       osc.frequency.setValueAtTime(800, audioCtx.currentTime);
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.02, audioCtx.currentTime + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.03);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.02);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.02);
     }
     else if (type === 'theme') {
       osc.type = 'square';
@@ -75,7 +86,7 @@
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.05);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-      osc.start();
+      osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.3);
     }
     else if (type === 'send') {
@@ -86,7 +97,7 @@
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
-      osc.start();
+      osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.6);
     }
     else {
@@ -96,7 +107,7 @@
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-      osc.start();
+      osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.4);
     }
     
@@ -104,7 +115,6 @@
     gain.connect(audioCtx.destination);
   }
 
-  // Bind SFX to elements
   document.querySelectorAll('[data-sound="hover"]').forEach(el => {
     el.addEventListener('mouseenter', () => { playSound('hover'); });
     el.addEventListener('pointerdown', () => { triggerHaptic(); playSound('click'); });
@@ -233,7 +243,9 @@
     });
   }
 
-  /* 3D PARABOLIC YOUTUBE SLIDER (FIXED) */
+  /* =========================================================
+     FIX: YOUTUBE MARQUEE ROUTING & CLICK LOGIC
+  ========================================================= */
   const mTrack = document.getElementById('marqueeTrack');
   const mContainer = document.getElementById('marqueeContainer');
   const mPrevBtn = document.getElementById('marqueePrev');
@@ -259,15 +271,6 @@
     mTrack.innerHTML += mTrack.innerHTML;
     tiles = Array.from(mTrack.children);
 
-    // FIX: Only prevent native <a> routing if the user dragged
-    tiles.forEach(tile => {
-      tile.addEventListener('click', (e) => {
-        if (mDidDrag) {
-          e.preventDefault();
-        }
-      });
-    });
-
     setTimeout(() => { 
       halfTrackWidth = mTrack.scrollWidth / 2; 
       if (tiles.length > 0) tileWidth = tiles[0].getBoundingClientRect().width + 24; 
@@ -276,7 +279,6 @@
     mContainer.addEventListener('pointerdown', (e) => {
       if(e.target.closest('.side-control')) return; 
       isMDragging = true; mStartX = e.clientX; mDidDrag = false;
-      mContainer.setPointerCapture(e.pointerId);
       clearTimeout(mInteractionTimeout);
       mIsPaused = true;
     });
@@ -292,6 +294,14 @@
     const endMDrag = () => { isMDragging = false; resetAutoPlay(); };
     mContainer.addEventListener('pointerup', endMDrag);
     mContainer.addEventListener('pointercancel', endMDrag);
+
+    // FIX: Using Capture Phase true to kill the click dead if the user was dragging
+    mContainer.addEventListener('click', (e) => {
+      if (mDidDrag) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true); 
 
     mContainer.addEventListener('mouseenter', () => { mIsPaused = true; clearTimeout(mInteractionTimeout); });
     mContainer.addEventListener('mouseleave', () => { if (!isMDragging) resetAutoPlay(); });
@@ -317,6 +327,7 @@
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
     }
     
+    // FIX: Note tracking mathematically
     if (bgNotes.length > 0) {
       currentScrollY += (window.scrollY - currentScrollY) * 0.15; 
       const wrapHeight = winHeight * 1.5;
@@ -416,7 +427,9 @@
     reveals.forEach(r => r.classList.add('visible'));
   }
 
-  // FIX: AUDIO THROTTLED STATS OBSERVER
+  /* =========================================================
+     FIX: AUDIO THROTTLED STATS OBSERVER VIA PERFORMANCE.NOW
+  ========================================================= */
   const statNumbers = document.querySelectorAll('.stat-number');
   if (window.IntersectionObserver) {
     const statsObserver = new IntersectionObserver((entries) => {
@@ -425,14 +438,16 @@
           const target = +entry.target.getAttribute('data-count');
           let count = 0; 
           const increment = target / 50; 
-          let lastTick = 0; 
+          let lastTick = performance.now(); 
 
           const updateCount = () => {
             count += increment;
             
-            if (audioCtx.state === 'running' && audioCtx.currentTime - lastTick > 0.04) {
+            const now = performance.now();
+            // Fire the audio tick precisely once every 40ms to avoid breaking the engine
+            if (now - lastTick > 40) {
                 playSound('tick');
-                lastTick = audioCtx.currentTime;
+                lastTick = now;
             }
 
             if (count < target) { 
