@@ -57,10 +57,12 @@ body.theme-night .icon-night { display: block; }
 body.theme-day .icon-day { display: block; }
 body.theme-realm .icon-realm { display: block; }
 
-/* FIX: FLUID BACKGROUND NOTES */
-#bg-notes { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2; overflow: hidden; mix-blend-mode: screen; opacity: 0.6; }
+/* ========================================================
+   FIX: FLUID BACKGROUND NOTES ELEVATED TO Z-INDEX 99
+   ======================================================== */
+#bg-notes { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99; overflow: hidden; mix-blend-mode: screen; opacity: 0.6; }
 body.theme-day #bg-notes { mix-blend-mode: multiply; opacity: 0.3; }
-.music-note { position: absolute; font-family: serif; font-weight: bold; color: var(--note-color); text-shadow: var(--note-glow); will-change: transform, opacity; z-index: 2; transition: color 0.5s, text-shadow 0.5s; }
+.music-note { position: absolute; font-family: serif; font-weight: bold; color: var(--note-color); text-shadow: var(--note-glow); will-change: transform, opacity; z-index: 99; transition: color 0.5s, text-shadow 0.5s; }
 
 /* CURSOR */
 .cursor,.cursor-dot{ position:fixed;top:0;left:0;pointer-events:none;z-index:9999; border-radius:50%;transform:translate(-50%,-50%); mix-blend-mode:difference; will-change: transform, width, height, background-color; }
@@ -218,7 +220,7 @@ section{padding:140px 0;position:relative; width: 100%; overflow-x: hidden; z-in
 .marquee-container::after { right: 0; background: linear-gradient(270deg, var(--bg) 0%, transparent 100%); }
 .marquee-track { display: flex; width: max-content; will-change: transform; transform-style: preserve-3d; }
 
-.side-control { position: absolute; z-index: 30; top: 50%; transform: translateY(-50%); width: 56px; height: 56px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s var(--ease); pointer-events: auto; }
+.side-control { position: absolute; z-index: 100; top: 50%; transform: translateY(-50%); width: 56px; height: 56px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s var(--ease); pointer-events: auto; }
 .side-control:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-50%) scale(1.1); }
 .side-control svg { width: 24px; height: 24px; }
 .side-control.left { left: 32px; }
