@@ -26,16 +26,20 @@
      WEB AUDIO API & HAPTIC ENGINE
   ========================================================= */
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContextClass();
+  let audioCtx = null;
   
-  // FIX: Force browser to unlock the AudioContext dynamically so ticks play on scroll
+  try {
+      audioCtx = new AudioContextClass();
+  } catch (e) {
+      console.warn("Web Audio API not supported on this browser.");
+  }
+  
   const unlockAudio = () => {
-      if (audioCtx.state === 'suspended') {
+      if (audioCtx && audioCtx.state === 'suspended') {
           audioCtx.resume();
       }
   };
   
-  // Attach to multiple interaction vectors to guarantee audio is ready before stat ticker fires
   ['pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(evt => {
      document.addEventListener(evt, unlockAudio, { once: true, passive: true });
   });
@@ -47,7 +51,7 @@
   }
 
   function playSound(type) {
-    if (audioCtx.state === 'suspended') return;
+    if (!audioCtx || audioCtx.state === 'suspended') return;
     
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -295,7 +299,6 @@
       if(isMDragging) endMDrag();
     });
 
-    // Native a tag protection during drag
     mContainer.addEventListener('click', (e) => {
       if (mDidDrag) {
         e.preventDefault();
@@ -487,57 +490,61 @@
     });
   }
 
-})();
+  /* =========================================================
+     FIX: NON-POLLUTING FORM HANDLER
+  ========================================================= */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      if (!btn) return false;
+      
+      const orig = btn.innerHTML;
+      const inputs = form.querySelectorAll('input, select, textarea');
+      
+      if (inputs.length < 4) return false;
 
-window.handleContact = function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  if (!btn) return false;
-  
-  const orig = btn.innerHTML;
-  const inputs = form.querySelectorAll('input, select, textarea');
-  
-  if (inputs.length < 4) return false;
+      const name = inputs[0].value.trim();
+      const contact = inputs[1].value.trim();
+      const service = inputs[2].value;
+      const message = inputs[3].value.trim();
 
-  const name = inputs[0].value.trim();
-  const contact = inputs[1].value.trim();
-  const service = inputs[2].value;
-  const message = inputs[3].value.trim();
+      if (!name || !contact) {
+        btn.innerHTML = 'Please fill required fields';
+        btn.style.background = '#ea4335';
+        setTimeout(() => { 
+          btn.innerHTML = orig; 
+          btn.style.background = ''; 
+        }, 2000);
+        return false;
+      }
 
-  if (!name || !contact) {
-    btn.innerHTML = 'Please fill required fields';
-    btn.style.background = '#ea4335';
-    setTimeout(() => { 
-      btn.innerHTML = orig; 
-      btn.style.background = ''; 
-    }, 2000);
-    return false;
+      btn.innerHTML = 'Opening WhatsApp…'; 
+      btn.disabled = true;
+
+      setTimeout(() => {
+        const waText = '*New Studio Enquiry*\n\n*Name:* ' + name + '\n*Contact:* ' + contact + '\n*Service Required:* ' + (service || 'Not Specified') + '\n*Message:* ' + (message || 'No additional details provided.');
+        const encodedText = encodeURIComponent(waText);
+        const mcmPhone = "919315778147"; 
+        const waURL = 'https://wa.me/' + mcmPhone + '?text=' + encodedText;
+
+        btn.innerHTML = '✓ Redirecting...';
+        btn.style.background = '#25d366'; 
+        btn.style.color = '#fff';
+
+        window.open(waURL, '_blank');
+
+        form.reset();
+        setTimeout(() => { 
+          btn.innerHTML = orig; 
+          btn.style.background = ''; 
+          btn.style.color = ''; 
+          btn.disabled = false; 
+        }, 3200);
+      }, 800);
+    });
   }
 
-  btn.innerHTML = 'Opening WhatsApp…'; 
-  btn.disabled = true;
-
-  setTimeout(() => {
-    const waText = '*New Studio Enquiry*\n\n*Name:* ' + name + '\n*Contact:* ' + contact + '\n*Service Required:* ' + (service || 'Not Specified') + '\n*Message:* ' + (message || 'No additional details provided.');
-    const encodedText = encodeURIComponent(waText);
-    const mcmPhone = "919315778147"; 
-    const waURL = 'https://wa.me/' + mcmPhone + '?text=' + encodedText;
-
-    btn.innerHTML = '✓ Redirecting...';
-    btn.style.background = '#25d366'; 
-    btn.style.color = '#fff';
-
-    window.open(waURL, '_blank');
-
-    form.reset();
-    setTimeout(() => { 
-      btn.innerHTML = orig; 
-      btn.style.background = ''; 
-      btn.style.color = ''; 
-      btn.disabled = false; 
-    }, 3200);
-  }, 800);
-
-  return false;
-};
+})();
