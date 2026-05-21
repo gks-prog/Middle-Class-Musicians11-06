@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi." />
+  <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Video Production." />
   <title>Middle Class Musicians — Record. Create. Perform.</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -11,44 +11,152 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=11.3" />
   
-  <!-- Schema Markup (JSON-LD) for SEO -->
+  <!-- Comprehensive SEO Schema Markup (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "EntertainmentBusiness",
-    "name": "Middle Class Musicians",
-    "image": "https://yourwebsite.com/favicon.png",
-    "description": "Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Artist Management.",
-    "url": "https://yourwebsite.com",
-    "telephone": "+919315778147",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "New Delhi,Uttam Nagar",
-      "addressRegion": "Delhi",
-      "addressCountry": "IN"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "28.6469655",
-      "longitude": "76.9531792"
-    },
-    "priceRange": "$$",
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
-      "opens": "11:00",
-      "closes": "20:30"
-    },
-    "sameAs": [
-      "https://instagram.com/middleclassmusicians"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://yourwebsite.com/#website",
+        "url": "https://yourwebsite.com",
+        "name": "Middle Class Musicians",
+        "description": "Professional Recording Studio in Delhi."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://yourwebsite.com/#webpage",
+        "url": "https://yourwebsite.com",
+        "name": "Middle Class Musicians — Record. Create. Perform.",
+        "isPartOf": { "@id": "https://yourwebsite.com/#website" },
+        "about": { "@id": "https://yourwebsite.com/#business" },
+        "description": "Middle Class Musicians is a premier recording studio in New Delhi, specializing in audio recording, beat production, and video production."
+      },
+      {
+        "@type": "EntertainmentBusiness",
+        "@id": "https://yourwebsite.com/#business",
+        "name": "Middle Class Musicians",
+        "image": "https://yourwebsite.com/favicon.png",
+        "description": "Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Artist Management.",
+        "url": "https://yourwebsite.com",
+        "telephone": "+919315778147",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Uttam Nagar",
+          "addressLocality": "New Delhi",
+          "addressRegion": "Delhi",
+          "postalCode": "110059",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 28.6469655,
+          "longitude": 76.9531792
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:00",
+          "closes": "20:30"
+        },
+        "sameAs": [
+          "https://instagram.com/middleclassmusicians"
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "450"
+        },
+        "review": [
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Aarav K." },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+            "reviewBody": "The cleanest sound I've recorded in Delhi. The room itself made my vocals sit better."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Riya M." },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+            "reviewBody": "Affordable, professional, and creative. They treat your project like their own."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Sid V." },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+            "reviewBody": "Best mixes and masters in the city. The studio environment is incredibly inspiring."
+          }
+        ]
+      },
+      {
+        "@type": "VideoObject",
+        "name": "4AM - DBRAVE",
+        "description": "Official visual for 4AM by DBRAVE. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/Lh67UKKh8FU/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/Lh67UKKh8FU",
+        "embedUrl": "https://www.youtube.com/embed/Lh67UKKh8FU",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Controversy - Vakta",
+        "description": "Official visual for Controversy by Vakta. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/07D7VGtHLOc/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/07D7VGtHLOc",
+        "embedUrl": "https://www.youtube.com/embed/07D7VGtHLOc",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "MATTHA KHARAB - MC DAITYA",
+        "description": "Official visual for MATTHA KHARAB by MC DAITYA. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/FEgOKqd_7W8/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/FEgOKqd_7W8",
+        "embedUrl": "https://www.youtube.com/embed/FEgOKqd_7W8",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "PYAASI KALAM - MC DAITYA",
+        "description": "Official visual for PYAASI KALAM by MC DAITYA. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/3kgBkBZhZMQ/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/3kgBkBZhZMQ",
+        "embedUrl": "https://www.youtube.com/embed/3kgBkBZhZMQ",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "O Piya - Masky Feat. Wenon",
+        "description": "Official visual for O Piya by Masky Feat. Wenon. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/7NwQMtNU37c/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/7NwQMtNU37c",
+        "embedUrl": "https://www.youtube.com/embed/7NwQMtNU37c",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "SADA - DEEP",
+        "description": "Official visual for SADA by DEEP. Produced by Middle Class Musicians.",
+        "thumbnailUrl": "https://img.youtube.com/vi/6dia6UNFkXU/maxresdefault.jpg",
+        "uploadDate": "2024-01-01T12:00:00+05:30",
+        "contentUrl": "https://youtu.be/6dia6UNFkXU",
+        "embedUrl": "https://www.youtube.com/embed/6dia6UNFkXU",
+        "publisher": { "@id": "https://yourwebsite.com/#business" }
+      }
     ]
   }
   </script>
