@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Video Production." />
-  <title>Middle Class Musicians — Record. Create. Perform.</title>
+  <meta name="description" content="Middle Class Musicians — Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Video Production. A venture by Wenon Bont & Bunny Nation Music." />
+  <title>Middle Class Musicians — Studio by Wenon Bont & Bunny Nation Music</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,30 +17,31 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebSite",
-        "@id": "https://middleclassmusicians.in/#website",
-        "url": "https://middleclassmusicians.in/",
-        "name": "Middle Class Musicians",
-        "description": "Professional Recording Studio in Delhi."
+        "@type": "Person",
+        "@id": "https://middleclassmusicians.in/#wenonbont",
+        "name": "Wenon Bont",
+        "alternateName": "Bunny",
+        "jobTitle": "Music Producer & Founder",
+        "url": "https://middleclassmusicians.in/"
       },
       {
-        "@type": "WebPage",
-        "@id": "https://middleclassmusicians.in/#webpage",
+        "@type": "Organization",
+        "@id": "https://middleclassmusicians.in/#bunnynationmusic",
+        "name": "Bunny Nation Music",
         "url": "https://middleclassmusicians.in/",
-        "name": "Middle Class Musicians — Record. Create. Perform.",
-        "isPartOf": { "@id": "https://middleclassmusicians.in/#website" },
-        "about": { "@id": "https://middleclassmusicians.in/#business" },
-        "description": "Middle Class Musicians is a premier recording studio in New Delhi, specializing in audio recording, beat production, and video production."
+        "founder": { "@id": "https://middleclassmusicians.in/#wenonbont" }
       },
       {
         "@type": "EntertainmentBusiness",
         "@id": "https://middleclassmusicians.in/#business",
         "name": "Middle Class Musicians",
         "image": "https://middleclassmusicians.in/favicon.png",
-        "description": "Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Artist Management.",
+        "description": "Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Video Production.",
         "url": "https://middleclassmusicians.in/",
         "telephone": "+919315778147",
         "priceRange": "$$",
+        "founder": { "@id": "https://middleclassmusicians.in/#wenonbont" },
+        "brand": { "@id": "https://middleclassmusicians.in/#bunnynationmusic" },
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Uttam Nagar",
@@ -51,8 +52,8 @@
         },
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": 28.62359106813916
-          "longitude":  77.04944830586905
+          "latitude": 28.62359106813916,
+          "longitude": 77.04944830586905
         },
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
@@ -96,6 +97,21 @@
             "reviewBody": "Best mixes and masters in the city. The studio environment is incredibly inspiring."
           }
         ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://middleclassmusicians.in/#website",
+        "url": "https://middleclassmusicians.in/",
+        "name": "Middle Class Musicians",
+        "publisher": { "@id": "https://middleclassmusicians.in/#business" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://middleclassmusicians.in/#webpage",
+        "url": "https://middleclassmusicians.in/",
+        "name": "Middle Class Musicians — Studio by Wenon Bont & Bunny Nation Music",
+        "isPartOf": { "@id": "https://middleclassmusicians.in/#website" },
+        "about": { "@id": "https://middleclassmusicians.in/#business" }
       },
       {
         "@type": "VideoObject",
@@ -352,7 +368,6 @@
       </div>
     </div>
 
-    <!-- Symmetrical Marquee Layout -->
     <div class="marquee-outer-wrapper">
       <button id="marqueePrev" class="side-control left" aria-label="Previous" data-sound="click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
       
@@ -551,7 +566,7 @@
         <div class="footer-brand">
           <img src="favicon.png" alt="MCM Logo" class="logo-img" style="width: 32px; height: 32px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
           <span class="logo-mark fallback" style="display:none; width: 32px; height: 32px; font-size: 16px;">M</span>
-          <div><strong>Middle Class Musicians</strong><span>Delhi · India</span></div>
+          <div><strong>Middle Class Musicians</strong><span>A venture by Wenon Bont &amp; Bunny Nation Music<br>Delhi · India</span></div>
         </div>
         <div class="footer-links">
           <a href="#studio" data-sound="click">Studio</a>
