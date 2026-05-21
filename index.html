@@ -10,6 +10,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=11.3" />
+  
+  <!-- Schema Markup (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RecordingStudio",
+    "name": "Middle Class Musicians",
+    "image": "https://yourwebsite.com/favicon.png",
+    "description": "Professional Recording Studio in Delhi offering Recording, Mixing, Mastering, Beat Production, and Artist Management.",
+    "url": "https://yourwebsite.com",
+    "telephone": "+919315778147",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "New Delhi",
+      "addressRegion": "Delhi",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "28.6469655",
+      "longitude": "76.9531792"
+    },
+    "priceRange": "$$",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "sameAs": [
+      "https://instagram.com/middleclassmusicians"
+    ]
+  }
+  </script>
+
   <script>
     if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
     window.scrollTo(0, 0);
@@ -131,7 +174,7 @@
       <div class="studio-grid">
         <div class="studio-card large reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('setup1.jpg')"></div>
-          <div class="studio-overlay"><span class="studio-tag">Live Room</span><h3>The Control Hub</h3><p>Full analog & digital console with monitor-grade acoustics.</p></div>
+          <div class="studio-overlay"><span class="studio-tag">Live Room</span><h3>The Control Hub</h3><p>Full analog &amp; digital console with monitor-grade acoustics.</p></div>
         </div>
         <div class="studio-card reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('SETUP 2.jpg')"></div>
@@ -143,7 +186,7 @@
         </div>
         <div class="studio-card wide reveal" data-tilt data-sound="hover">
           <div class="studio-img" style="background-image:url('KEY1.jpg')"></div>
-          <div class="studio-overlay"><span class="studio-tag">Production Suite</span><h3>Keys & Synthesis</h3><p>MIDI controllers, vintage keys, modern plugins.</p></div>
+          <div class="studio-overlay"><span class="studio-tag">Production Suite</span><h3>Keys &amp; Synthesis</h3><p>MIDI controllers, vintage keys, modern plugins.</p></div>
         </div>
       </div>
     </div>
@@ -169,7 +212,7 @@
             </a>
             <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Mixing%20%26%20Mastering." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
-              <h4>Mixing & Mastering</h4>
+              <h4>Mixing &amp; Mastering</h4>
             </a>
             <a href="https://wa.me/919315778147?text=Hi%20MCM%2C%20I%27m%20interested%20in%20Beat%20Production." target="_blank" rel="noopener" class="solution-card" data-sound="hover">
               <span class="sc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/><circle cx="12" cy="12" r="2"/></svg></span>
@@ -315,6 +358,7 @@
             <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#57d4a8,#1f7a5a)">S</div><div><strong>Sid V.</strong><span>Google Review</span></div></div>
           </div>
         </div>
+        <!-- Duplicate block for seamless marquee -->
         <div class="testi-marquee-group">
           <div class="testi-card" data-sound="hover">
             <div class="google-badge">
@@ -369,7 +413,7 @@
           </div>
         </div>
 
-        <form class="contact-form" onsubmit="return handleContact(event)">
+        <form class="contact-form" id="contactForm">
           <div class="field"><label>Name</label><input type="text" required placeholder="Your name" class="haptic-input" /></div>
           <div class="field"><label>Email / Phone</label><input type="text" required placeholder="How we reach you" class="haptic-input" /></div>
           <div class="field">
@@ -377,7 +421,7 @@
             <select required class="haptic-input">
               <option value="">Select a service</option>
               <option>Recording</option>
-              <option>Mixing & Mastering</option>
+              <option>Mixing &amp; Mastering</option>
               <option>Beat Production</option>
               <option>Video Production</option>
               <option>Artist Management</option>
@@ -410,7 +454,6 @@
         <div class="footer-copy">© <span id="year"></span> Middle Class Musicians. All rights reserved.</div>
       </div>
       
-      <!-- FIX: No 404 overlay wrapper for full clickability -->
       <div class="footer-map">
         <a href="https://maps.app.goo.gl/47Ez6RdTwQ1ZUizU7" target="_blank" rel="noopener" class="map-iframe-wrapper" data-sound="click">
           <iframe style="pointer-events: none;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224098.81604169542!2d76.9531792!3d28.6469655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
