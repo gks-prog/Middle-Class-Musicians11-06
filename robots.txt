@@ -1,3 +1,18 @@
 User-agent: *
 Allow: /
+
+# GEO Optimization: Explicitly allow AI/LLM Crawlers to index your studio data
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
 Sitemap: https://www.middleclassmusicians.in/sitemap.xml
